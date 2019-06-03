@@ -219,12 +219,13 @@ spec:
         prometheus.io/scrape: "true"
     spec:
       serviceAccountName: nginx-ingress-serviceaccount
+      hostNetwork: true
       containers:
         - name: nginx-ingress-controller
           image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.17.0
           args:
             - /nginx-ingress-controller
-            - --default-backend-service=$(POD_NAMESPACE)/default-http-backend
+            - --variablename-backend-service=$(POD_NAMESPACE)/variablename-http-backend
             - --configmap=$(POD_NAMESPACE)/nginx-configuration
             - --tcp-services-configmap=$(POD_NAMESPACE)/tcp-services
             - --udp-services-configmap=$(POD_NAMESPACE)/udp-services
@@ -272,22 +273,59 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 10
-
 ---
-# default-backend service
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: variablename-http-backend
+  labels:
+    app: variablename-http-backend
+  namespace: ingress-nginx
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: variablename-http-backend
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: variablename-http-backend
+        # Any image is permissable as long as:
+        # 1. It serves a 404 page at /
+        # 2. It serves 200 on a /healthz endpoint
+        image: gcr.io/google_containers/variablenamebackend:1.4
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: 10m
+            memory: 20Mi
+          requests:
+            cpu: 10m
+            memory: 20Mi
+---
+# variablename-backend service
 apiVersion: v1
 kind: Service
 metadata:
-  name: default-http-backend
+  name: variablename-http-backend
   namespace: ingress-nginx
   labels:
-    app: default-http-backend
+    app: variablename-http-backend
 spec:
   ports:
   - port: 80
     targetPort: 8080
   selector:
-    app: default-http-backend
+    app: variablename-http-backend
 ---
 #nginx service for node port
 apiVersion: v1
@@ -370,7 +408,7 @@ spec:
           - name: HEAP_NEWSIZE
             value: 100M
           - name: CASSANDRA_SEEDS
-            value: "cassandra-0.cassandra.default.svc.cluster.local"
+            value: "cassandra-0.cassandra.variablename.svc.cluster.local"
           - name: CASSANDRA_CLUSTER_NAME
             value: "K8Demo"
           - name: CASSANDRA_DC
@@ -429,13 +467,14 @@ metadata:
   labels:
     app: mysql
   name: mysql
-  namespace: default
+  namespace: variablename
 data:
   master.cnf: |
     # Apply this config only on the master.
     [mysqld]
     log-bin
     expire_logs_days=3
+    max_allowed_packet=16M
   slave.cnf: |
     # Apply this config only on slaves.
     [mysqld]
@@ -448,7 +487,7 @@ metadata:
   labels:
     app: mysql
   name: mysql
-  namespace: default
+  namespace: variablename
 spec:
   ports:
   - name: mysql
@@ -463,7 +502,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mysql
-  namespace: default
+  namespace: variablename
 spec:
   replicas: 2
   selector:
@@ -480,11 +519,11 @@ spec:
         - name: MYSQL_ALLOW_EMPTY_PASSWORD
           value: "1"
         - name: MYSQL_DATABASE
-          value: maya
+          value: "maya"
         - name: MYSQL_USER
-          value: maya
+          value: "maya"
         - name: MYSQL_PASSWORD
-          value: maya
+          value: "maya"
         image: mysql:5.7
         imagePullPolicy: IfNotPresent
         livenessProbe:
@@ -647,14 +686,14 @@ spec:
         - mountPath: /etc/mysql/conf.d
           name: conf
       restartPolicy: Always
-      schedulerName: default-scheduler
+      schedulerName: variablename-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
       volumes:
       - emptyDir: {}
         name: conf
       - configMap:
-          defaultMode: 420
+          variablenameMode: 420
           name: mysql
         name: config-map
   volumeClaimTemplates:
@@ -676,7 +715,7 @@ metadata:
   labels:
     k8s-app: elasticsearch-logging
   name: elasticsearch-logging
-  namespace: default
+  namespace: variablename
 spec:
   ports:
   - port: 9200
@@ -685,6 +724,33 @@ spec:
   selector:
     k8s-app: elasticsearch-logging
 ---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: variablename
+  name: elasticsearch-logging
+  labels:
+    k8s-app: elasticsearch-logging
+subjects:
+- kind: ServiceAccount
+  name: elasticsearch-logging
+  namespace: variablename
+  apiGroup: ""
+roleRef:
+  kind: ClusterRole
+  name: elasticsearch-logging
+  apiGroup: ""
+--- 
+# RBAC authn and authz
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: elasticsearch-logging
+  namespace: variablename
+  labels:
+    k8s-app: elasticsearch-logging
+   
+---
 #elaticsearch sts
 apiVersion: apps/v1
 kind: StatefulSet
@@ -692,7 +758,7 @@ metadata:
   labels:
     k8s-app: elasticsearch-logging
   name: elasticsearch-logging
-  namespace: default
+  namespace: variablename
 spec:
   replicas: 1
   selector:
@@ -749,7 +815,7 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
       restartPolicy: Always
-      schedulerName: default-scheduler
+      schedulerName: variablename-scheduler
       securityContext: {}
       serviceAccount: elasticsearch-logging
       serviceAccountName: elasticsearch-logging
@@ -784,7 +850,7 @@ spec:
         args:
         - -log.level=debug
         - -server.http-listen-port=80
-        - -alertmanager.configs.url=http://configs.default.svc.cluster.local:80
+        - -alertmanager.configs.url=http://configs.variablename.svc.cluster.local:80
         - -alertmanager.web.external-url=/api/prom/alertmanager
         ports:
         - containerPort: 80
@@ -803,7 +869,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: configs-db
-  namespace: default
+  namespace: variablename
 spec:
   replicas: 1
   template:
@@ -827,7 +893,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: configs-db
-  namespace: default
+  namespace: variablename
 spec:
   ports:
     - port: 5432
@@ -851,7 +917,7 @@ spec:
         imagePullPolicy: Always
         args:
         - -server.http-listen-port=80
-        - -database.uri=postgres://postgres@configs-db.default.svc.cluster.local/configs?sslmode=disable
+        - -database.uri=postgres://postgres@configs-db.variablename.svc.cluster.local/configs?sslmode=disable
         - -database.migrations=/migrations
         ports:
         - containerPort: 80
@@ -929,7 +995,7 @@ spec:
         args:
         - -log.level=debug
         - -server.http-listen-port=80
-        - -consul.hostname=consul.default.svc.cluster.local:8500
+        - -consul.hostname=consul.variablename.svc.cluster.local:8500
         - -distributor.replication-factor=1
         ports:
         - containerPort: 80
@@ -984,10 +1050,10 @@ spec:
         args:
         - -ingester.join-after=30s
         - -ingester.claim-on-rollout=true
-        - -consul.hostname=consul.default.svc.cluster.local:8500
+        - -consul.hostname=consul.variablename.svc.cluster.local:8500
         - -dynamodb.original-table-name=cortex
         - -chunk.storage-client=cassandra
-        - -cassandra.addresses=cassandra.default.svc.cluster.local
+        - -cassandra.addresses=cassandra.variablename.svc.cluster.local
         - -cassandra.keyspace=mayacortex
         - -dynamodb.periodic-table.prefix=cortex_weekly_
         - -dynamodb.periodic-table.from=2017-01-06
@@ -997,7 +1063,7 @@ spec:
         - -dynamodb.v5-schema-from=2017-02-22
         - -dynamodb.v6-schema-from=2017-03-19
         - -dynamodb.chunk-table.from=2017-04-17
-        - -memcached.hostname=memcached.default.svc.cluster.local
+        - -memcached.hostname=memcached.variablename.svc.cluster.local
         - -memcached.timeout=100ms
         - -memcached.service=memcached
         ports:
@@ -1037,7 +1103,7 @@ spec:
         image: memcached:1.4.25
         imagePullPolicy: IfNotPresent
         args:
-        - -m 64 # Maximum memory to use, in megabytes. 64MB is default.
+        - -m 64 # Maximum memory to use, in megabytes. 64MB is variablename.
         - -p 11211 # Default port, but being explicit is nice.
         ports:
         - name: clients
@@ -1076,10 +1142,10 @@ spec:
         imagePullPolicy: IfNotPresent
         args:
         - -server.http-listen-port=80
-        - -consul.hostname=consul.default.svc.cluster.local:8500
+        - -consul.hostname=consul.variablename.svc.cluster.local:8500
         - -dynamodb.original-table-name=cortex
         - -chunk.storage-client=cassandra
-        - -cassandra.addresses=cassandra.default.svc.cluster.local
+        - -cassandra.addresses=cassandra.variablename.svc.cluster.local
         - -cassandra.keyspace=mayacortex
         - -dynamodb.periodic-table.prefix=cortex_weekly_
         - -dynamodb.periodic-table.from=2017-01-06
@@ -1089,7 +1155,7 @@ spec:
         - -dynamodb.v5-schema-from=2017-02-22
         - -dynamodb.v6-schema-from=2017-03-19
         - -dynamodb.chunk-table.from=2017-04-17
-        - -memcached.hostname=memcached.default.svc.cluster.local
+        - -memcached.hostname=memcached.variablename.svc.cluster.local
         - -memcached.timeout=100ms
         - -memcached.service=memcached
         - -distributor.replication-factor=1
@@ -1124,12 +1190,12 @@ spec:
         args:
         - -log.level=debug
         - -server.http-listen-port=80
-        - -ruler.configs.url=http://configs.default.svc.cluster.local:80
-        - -ruler.alertmanager-url=http://alertmanager.default.svc.cluster.local/api/prom/alertmanager/
-        - -consul.hostname=consul.default.svc.cluster.local:8500
+        - -ruler.configs.url=http://configs.variablename.svc.cluster.local:80
+        - -ruler.alertmanager-url=http://alertmanager.variablename.svc.cluster.local/api/prom/alertmanager/
+        - -consul.hostname=consul.variablename.svc.cluster.local:8500
         - -dynamodb.original-table-name=cortex
         - -chunk.storage-client=cassandra
-        - -cassandra.addresses=cassandra.default.svc.cluster.local
+        - -cassandra.addresses=cassandra.variablename.svc.cluster.local
         - -cassandra.keyspace=mayacortex
         - -dynamodb.periodic-table.prefix=cortex_weekly_
         - -dynamodb.periodic-table.from=2017-01-06
@@ -1139,7 +1205,7 @@ spec:
         - -dynamodb.v5-schema-from=2017-02-22
         - -dynamodb.v6-schema-from=2017-03-19
         - -dynamodb.chunk-table.from=2017-04-17
-        - -memcached.hostname=memcached.default.svc.cluster.local
+        - -memcached.hostname=memcached.variablename.svc.cluster.local
         - -memcached.timeout=100ms
         - -memcached.service=memcached
         - -distributor.replication-factor=1
@@ -1176,7 +1242,7 @@ spec:
         - -server.http-listen-port=80
         - -dynamodb.original-table-name=cortex
         - -chunk.storage-client=cassandra
-        - -cassandra.addresses=cassandra.default.svc.cluster.local
+        - -cassandra.addresses=cassandra.variablename.svc.cluster.local
         - -cassandra.keyspace=mayacortex
         - -dynamodb.periodic-table.prefix=cortex_weekly_
         - -dynamodb.periodic-table.from=2017-01-06
@@ -1214,7 +1280,7 @@ spec:
         - -server.http-listen-port=80
         - -storage.storage-client=cassandra
 #        - -cassandra.addresses=172.17.0.4
-        - -cassandra.addresses=cassandra.default.svc.cluster.local
+        - -cassandra.addresses=cassandra.variablename.svc.cluster.local
         - -cassandra.keyspace=mayaalerts
 #        - -storage.table-duration=5m
 #        - -cassandra.table-duration=5m
@@ -1252,7 +1318,7 @@ spec:
         - -server.http-listen-port=80
         - -storage.storage-client=cassandra
 #        - -cassandra.addresses=172.17.0.4
-        - -cassandra.addresses=cassandra.default.svc.cluster.local
+        - -cassandra.addresses=cassandra.variablename.svc.cluster.local
         - -cassandra.keyspace=mayaalerts
 #        - -cassandra.table-duration=5m
 #        - -tablemanager.table-duration=5m
@@ -1289,7 +1355,7 @@ data:
     [users]
     auto_assign_org = false
     # Default UI theme ("dark" or "light")
-    default_theme = light
+    variablename_theme = light
     [auth.proxy]
     enabled = true
     header_name = X-Scope-OrgID
@@ -1364,7 +1430,7 @@ kind: Service
 metadata:
   annotations:
   name: maya-grafana-service
-  namespace: default
+  namespace: variablename
 spec:
   ports:
   - nodePort: 30378
@@ -1388,7 +1454,7 @@ metadata:
   labels:
     k8s-app: kibana-logging
   name: kibana-logging
-  namespace: default
+  namespace: variablename
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -1428,7 +1494,7 @@ metadata:
   labels:
     k8s-app: kibana-logging
   name: kibana-logging
-  namespace: default
+  namespace: variablename
 spec:
   ports:
   - port: 5601
@@ -1458,9 +1524,9 @@ items:
     creationTimestamp: 2019-05-13T14:30:48Z
     generation: 5
     name: maya-auth-ingress
-    namespace: default
+    namespace: variablename
     resourceVersion: "4416837"
-    selfLink: /apis/extensions/v1beta1/namespaces/default/ingresses/maya-auth-ingress
+    selfLink: /apis/extensions/v1beta1/namespaces/variablename/ingresses/maya-auth-ingress
     uid: b3d51ca4-758b-11e9-9b05-0cc47a805c04
   spec:
     rules:
@@ -1505,7 +1571,7 @@ items:
       nginx.ingress.kubernetes.io/rewrite-target: /
       nginx.ingress.kubernetes.io/ssl-redirect: "false"
     name: maya-nginx-ingress
-    namespace: default
+    namespace: variablename
   spec:
     rules:
     - http:
@@ -1545,7 +1611,7 @@ kind: Deployment
 metadata:
   labels:
   name: maya-ui
-  namespace: default
+  namespace: variablename
 spec:
   selector:
     matchLabels:
@@ -1573,7 +1639,7 @@ metadata:
   labels:
     app: maya-ui
   name: maya-ui
-  namespace: default
+  namespace: variablename
 spec:
   ports:
   - name: maya-ui
@@ -1598,7 +1664,7 @@ metadata:
   labels:
     app: chat-server
   name: chat-server
-  namespace: default
+  namespace: variablename
 type: Opaque
 ---
 #maya-chat-server deployment
@@ -1608,7 +1674,7 @@ metadata:
   labels:
     app: chat-server
   name: chat-server
-  namespace: default
+  namespace: variablename
 spec:
   selector:
     matchLabels:
@@ -1657,7 +1723,7 @@ metadata:
   labels:
     app: chat-server
   name: chat-server
-  namespace: default
+  namespace: variablename
 spec:
   ports:
   - name: maya-chatops
@@ -1666,64 +1732,6 @@ spec:
     targetPort: 8080
   selector:
     app: chat-server
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: maya-config
-data:
-  maya.properties: |
-    api.ui.index=http://147.75.81.111/ui/latest
-    server.default.access.grant=false
-    maya.api.ui.enabled=true
-    api.auth.enabler=github_user:1073250
-    api.auth.github.client.id=04e1a151827ecf0c20ff
-    api.auth.github.client.secret=$19b042fcaf547f1f593a6b4d66709bfd0d746ad7
-    no.reply.email.address=${EMAILADRESS}
-    no.reply.email.password=${EMAILPASS}
-    slack.config.bot.client.id=${botclientid}
-    slack.config.bot.client.secret=${botclientsecret}
-    slack.config.bot.oauth.url=https://slack.com/oauth/authorize?client_id=${botclientid}&scope=bot\,incoming-webhook\,commands
-    slack.notification.welcome.message=Hello\, this is a welcome message from your MuleBot at MayaOnline. This channel will be updated with Alert messages from your OpenEBS clusters. You can use /maya command to query the configuration and status of your clusters.
-    mayaUrl=http://147.75.81.111
-    maya.ingress.gke=/mayastore/maya-ingress-gke.yaml
-    maya.ingress.auth=/mayastore/auth
-    maya.cortex.push.url=http://147.75.81.111/maya-cortex-push/api/prom/push
-    maya.cortex.pull.url=http://147.75.81.111/maya-cortex-pull/api/prom
-    maya.cortex.configs.url=http://147.75.81.111/maya-cortex-configs/api/prom/configs/rules
-    maya.cortex.am.url=http://147.75.81.111/maya-cortex-am/api/prom/alertmanager/
-    maya.grafana.url=http://maya-grafana-service.default.svc.cluster.local:3000/
-    maya.grafana.reporter.url=http://maya-grafana-service.default.svc.cluster.local:8686/
-    maya.kibana.url=http://kibana-logging.default.svc.cluster.local:5601/
-    maya.elasticsearch.url=http://elasticsearch-logging.default.svc.cluster.local:9200/
-    maya.mdape2e.url=http://openebs-ci-client-service.default.svc.cluster.local:80/
-    maya.grafana.admin.password=admin
-    mulebot.alert.url=http://147.75.81.111/chat-server/maya-events
-    maya.alertstore.tablemanager.url=http://alertstore-tablemanager.default.svc.cluster.local/
-    maya.alertstore.ingress.url=http://147.75.81.111/alertstore/alerts
-    maya.alertstore.url=http://alertstore.default.svc.cluster.local/
-    maya.killbill.server.url=http://killbill-server.default.svc.cluster.local:8080
-    maya.killbill.admin.username=admin
-    maya.killbill.admin.password=MayaOnline@123
-    maya.killbill.mayaonline.tenant.api.key=mayaonline
-    maya.killbill.mayaonline.tenant.api.secret=MayaOnline@123
-    sales.email.address=support@mayadata.io
-    maya.dmaas.cloud.agent.url=http://cloud-agent-service.default.svc.cluster.local:8880
-    maya.setup.name=mayaonline-staging
-    maya.billing.type=external
-    backend.feature.analytics.google.code=UA-127388617-2
-    external.svc.unauthorize.redirect.url=http://147.75.81.111/login
-    feature.dmaas.disable=true
-    api.auth.external.provider.configured=true
-    api.github.scheme=https://
-    api.auth.access.mode=unrestricted
-    api.auth.user.type=github_user
-    api.auth.external.provider.identity.separator=,
-    api.auth.provider.configured=githubconfig\,googleconfig
-    api.security.enabled=true
-    api.auth.allowed.identities=:
-    api.auth.google.client.id=15778894521-se7i6mruap5qcpkl8cd4k4jgigvp6eoq.apps.googleusercontent.com
-    api.auth.google.client.secret=pjXCoE-EXK8_h55XsYzcMPrN
 ---
 #maya-io-pvc
 #grafana pvc
@@ -1739,6 +1747,30 @@ spec:
     requests:
       storage: 40G
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sa-maya-io
+  namespace: default
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: crb-maya-io
+  namespace: default
+subjects:
+- kind: ServiceAccount
+  name: sa-maya-io
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
@@ -1756,7 +1788,7 @@ spec:
         - name: maya-io
           args:
             - "--db-host"
-            - "mysql-0.mysql.default.svc.cluster.local"
+            - "mysql-0.mysql.variablename.svc.cluster.local"
             - "--db-user"
             - "maya"
             - "--db-pass"
