@@ -225,7 +225,7 @@ spec:
           image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.17.0
           args:
             - /nginx-ingress-controller
-            - --variablename-backend-service=$(POD_NAMESPACE)/variablename-http-backend
+            - --default-backend-service=$(POD_NAMESPACE)/default-http-backend
             - --configmap=$(POD_NAMESPACE)/nginx-configuration
             - --tcp-services-configmap=$(POD_NAMESPACE)/tcp-services
             - --udp-services-configmap=$(POD_NAMESPACE)/udp-services
