@@ -3,7 +3,7 @@ echo "ENTER NAMESPACE for OpenEBS Director"
 read NAMESPACE
 echo $NAMESPACE
 
-sed -ri 's/(variablename)/"'$NAMESPACE'"/' "operator.yaml"
+sed -ri 's/(variablename)/'$NAMESPACE'/' "operator.yaml"
 
 echo "ENTER URl for OpenEBS Director"
 read URL
