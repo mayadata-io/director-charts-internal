@@ -3,14 +3,14 @@ echo "ENTER NAMESPACE for OpenEBS Director"
 read NAMESPACE
 echo $NAMESPACE
 
-sed -ri 's/(variablename)/"'$NAMESPACE'"/' "template.yml"
+sed -ri 's/(variablename)/"'$NAMESPACE'"/' "operator.yaml"
 
 echo "ENTER URl for OpenEBS Director"
 read URL
 echo $URL
 
 echo ENTER your github Auth app details
-echo Enetr Enabler  
+echo ENTER Enabler  
 read AuthENABLER
 echo ENTER Client ID
 read GITHUBCLIENTID
