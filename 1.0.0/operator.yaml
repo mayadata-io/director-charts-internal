@@ -1782,6 +1782,7 @@ spec:
       labels:
         app : maya-io
     spec:
+      serviceAccountName: sa-maya-io
       containers:
         - name: maya-io
           args:
