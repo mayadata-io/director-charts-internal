@@ -5,7 +5,7 @@ metadata:
   name: maya-config
 data:
   maya.properties: |
-    api.ui.index=https://${URL}/ui/latest
+    api.ui.index=http://${URL}/ui/latest
     server."default".access.grant=true
     maya.api.ui.enabled=true
     api.auth.enabler=github_user:${AuthENABLER}
@@ -17,20 +17,20 @@ data:
     slack.config.bot.client.secret=${botclientsecret}
     slack.config.bot.oauth.url=https://slack.com/oauth/authorize?client_id=${botclientid}&scope=bot\,incoming-webhook\,commands
     slack.notification.welcome.message=Hello\, this is a welcome message from your MuleBot at MayaOnline. This channel will be updated with Alert messages from your OpenEBS clusters. You can use /maya command to query the configuration and status of your clusters.
-    mayaUrl=https://${URL}
+    mayaUrl=http://${URL}
     maya.ingress.gke=/mayastore/maya-ingress-gke.yaml
     maya.ingress.auth=/mayastore/auth
-    maya.cortex.push.url=https://${URL}/maya-cortex-push/api/prom/push
-    maya.cortex.pull.url=https://${URL}/maya-cortex-pull/api/prom
-    maya.cortex.configs.url=https://${URL}/maya-cortex-configs/api/prom/configs/rules
-    maya.cortex.am.url=https://${URL}/maya-cortex-am/api/prom/alertmanager/
+    maya.cortex.push.url=http://${URL}/maya-cortex-push/api/prom/push
+    maya.cortex.pull.url=http://${URL}/maya-cortex-pull/api/prom
+    maya.cortex.configs.url=http://${URL}/maya-cortex-configs/api/prom/configs/rules
+    maya.cortex.am.url=http://${URL}/maya-cortex-am/api/prom/alertmanager/
     maya.grafana.url=http://maya-grafana-service."default".svc.cluster.local:3000/
     maya.grafana.reporter.url=http://maya-grafana-service."default".svc.cluster.local:8686/
     maya.kibana.url=http://kibana-logging."default".svc.cluster.local:5601/
     maya.elasticsearch.url=http://elasticsearch-logging."default".svc.cluster.local:9200/
     maya.mdape2e.url=http://openebs-ci-client-service."default".svc.cluster.local:80/
     maya.grafana.admin.password=admin
-    mulebot.alert.url=https://${URL}/chat-server/maya-events
+    mulebot.alert.url=http://${URL}/chat-server/maya-events
     maya.alertstore.tablemanager.url=http://alertstore-tablemanager."default".svc.cluster.local/
     maya.alertstore.ingress.url=https://${URL}/alertstore/alerts
     maya.alertstore.url=http://alertstore."default".svc.cluster.local/
