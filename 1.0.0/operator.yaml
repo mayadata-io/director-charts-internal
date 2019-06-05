@@ -1818,7 +1818,7 @@ kind: Service
 metadata:
   labels:
     app: maya-io
-  name: maya-service
+  name: maya-io
 spec:
   type: NodePort
   ports:
