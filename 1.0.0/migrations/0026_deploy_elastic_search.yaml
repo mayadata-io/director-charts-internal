@@ -42,7 +42,7 @@ spec:
         - name: NODE_MASTER
           value: "false"
         - name: ES_JAVA_OPTS
-          value: -Xms6g -Xmx6g
+          value: -Xms512m -Xmx512m
         image: mayadataio/elasticsearch-search-guard:88a263ec
         imagePullPolicy: IfNotPresent
         name: elasticsearch-logging
@@ -54,8 +54,10 @@ spec:
           name: transport
           protocol: TCP
         resources:
+          limits:
+            cpu: 1000m
           requests:
-            cpu: "1"
+            cpu: 100m
         securityContext:
           runAsUser: 1000
         terminationMessagePath: /dev/termination-log
