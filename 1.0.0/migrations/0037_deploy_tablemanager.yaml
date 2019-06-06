@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: table-manager
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: table-manager
+    spec:
+      containers:
+      - name: table-manager
+        image: quay.io/cortexproject/table-manager:master-590e72c6
+        imagePullPolicy: IfNotPresent
+        args:
+        - -server.http-listen-port=80
+        - -dynamodb.original-table-name=cortex
+        - -chunk.storage-client=cassandra
+        - -cassandra.addresses=cassandra.variablename.svc.cluster.local
+        - -cassandra.keyspace=mayacortex
+        - -dynamodb.periodic-table.prefix=cortex_weekly_
+        - -dynamodb.periodic-table.from=2017-01-06
+        - -dynamodb.chunk-table.from=2017-04-17
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: table-manager
+spec:
+  ports:
+    - port: 80
+  selector:
+    name: table-manager
+

@@ -1,0 +1,69 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: maya-grafana
+  name: maya-grafana
+spec:
+  template:
+    metadata:
+      labels:
+        app: maya-grafana
+    spec:
+      containers:
+      - image: index.docker.io/mayadataio/graph-reporter:v1.11.5
+        name: grafana-reporter
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8686
+      - env:
+        - name: GF_AUTH_BASIC_ENABLED
+          value: "true"
+        - name: GF_AUTH_ANONYMOUS_ENABLED
+          value: "false"
+        image: index.docker.io/mayadata/maya-grafana:v1.11.2
+        imagePullPolicy: Always
+        name: master-grafana
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - mountPath: /etc/grafana
+          name: config-volume
+        - mountPath: /var/lib/grafana
+          name: maya-grafana-store
+      securityContext:
+        fsGroup: 107
+        runAsUser: 104
+      imagePullSecrets:
+      - name: mayadatasecret        
+      volumes:
+      - configMap:
+          name: maya-grafana-cfgmap
+        name: config-volume
+      - name: maya-grafana-store
+        persistentVolumeClaim:
+          claimName: grafana-claim
+---
+#grafana svc
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  name: maya-grafana-service
+  namespace: variablename
+spec:
+  ports:
+  - nodePort: 30378
+    port: 3000
+    protocol: TCP
+    targetPort: 3000
+    name: grafana
+  - nodePort: 30379
+    port: 8686
+    protocol: TCP
+    targetPort: 8686
+    name: grafana-report
+  selector:
+    app: maya-grafana
+  type: NodePort
+
