@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: alertmanager
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: alertmanager
+    spec:
+      containers:
+      - name: alertmanager
+        image: openebs/cortex-alertmanager:alerts-0038d54e
+        imagePullPolicy: Always
+        args:
+        - -log.level=debug
+        - -server.http-listen-port=80
+        - -alertmanager.configs.url=http://configs.variablename.svc.cluster.local:80
+        - -alertmanager.web.external-url=/api/prom/alertmanager
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alertmanager
+spec:
+  ports:
+    - port: 80
+  selector:
+    name: alertmanager
+
