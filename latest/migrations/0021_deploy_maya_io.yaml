@@ -1,0 +1,60 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: maya-io
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app : maya-io
+    spec:
+      serviceAccountName: sa-maya-io
+      containers:
+        - name: maya-io
+          args:
+            - "--db-host"
+            - "mysql-0.mysql.variablename.svc.cluster.local"
+            - "--db-user"
+            - "maya"
+            - "--db-pass"
+            - "maya"
+            - "--db-name"
+            - "maya"
+          image: index.docker.io/mayadata/maya-io-server:ci.ee
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 8080
+          volumeMounts:
+          - name: maya-store
+            mountPath: /mayastore
+          - name: maya-config
+            mountPath: /var/lib/maya/etc/maya.properties
+            subPath: maya.properties
+      imagePullSecrets:
+      - name: mayadatasecret
+      volumes:
+      - name: maya-store
+        persistentVolumeClaim:
+          claimName: mayastore
+      - name: maya-config
+        configMap:
+          name: maya-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: maya-io
+  name: maya-io
+spec:
+  type: NodePort
+  ports:
+  - name: mayaport
+    port: 8080
+    protocol: TCP
+  selector:
+    app: maya-io
+

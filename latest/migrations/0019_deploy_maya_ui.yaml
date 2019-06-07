@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+  name: maya-ui
+  namespace: variablename
+spec:
+  selector:
+    matchLabels:
+      app: maya-ui
+  template:
+    metadata:
+      labels:
+        app: maya-ui
+    spec:
+      containers:
+      - image: index.docker.io/mayadata/maya-ui:ci.ee
+        imagePullPolicy: Always
+        name: maya-ui
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+      imagePullSecrets:
+      - name: mayadatasecret
+---
+#maya-ui svc
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: maya-ui
+  name: maya-ui
+  namespace: variablename
+spec:
+  ports:
+  - name: maya-ui
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: maya-ui
