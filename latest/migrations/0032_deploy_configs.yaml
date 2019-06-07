@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: configs
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: configs
+    spec:
+      containers:
+      - name: configs
+        image: openebs/cortex-configs:alerts-b454a216
+        imagePullPolicy: Always
+        args:
+        - -server.http-listen-port=80
+        - -database.uri=postgres://postgres@configs-db.variablename.svc.cluster.local/configs?sslmode=disable
+        - -database.migrations=/migrations
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: configs
+spec:
+  ports:
+    - port: 80
+  selector:
+    name: configs
+
