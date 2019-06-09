@@ -846,7 +846,7 @@ spec:
       labels:
         name: alertmanager
     spec:
-      initContainer:
+      initContainers:
       - name: am-wait-for-configs
         image: busybox:1.28
         command: ['sh', '-c', 'until nslookup configs.default.svc.cluster.local; do echo "waiting for configs"; sleep 2; done;']
@@ -921,7 +921,7 @@ spec:
       labels:
         name: configs
     spec:
-      initContainer:
+      initContainers:
       - name: cf-wait-for-configs-db
         image: busybox:1.28
         command: ['sh', '-c', 'until nslookup configs-db.default.svc.cluster.local; do echo "waiting for configs-db"; sleep 2; done;']
@@ -1002,7 +1002,7 @@ spec:
       labels:
         name: distributor
     spec:
-      initContainer:
+      initContainers:
       - name: di-wait-for-consul
         image: busybox:1.28
         command: ['sh', '-c', 'until nslookup consul.default.svc.cluster.local; do echo "waiting for consul"; sleep 2; done;']
@@ -1064,7 +1064,7 @@ spec:
       # too many ingesters at once.
       terminationGracePeriodSeconds: 300
 
-      initContainer:
+      initContainers:
       - name: in-wait-for-cassandra
         image: busybox:1.28
         command: ['sh', '-c', 'until nslookup cassandra.default.svc.cluster.local; do echo "waiting for cassandra"; sleep 2; done;']
@@ -1167,7 +1167,7 @@ spec:
       labels:
         name: querier
     spec:
-      initContainer:
+      initContainers:
       - name: qu-wait-for-cassandra
         image: busybox:1.28
         command: ['sh', '-c', 'until nslookup cassandra.default.svc.cluster.local; do echo "waiting for cassandra"; sleep 2; done;']
@@ -1224,7 +1224,7 @@ spec:
       labels:
         name: ruler
     spec:
-      initContainer:
+      initContainers:
       - name: rl-wait-for-cassandra
         image: busybox:1.28
         command: ['sh', '-c', 'until nslookup cassandra.default.svc.cluster.local; do echo "waiting for cassandra"; sleep 2; done;']
@@ -1291,7 +1291,7 @@ spec:
       labels:
         name: table-manager
     spec:
-      initContainer:
+      initContainers:
       - name: tm-wait-for-cassandra
         image: busybox:1.28
         command: ['sh', '-c', 'until nslookup cassandra.default.svc.cluster.local; do echo "waiting for cassandra"; sleep 2; done;']
@@ -1333,7 +1333,7 @@ spec:
       labels:
         name: alertstore
     spec:
-      initContainer:
+      initContainers:
       - name: as-wait-for-cassandra
         image: busybox:1.28
         command: ['sh', '-c', 'until nslookup cassandra.default.svc.cluster.local; do echo "waiting for cassandra"; sleep 2; done;']
@@ -1378,7 +1378,7 @@ spec:
       labels:
         name: alertstore-tablemanager
     spec:
-      initContainer:
+      initContainers:
       - name: astm-wait-for-cassandra
         image: busybox:1.28
         command: ['sh', '-c', 'until nslookup cassandra.default.svc.cluster.local; do echo "waiting for cassandra"; sleep 2; done;']
@@ -1857,7 +1857,7 @@ spec:
         app : maya-io
     spec:
       serviceAccountName: sa-maya-io
-      initContainer:
+      initContainers:
       - name: mios-wait-for-mysql
         image: busybox:1.28
         command: ['sh', '-c', 'until nslookup mysql.default.svc.cluster.local; do echo "waiting for mysql"; sleep 2; done;']
