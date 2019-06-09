@@ -841,6 +841,13 @@ spec:
       labels:
         name: alertmanager
     spec:
+      initContainer:
+      - name: am-wait-for-configs
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup configs.default.svc.cluster.local; do echo "waiting for configs"; sleep 2; done;']
+      - name: am-wait-for-maya-io-server
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup maya-io-server.default.svc.cluster.local; do echo "waiting for maya-io-server"; sleep 2; done;']
       containers:
       - name: alertmanager
         image: openebs/cortex-alertmanager:alerts-0038d54e
@@ -909,6 +916,10 @@ spec:
       labels:
         name: configs
     spec:
+      initContainer:
+      - name: cf-wait-for-configs-db
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup configs-db.default.svc.cluster.local; do echo "waiting for configs-db"; sleep 2; done;']
       containers:
       - name: configs
         image: openebs/cortex-configs:alerts-b454a216
@@ -986,6 +997,13 @@ spec:
       labels:
         name: distributor
     spec:
+      initContainer:
+      - name: di-wait-for-consul
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup consul.default.svc.cluster.local; do echo "waiting for consul"; sleep 2; done;']
+      - name: di-wait-for-ingester
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup ingester.default.svc.cluster.local; do echo "waiting for ingester"; sleep 2; done;']
       containers:
       - name: distributor
         image: quay.io/cortexproject/distributor:master-590e72c6
@@ -1041,6 +1059,16 @@ spec:
       # too many ingesters at once.
       terminationGracePeriodSeconds: 300
 
+      initContainer:
+      - name: in-wait-for-cassandra
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup cassandra.default.svc.cluster.local; do echo "waiting for cassandra"; sleep 2; done;']
+      - name: in-wait-for-consul
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup consul.default.svc.cluster.local; do echo "waiting for consul"; sleep 2; done;']
+      - name: in-wait-for-table-manager
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup table-manager.default.svc.cluster.local; do echo "waiting for table-manager"; sleep 2; done;']
       containers:
       - name: ingester
         image: quay.io/cortexproject/ingester:master-590e72c6
@@ -1134,6 +1162,16 @@ spec:
       labels:
         name: querier
     spec:
+      initContainer:
+      - name: qu-wait-for-cassandra
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup cassandra.default.svc.cluster.local; do echo "waiting for cassandra"; sleep 2; done;']
+      - name: qu-wait-for-consul
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup consul.default.svc.cluster.local; do echo "waiting for consul"; sleep 2; done;']
+      - name: qu-wait-for-table-manager
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup table-manager.default.svc.cluster.local; do echo "waiting for table-manager"; sleep 2; done;']
       containers:
       - name: querier
         image: quay.io/cortexproject/querier:master-590e72c6
@@ -1181,6 +1219,22 @@ spec:
       labels:
         name: ruler
     spec:
+      initContainer:
+      - name: rl-wait-for-cassandra
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup cassandra.default.svc.cluster.local; do echo "waiting for cassandra"; sleep 2; done;']
+      - name: rl-wait-for-consul
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup consul.default.svc.cluster.local; do echo "waiting for consul"; sleep 2; done;']
+      - name: rl-wait-for-ingester
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup ingester.default.svc.cluster.local; do echo "waiting for ingester"; sleep 2; done;']
+      - name: rl-wait-for-querier
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup querier.default.svc.cluster.local; do echo "waiting for querier"; sleep 2; done;']
+      - name: rl-wait-for-alertmanager
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup alertmanager.default.svc.cluster.local; do echo "waiting for alertmanager"; sleep 2; done;']
       containers:
       - name: ruler
         image: quay.io/cortexproject/ruler:master-590e72c6
@@ -1232,6 +1286,10 @@ spec:
       labels:
         name: table-manager
     spec:
+      initContainer:
+      - name: tm-wait-for-cassandra
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup cassandra.default.svc.cluster.local; do echo "waiting for cassandra"; sleep 2; done;']
       containers:
       - name: table-manager
         image: quay.io/cortexproject/table-manager:master-590e72c6
@@ -1270,6 +1328,13 @@ spec:
       labels:
         name: alertstore
     spec:
+      initContainer:
+      - name: as-wait-for-cassandra
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup cassandra.default.svc.cluster.local; do echo "waiting for cassandra"; sleep 2; done;']
+      - name: as-wait-for-as-tablemanager
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup alertstore-tablemanager.default.svc.cluster.local; do echo "waiting for alertstore-tablamanager"; sleep 2; done;']
       containers:
       - name: alertstore
         image: moteesh/alertstore:staging
@@ -1308,6 +1373,10 @@ spec:
       labels:
         name: alertstore-tablemanager
     spec:
+      initContainer:
+      - name: astm-wait-for-cassandra
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup cassandra.default.svc.cluster.local; do echo "waiting for cassandra"; sleep 2; done;']
       containers:
       - name: alertstore-tablemanager
         image: moteesh/alertstore-tablemanager:staging
@@ -1783,6 +1852,28 @@ spec:
         app : maya-io
     spec:
       serviceAccountName: sa-maya-io
+      initContainer:
+      - name: mios-wait-for-mysql
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup mysql.default.svc.cluster.local; do echo "waiting for mysql"; sleep 2; done;']
+      - name: mios-wait-for-chat-server
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup chat-server.default.svc.cluster.local; do echo "waiting for chat-server"; sleep 2; done;']
+      - name: mios-wait-for-maya-grafana-service
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup maya-grafana-service.default.svc.cluster.local; do echo "waiting for maya-grafana-service"; sleep 2; done;']
+      - name: mios-wait-for-maya-ui
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup maya-ui.default.svc.cluster.local; do echo "waiting for maya-ui"; sleep 2; done;']
+      - name: mios-wait-for-elasticsearch-logging
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup elasticsearch-logging.default.svc.cluster.local; do echo "waiting for elasticsearch-logging"; sleep 2; done;']
+      - name: mios-wait-for-kibana-logging
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup kibana-logging.default.svc.cluster.local; do echo "waiting for kibana-logging"; sleep 2; done;']
+      - name: mios-wait-for-alertstore-tablemanager
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup alertstore-tablemanager.default.svc.cluster.local; do echo "waiting for alertstore-tablemanager"; sleep 2; done;']
       containers:
         - name: maya-io
           args:
