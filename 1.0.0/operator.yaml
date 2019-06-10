@@ -846,7 +846,7 @@ spec:
       labels:
         name: alertmanager
     spec:
-      serviceAccountName: maya-io
+      serviceAccountName: sa-maya-io
       initContainers:
       - name: init-agent
         image: mayadataio/maya-init:latest
@@ -855,7 +855,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
           echo $MAYA
           until [ ! -z "$MAYA" ]
           do
@@ -937,7 +937,7 @@ spec:
       labels:
         name: configs
     spec:
-      serviceAccountName: maya-io
+      serviceAccountName: sa-maya-io
       initContainers:
       - name: init-agent
         image: mayadataio/maya-init:latest
@@ -946,7 +946,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
           echo $MAYA
           until [ ! -z "$MAYA" ]
           do
@@ -1034,7 +1034,7 @@ spec:
       labels:
         name: distributor
     spec:
-      serviceAccountName: maya-io
+      serviceAccountName: sa-maya-io
       initContainers:
       - name: init-agent
         image: mayadataio/maya-init:latest
@@ -1043,7 +1043,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
           echo $MAYA
           until [ ! -z "$MAYA" ]
           do
@@ -1112,7 +1112,7 @@ spec:
       # too many ingesters at once.
       terminationGracePeriodSeconds: 300
 
-      serviceAccountName: maya-io
+      serviceAccountName: sa-maya-io
       initContainers:
       - name: init-agent
         image: mayadataio/maya-init:latest
@@ -1121,7 +1121,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
           echo $MAYA
           until [ ! -z "$MAYA" ]
           do
@@ -1231,7 +1231,7 @@ spec:
       labels:
         name: querier
     spec:
-      serviceAccountName: maya-io
+      serviceAccountName: sa-maya-io
       initContainers:
       - name: init-agent
         image: mayadataio/maya-init:latest
@@ -1240,7 +1240,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
           echo $MAYA
           until [ ! -z "$MAYA" ]
           do
@@ -1304,7 +1304,7 @@ spec:
       labels:
         name: ruler
     spec:
-      serviceAccountName: maya-io
+      serviceAccountName: sa-maya-io
       initContainers:
       - name: init-agent
         image: mayadataio/maya-init:latest
@@ -1313,7 +1313,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
           echo $MAYA
           until [ ! -z "$MAYA" ]
           do
@@ -1387,7 +1387,7 @@ spec:
       labels:
         name: table-manager
     spec:
-      serviceAccountName: maya-io
+      serviceAccountName: sa-maya-io
       initContainers:
       - name: init-agent
         image: mayadataio/maya-init:latest
@@ -1396,7 +1396,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
           echo $MAYA
           until [ ! -z "$MAYA" ]
           do
@@ -1445,7 +1445,7 @@ spec:
       labels:
         name: alertstore
     spec:
-      serviceAccountName: maya-io
+      serviceAccountName: sa-maya-io
       initContainers:
       - name: init-agent
         image: mayadataio/maya-init:latest
@@ -1454,7 +1454,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
           echo $MAYA
           until [ ! -z "$MAYA" ]
           do
@@ -1506,7 +1506,7 @@ spec:
       labels:
         name: alertstore-tablemanager
     spec:
-      serviceAccountName: maya-io
+      serviceAccountName: sa-maya-io
       initContainers:
       - name: init-agent
         image: mayadataio/maya-init:latest
@@ -1515,7 +1515,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
           echo $MAYA
           until [ ! -z "$MAYA" ]
           do
@@ -2009,7 +2009,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
           echo $MAYA
           until [ ! -z "$MAYA" ]
           do
