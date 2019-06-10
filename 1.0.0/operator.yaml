@@ -869,21 +869,21 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=configs | grep -w configs | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l app=configs -n variablename | grep -w configs | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for configs"
              sleep 2;
           done
-      - name: am-wait-for-maya-io-server
+      - name: am-wait-for-maya-io
         image: mayadataio/maya-init:latest
         command:
         - sh
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=maya-io-server | grep -w maya-io-server | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l app=maya-io -n variablename | grep -w maya-io | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -982,7 +982,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=configs-db | grep -w configs-db | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l name=configs-db -n variablename | grep -w configs-db | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -1089,7 +1089,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=consul | grep -w consul | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l name=consul -n variablename | grep -w consul | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -1103,7 +1103,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=ingester | grep -w ingester | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l name=ingester -n variablename | grep -w ingester | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -1188,7 +1188,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=cassandra | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l app=cassandra -n variablename | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -1202,7 +1202,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=consul | grep -w consul | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l name=consul -n variablename | grep -w consul | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -1216,7 +1216,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=table-manager | grep -w table-manager | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l name=table-manager -n variablename | grep -w table-manager | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -1339,7 +1339,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=cassandra | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l app=cassandra -n variablename | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -1353,7 +1353,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=consul | grep -w consul | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l name=consul -n variablename | grep -w consul | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -1367,7 +1367,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=table-manager | grep -w table-manager | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l name=table-manager -n variablename | grep -w table-manager | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -1444,7 +1444,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=cassandra | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l app=cassandra -n variablename | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -1458,7 +1458,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=consul | grep -w consul | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l name=consul -n variablename | grep -w consul | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -1472,7 +1472,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=ingester | grep -w ingester | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l name=ingester -n variablename | grep -w ingester | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -1486,7 +1486,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=querier | grep -w querier | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l name=querier -n variablename | grep -w querier | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -1500,7 +1500,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=alertmanager | grep -w alertmanager | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l name=alertmanager -n variablename | grep -w alertmanager | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -1581,7 +1581,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=cassandra | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l app=cassandra -n variablename | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -1649,7 +1649,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=cassandra | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l app=cassandra -n variablename | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -1663,7 +1663,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=alertstore-tablemanager | grep -w alertstore-tablemanager | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l name=alertstore-tablemanager -n variablename | grep -w alertstore-tablemanager | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -1731,7 +1731,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=cassandra | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l app=cassandra -n variablename | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -2235,7 +2235,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=mysql | grep -w mysql | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l app=mysql -n variablename | grep -w mysql | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -2249,7 +2249,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=chat-server | grep -w chat-server | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l app=chat-server -n variablename | grep -w chat-server | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -2263,7 +2263,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=maya-grafana | grep -w maya-grafana | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l app=maya-grafana -n variablename | grep -w maya-grafana | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -2277,7 +2277,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=maya-ui | grep -w maya-ui | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l app=maya-ui -n variablename | grep -w maya-ui | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -2291,7 +2291,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=elasticsearch-logging | grep -w elasticsearch-logging | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l k8s-app=elasticsearch-logging -n variablename | grep -w elasticsearch-logging | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -2305,7 +2305,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=kibana-logging | grep -w kibana-logging | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l k8s-app=kibana-logging -n variablename | grep -w kibana-logging | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
@@ -2319,7 +2319,7 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=alertstore-tablemanager | grep -w alertstore-tablemanager | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=$(kubectl get pods -l name=alertstore-tablemanager -n variablename | grep -w alertstore-tablemanager | awk '{print $3}' | grep "Running" | wc -l)
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
