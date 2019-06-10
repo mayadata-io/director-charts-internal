@@ -846,6 +846,22 @@ spec:
       labels:
         name: alertmanager
     spec:
+      serviceAccountName: maya-io
+      initContainers:
+      - name: init-agent
+        image: mayadataio/maya-init:latest
+        command:
+        - sh
+        - "-c"
+        - |
+          set -ex
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          echo $MAYA
+          until [ ! -z "$MAYA" ]
+          do
+             echo "wating for ClusterRoleBinding"
+             sleep 1;
+          done
       initContainers:
       - name: am-wait-for-configs
         image: busybox:1.28
@@ -921,6 +937,22 @@ spec:
       labels:
         name: configs
     spec:
+      serviceAccountName: maya-io
+      initContainers:
+      - name: init-agent
+        image: mayadataio/maya-init:latest
+        command:
+        - sh
+        - "-c"
+        - |
+          set -ex
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          echo $MAYA
+          until [ ! -z "$MAYA" ]
+          do
+             echo "wating for ClusterRoleBinding"
+             sleep 1;
+          done
       initContainers:
       - name: cf-wait-for-configs-db
         image: busybox:1.28
@@ -1002,6 +1034,22 @@ spec:
       labels:
         name: distributor
     spec:
+      serviceAccountName: maya-io
+      initContainers:
+      - name: init-agent
+        image: mayadataio/maya-init:latest
+        command:
+        - sh
+        - "-c"
+        - |
+          set -ex
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          echo $MAYA
+          until [ ! -z "$MAYA" ]
+          do
+             echo "wating for ClusterRoleBinding"
+             sleep 1;
+          done
       initContainers:
       - name: di-wait-for-consul
         image: busybox:1.28
@@ -1064,6 +1112,22 @@ spec:
       # too many ingesters at once.
       terminationGracePeriodSeconds: 300
 
+      serviceAccountName: maya-io
+      initContainers:
+      - name: init-agent
+        image: mayadataio/maya-init:latest
+        command:
+        - sh
+        - "-c"
+        - |
+          set -ex
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          echo $MAYA
+          until [ ! -z "$MAYA" ]
+          do
+             echo "wating for ClusterRoleBinding"
+             sleep 1;
+          done
       initContainers:
       - name: in-wait-for-cassandra
         image: busybox:1.28
@@ -1167,6 +1231,22 @@ spec:
       labels:
         name: querier
     spec:
+      serviceAccountName: maya-io
+      initContainers:
+      - name: init-agent
+        image: mayadataio/maya-init:latest
+        command:
+        - sh
+        - "-c"
+        - |
+          set -ex
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          echo $MAYA
+          until [ ! -z "$MAYA" ]
+          do
+             echo "wating for ClusterRoleBinding"
+             sleep 1;
+          done
       initContainers:
       - name: qu-wait-for-cassandra
         image: busybox:1.28
@@ -1224,6 +1304,22 @@ spec:
       labels:
         name: ruler
     spec:
+      serviceAccountName: maya-io
+      initContainers:
+      - name: init-agent
+        image: mayadataio/maya-init:latest
+        command:
+        - sh
+        - "-c"
+        - |
+          set -ex
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          echo $MAYA
+          until [ ! -z "$MAYA" ]
+          do
+             echo "wating for ClusterRoleBinding"
+             sleep 1;
+          done
       initContainers:
       - name: rl-wait-for-cassandra
         image: busybox:1.28
@@ -1291,6 +1387,22 @@ spec:
       labels:
         name: table-manager
     spec:
+      serviceAccountName: maya-io
+      initContainers:
+      - name: init-agent
+        image: mayadataio/maya-init:latest
+        command:
+        - sh
+        - "-c"
+        - |
+          set -ex
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          echo $MAYA
+          until [ ! -z "$MAYA" ]
+          do
+             echo "wating for ClusterRoleBinding"
+             sleep 1;
+          done
       initContainers:
       - name: tm-wait-for-cassandra
         image: busybox:1.28
@@ -1333,6 +1445,22 @@ spec:
       labels:
         name: alertstore
     spec:
+      serviceAccountName: maya-io
+      initContainers:
+      - name: init-agent
+        image: mayadataio/maya-init:latest
+        command:
+        - sh
+        - "-c"
+        - |
+          set -ex
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          echo $MAYA
+          until [ ! -z "$MAYA" ]
+          do
+             echo "wating for ClusterRoleBinding"
+             sleep 1;
+          done
       initContainers:
       - name: as-wait-for-cassandra
         image: busybox:1.28
@@ -1378,6 +1506,22 @@ spec:
       labels:
         name: alertstore-tablemanager
     spec:
+      serviceAccountName: maya-io
+      initContainers:
+      - name: init-agent
+        image: mayadataio/maya-init:latest
+        command:
+        - sh
+        - "-c"
+        - |
+          set -ex
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          echo $MAYA
+          until [ ! -z "$MAYA" ]
+          do
+             echo "wating for ClusterRoleBinding"
+             sleep 1;
+          done
       initContainers:
       - name: astm-wait-for-cassandra
         image: busybox:1.28
@@ -1857,6 +2001,21 @@ spec:
         app : maya-io
     spec:
       serviceAccountName: sa-maya-io
+      initContainers:
+      - name: init-agent
+        image: mayadataio/maya-init:latest
+        command:
+        - sh
+        - "-c"
+        - |
+          set -ex
+          export MAYA=$(kubectl get ClusterRoleBinding | grep -w maya-io | awk '{print $1}')
+          echo $MAYA
+          until [ ! -z "$MAYA" ]
+          do
+             echo "wating for ClusterRoleBinding"
+             sleep 1;
+          done
       initContainers:
       - name: mios-wait-for-mysql
         image: busybox:1.28
