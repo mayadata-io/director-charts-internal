@@ -1316,6 +1316,10 @@ spec:
         ports:
         - name: clients
           containerPort: 11211
+        securityContext:
+          runAsUser: 1000
+      securityContext:
+        fsGroup: 1000
 ---
 apiVersion: v1
 kind: Service
