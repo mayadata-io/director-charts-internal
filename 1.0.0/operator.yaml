@@ -502,7 +502,7 @@ metadata:
   name: mysql
   namespace: variablename
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: mysql
@@ -690,21 +690,25 @@ spec:
       volumes:
       - emptyDir: {}
         name: conf
+      - hostPath:
+          type: DirectoryOrCreate
+          path: /mysqldata
+        name: data
       - configMap:
           variablenameMode: 420
           name: mysql
         name: config-map
-  volumeClaimTemplates:
-  - metadata:
-      creationTimestamp: null
-      name: data
-    spec:
-      accessModes:
-      - ReadWriteOnce
-      resources:
-        requests:
-          storage: 100Gi
-      storageClassName: cstor-storage-class
+#  volumeClaimTemplates:
+#  - metadata:
+#      creationTimestamp: null
+#      name: data
+#    spec:
+#      accessModes:
+#      - ReadWriteOnce
+#      resources:
+#        requests:
+#          storage: 100Gi
+#      storageClassName: cstor-storage-class
 ---
 #elasticsearch service
 apiVersion: v1
