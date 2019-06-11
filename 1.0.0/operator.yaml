@@ -859,8 +859,10 @@ spec:
           echo $MAYA
           until [ ! -z "$MAYA" ]
           do
-             echo "wating for ClusterRoleBinding"
+             echo "wating for ClusterRoleBinding";
              sleep 1;
+             export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}');
+             echo $MAYA;
           done
       - name: am-wait-for-configs
         image: mayadataio/maya-init:latest
@@ -869,12 +871,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=configs -n variablename | grep -w configs | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for configs"
              sleep 2;
+             export COUNT=$(kubectl get pods -l app=configs -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w configs | wc -l)
+             echo $COUNT
           done
       - name: am-wait-for-maya-io
         image: mayadataio/maya-init:latest
@@ -883,12 +887,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=maya-io -n variablename | grep -w maya-io | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for maya-io-server"
              sleep 2;
+             export COUNT=$(kubectl get pods -l app=maya-io -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w maya-io | wc -l)
+             echo $COUNT
           done
       containers:
       - name: alertmanager
@@ -982,12 +988,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l name=configs-db -n variablename | grep -w configs-db | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for configs-db"
              sleep 2;
+             export COUNT=$(kubectl get pods -l name=configs-db -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w configs-db | wc -l)
+             echo $COUNT
           done
       containers:
       - name: configs
@@ -1081,6 +1089,8 @@ spec:
           do
              echo "wating for ClusterRoleBinding"
              sleep 1;
+             export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+             echo $MAYA
           done
       - name: di-wait-for-consul
         image: mayadataio/maya-init:latest
@@ -1089,12 +1099,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l name=consul -n variablename | grep -w consul | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for consul"
              sleep 2;
+             export COUNT=$(kubectl get pods -l name=consul -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w consul | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       - name: di-wait-for-ingester
         image: mayadataio/maya-init:latest
@@ -1103,12 +1115,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l name=ingester -n variablename | grep -w ingester | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for ingester"
              sleep 2;
+             export COUNT=$(kubectl get pods -l name=ingester -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w ingester | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       containers:
       - name: distributor
@@ -1180,6 +1194,8 @@ spec:
           do
              echo "wating for ClusterRoleBinding"
              sleep 1;
+             export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+             echo $MAYA
           done
       - name: in-wait-for-cassandra
         image: mayadataio/maya-init:latest
@@ -1188,12 +1204,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=cassandra -n variablename | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for cassandra"
              sleep 2;
+             export COUNT=$(kubectl get pods -l app=cassandra -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       - name: in-wait-for-consul
         image: mayadataio/maya-init:latest
@@ -1202,12 +1220,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l name=consul -n variablename | grep -w consul | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for consul"
              sleep 2;
+             export COUNT=$(kubectl get pods -l name=consul -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w consul | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       - name: in-wait-for-table-manager
         image: mayadataio/maya-init:latest
@@ -1216,12 +1236,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l name=table-manager -n variablename | grep -w table-manager | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for table-manager"
              sleep 2;
+             export COUNT=$(kubectl get pods -l name=table-manager -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w table-manager | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       containers:
       - name: ingester
@@ -1318,7 +1340,7 @@ spec:
     spec:
       serviceAccountName: sa-maya-io
       initContainers:
-      - name: qu-wait-for-cassandra
+      - name: qu-wait-for-crb
         image: mayadataio/maya-init:latest
         command:
         - sh
@@ -1331,6 +1353,8 @@ spec:
           do
              echo "wating for ClusterRoleBinding"
              sleep 1;
+             export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+             echo $MAYA
           done
       - name: qu-wait-for-cassandra
         image: mayadataio/maya-init:latest
@@ -1339,12 +1363,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=cassandra -n variablename | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for cassandra"
              sleep 2;
+             export COUNT=$(kubectl get pods -l app=cassandra -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       - name: qu-wait-for-consul
         image: mayadataio/maya-init:latest
@@ -1353,12 +1379,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l name=consul -n variablename | grep -w consul | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for consul"
              sleep 2;
+             export COUNT=$(kubectl get pods -l name=consul -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w consul | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       - name: qu-wait-for-table-manager
         image: mayadataio/maya-init:latest
@@ -1367,12 +1395,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l name=table-manager -n variablename | grep -w table-manager | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for table-manager"
              sleep 2;
+             export COUNT=$(kubectl get pods -l name=table-manager -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w table-manager | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       containers:
       - name: querier
@@ -1436,6 +1466,8 @@ spec:
           do
              echo "wating for ClusterRoleBinding"
              sleep 1;
+             export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+             echo $MAYA
           done
       - name: rl-wait-for-cassandra
         image: mayadataio/maya-init:latest
@@ -1444,12 +1476,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=cassandra -n variablename | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for cassandra"
              sleep 2;
+             export COUNT=$(kubectl get pods -l app=cassandra -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       - name: rl-wait-for-consul
         image: mayadataio/maya-init:latest
@@ -1458,12 +1492,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l name=consul -n variablename | grep -w consul | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for consul"
              sleep 2;
+             export COUNT=$(kubectl get pods -l name=consul -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w consul | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       - name: rl-wait-for-ingester
         image: mayadataio/maya-init:latest
@@ -1472,12 +1508,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l name=ingester -n variablename | grep -w ingester | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for ingester"
              sleep 2;
+             export COUNT=$(kubectl get pods -l name=ingester -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w ingester | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       - name: rl-wait-for-querier
         image: mayadataio/maya-init:latest
@@ -1486,12 +1524,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l name=querier -n variablename | grep -w querier | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for querier"
              sleep 2;
+             export COUNT=$(kubectl get pods -l name=querier -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w querier | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       - name: rl-wait-for-alertmanager
         image: mayadataio/maya-init:latest
@@ -1500,12 +1540,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l name=alertmanager -n variablename | grep -w alertmanager | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for alertmanager"
              sleep 2;
+             export COUNT=$(kubectl get pods -l name=alertmanager -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w alertmanager | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       containers:
       - name: ruler
@@ -1573,6 +1615,8 @@ spec:
           do
              echo "wating for ClusterRoleBinding"
              sleep 1;
+             export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+             echo $MAYA
           done
       - name: tm-wait-for-cassandra
         image: mayadataio/maya-init:latest
@@ -1581,12 +1625,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=cassandra -n variablename | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for cassandra"
              sleep 2;
+             export COUNT=$(kubectl get pods -l app=cassandra -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       containers:
       - name: table-manager
@@ -1641,6 +1687,8 @@ spec:
           do
              echo "wating for ClusterRoleBinding"
              sleep 1;
+             export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+             echo $MAYA
           done
       - name: as-wait-for-cassandra
         image: mayadataio/maya-init:latest
@@ -1649,12 +1697,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=cassandra -n variablename | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for cassandra"
              sleep 2;
+             export COUNT=$(kubectl get pods -l app=cassandra -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       - name: as-wait-for-as-tablemanager
         image: mayadataio/maya-init:latest
@@ -1663,12 +1713,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l name=alertstore-tablemanager -n variablename | grep -w alertstore-tablemanager | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for alertstore-tablemanager"
              sleep 2;
+             export COUNT=$(kubectl get pods -l name=alertstore-tablemanager -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w alertstore-tablemanager | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       containers:
       - name: alertstore
@@ -1723,6 +1775,8 @@ spec:
           do
              echo "wating for ClusterRoleBinding"
              sleep 1;
+             export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+             echo $MAYA
           done
       - name: astm-wait-for-cassandra
         image: mayadataio/maya-init:latest
@@ -1731,12 +1785,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=cassandra -n variablename | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for cassandra"
              sleep 2;
+             export COUNT=$(kubectl get pods -l app=cassandra -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w cassandra | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       containers:
       - name: alertstore-tablemanager
@@ -2227,6 +2283,8 @@ spec:
           do
              echo "wating for ClusterRoleBinding"
              sleep 1;
+             export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+             echo $MAYA
           done
       - name: mios-wait-for-mysql
         image: mayadataio/maya-init:latest
@@ -2235,12 +2293,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=mysql -n variablename | grep -w mysql | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for mysql"
              sleep 2;
+             export COUNT=$(kubectl get pods -l app=mysql -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w mysql | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       - name: mios-wait-for-chat-server
         image: mayadataio/maya-init:latest
@@ -2249,12 +2309,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=chat-server -n variablename | grep -w chat-server | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for chat-server"
              sleep 2;
+             export COUNT=$(kubectl get pods -l app=chat-server -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w chat-server | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       - name: mios-wait-for-maya-grafana-service
         image: mayadataio/maya-init:latest
@@ -2263,12 +2325,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=maya-grafana -n variablename | grep -w maya-grafana | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for maya-grafana"
              sleep 2;
+             export COUNT=$(kubectl get pods -l app=maya-grafana -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w maya-grafana | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       - name: mios-wait-for-maya-ui
         image: mayadataio/maya-init:latest
@@ -2277,12 +2341,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l app=maya-ui -n variablename | grep -w maya-ui | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for maya-ui"
              sleep 2;
+             export COUNT=$(kubectl get pods -l app=maya-ui -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w maya-ui | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       - name: mios-wait-for-elasticsearch-logging
         image: mayadataio/maya-init:latest
@@ -2291,12 +2357,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l k8s-app=elasticsearch-logging -n variablename | grep -w elasticsearch-logging | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for elasticsearch-logging"
              sleep 2;
+             export COUNT=$(kubectl get pods -l k8s-app=elasticsearch-logging -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w elasticsearch-logging | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       - name: mios-wait-for-kibana-logging
         image: mayadataio/maya-init:latest
@@ -2305,12 +2373,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l k8s-app=kibana-logging -n variablename | grep -w kibana-logging | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for kibana-logging"
              sleep 2;
+             export COUNT=$(kubectl get pods -l k8s-app=kibana-logging -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w kibana-logging | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       - name: mios-wait-for-alertstore-tablemanager
         image: mayadataio/maya-init:latest
@@ -2319,12 +2389,14 @@ spec:
         - "-c"
         - |
           set -ex
-          export COUNT=$(kubectl get pods -l name=alertstore-tablemanager -n variablename | grep -w alertstore-tablemanager | awk '{print $3}' | grep "Running" | wc -l)
+          export COUNT=0
           echo $COUNT
           until [ $COUNT -ne 0 ]
           do
              echo "wating for alertstore-tablamanager"
              sleep 2;
+             export COUNT=$(kubectl get pods -l name=alertstore-tablemanager -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w alertstore-tablemanager | awk '{print $3}' | grep "Running" | wc -l)
+             echo $COUNT
           done
       containers:
         - name: maya-io
