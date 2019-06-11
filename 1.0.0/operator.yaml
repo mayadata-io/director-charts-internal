@@ -406,7 +406,7 @@ spec:
           - name: HEAP_NEWSIZE
             value: 100M
           - name: CASSANDRA_SEEDS
-            value: "cassandra-0.cassandra.variablename.svc.cluster.local"
+            value: "cassandra-0.cassandra.default.svc.cluster.local"
           - name: CASSANDRA_CLUSTER_NAME
             value: "K8Demo"
           - name: CASSANDRA_DC
@@ -465,7 +465,7 @@ metadata:
   labels:
     app: mysql
   name: mysql
-  namespace: variablename
+  namespace: default
 data:
   master.cnf: |
     # Apply this config only on the master.
@@ -485,7 +485,7 @@ metadata:
   labels:
     app: mysql
   name: mysql
-  namespace: variablename
+  namespace: default
 spec:
   ports:
   - name: mysql
@@ -500,7 +500,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mysql
-  namespace: variablename
+  namespace: default
 spec:
   replicas: 2
   selector:
@@ -684,14 +684,14 @@ spec:
         - mountPath: /etc/mysql/conf.d
           name: conf
       restartPolicy: Always
-      schedulerName: variablename-scheduler
+      schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
       volumes:
       - emptyDir: {}
         name: conf
       - configMap:
-          variablenameMode: 420
+          defaultMode: 420
           name: mysql
         name: config-map
   volumeClaimTemplates:
@@ -713,7 +713,7 @@ metadata:
   labels:
     k8s-app: elasticsearch-logging
   name: elasticsearch-logging
-  namespace: variablename
+  namespace: default
 spec:
   ports:
   - port: 9200
@@ -725,14 +725,14 @@ spec:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  namespace: variablename
+  namespace: default
   name: elasticsearch-logging
   labels:
     k8s-app: elasticsearch-logging
 subjects:
 - kind: ServiceAccount
   name: elasticsearch-logging
-  namespace: variablename
+  namespace: default
   apiGroup: ""
 roleRef:
   kind: ClusterRole
@@ -744,7 +744,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: elasticsearch-logging
-  namespace: variablename
+  namespace: default
   labels:
     k8s-app: elasticsearch-logging
    
@@ -756,7 +756,7 @@ metadata:
   labels:
     k8s-app: elasticsearch-logging
   name: elasticsearch-logging
-  namespace: variablename
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -813,7 +813,7 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
       restartPolicy: Always
-      schedulerName: variablename-scheduler
+      schedulerName: default-scheduler
       securityContext: {}
       serviceAccount: elasticsearch-logging
       serviceAccountName: elasticsearch-logging
@@ -848,7 +848,7 @@ spec:
         args:
         - -log.level=debug
         - -server.http-listen-port=80
-        - -alertmanager.configs.url=http://configs.variablename.svc.cluster.local:80
+        - -alertmanager.configs.url=http://configs.default.svc.cluster.local:80
         - -alertmanager.web.external-url=/api/prom/alertmanager
         ports:
         - containerPort: 80
@@ -867,7 +867,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: configs-db
-  namespace: variablename
+  namespace: default
 spec:
   replicas: 1
   template:
@@ -891,7 +891,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: configs-db
-  namespace: variablename
+  namespace: default
 spec:
   ports:
     - port: 5432
@@ -915,7 +915,7 @@ spec:
         imagePullPolicy: Always
         args:
         - -server.http-listen-port=80
-        - -database.uri=postgres://postgres@configs-db.variablename.svc.cluster.local/configs?sslmode=disable
+        - -database.uri=postgres://postgres@configs-db.default.svc.cluster.local/configs?sslmode=disable
         - -database.migrations=/migrations
         ports:
         - containerPort: 80
@@ -993,7 +993,7 @@ spec:
         args:
         - -log.level=debug
         - -server.http-listen-port=80
-        - -consul.hostname=consul.variablename.svc.cluster.local:8500
+        - -consul.hostname=consul.default.svc.cluster.local:8500
         - -distributor.replication-factor=1
         ports:
         - containerPort: 80
@@ -1048,10 +1048,10 @@ spec:
         args:
         - -ingester.join-after=30s
         - -ingester.claim-on-rollout=true
-        - -consul.hostname=consul.variablename.svc.cluster.local:8500
+        - -consul.hostname=consul.default.svc.cluster.local:8500
         - -dynamodb.original-table-name=cortex
         - -chunk.storage-client=cassandra
-        - -cassandra.addresses=cassandra.variablename.svc.cluster.local
+        - -cassandra.addresses=cassandra.default.svc.cluster.local
         - -cassandra.keyspace=mayacortex
         - -dynamodb.periodic-table.prefix=cortex_weekly_
         - -dynamodb.periodic-table.from=2017-01-06
@@ -1061,7 +1061,7 @@ spec:
         - -dynamodb.v5-schema-from=2017-02-22
         - -dynamodb.v6-schema-from=2017-03-19
         - -dynamodb.chunk-table.from=2017-04-17
-        - -memcached.hostname=memcached.variablename.svc.cluster.local
+        - -memcached.hostname=memcached.default.svc.cluster.local
         - -memcached.timeout=100ms
         - -memcached.service=memcached
         ports:
@@ -1101,7 +1101,7 @@ spec:
         image: memcached:1.4.25
         imagePullPolicy: IfNotPresent
         args:
-        - -m 64 # Maximum memory to use, in megabytes. 64MB is variablename.
+        - -m 64 # Maximum memory to use, in megabytes. 64MB is default.
         - -p 11211 # Default port, but being explicit is nice.
         ports:
         - name: clients
@@ -1140,10 +1140,10 @@ spec:
         imagePullPolicy: IfNotPresent
         args:
         - -server.http-listen-port=80
-        - -consul.hostname=consul.variablename.svc.cluster.local:8500
+        - -consul.hostname=consul.default.svc.cluster.local:8500
         - -dynamodb.original-table-name=cortex
         - -chunk.storage-client=cassandra
-        - -cassandra.addresses=cassandra.variablename.svc.cluster.local
+        - -cassandra.addresses=cassandra.default.svc.cluster.local
         - -cassandra.keyspace=mayacortex
         - -dynamodb.periodic-table.prefix=cortex_weekly_
         - -dynamodb.periodic-table.from=2017-01-06
@@ -1153,7 +1153,7 @@ spec:
         - -dynamodb.v5-schema-from=2017-02-22
         - -dynamodb.v6-schema-from=2017-03-19
         - -dynamodb.chunk-table.from=2017-04-17
-        - -memcached.hostname=memcached.variablename.svc.cluster.local
+        - -memcached.hostname=memcached.default.svc.cluster.local
         - -memcached.timeout=100ms
         - -memcached.service=memcached
         - -distributor.replication-factor=1
@@ -1188,12 +1188,12 @@ spec:
         args:
         - -log.level=debug
         - -server.http-listen-port=80
-        - -ruler.configs.url=http://configs.variablename.svc.cluster.local:80
-        - -ruler.alertmanager-url=http://alertmanager.variablename.svc.cluster.local/api/prom/alertmanager/
-        - -consul.hostname=consul.variablename.svc.cluster.local:8500
+        - -ruler.configs.url=http://configs.default.svc.cluster.local:80
+        - -ruler.alertmanager-url=http://alertmanager.default.svc.cluster.local/api/prom/alertmanager/
+        - -consul.hostname=consul.default.svc.cluster.local:8500
         - -dynamodb.original-table-name=cortex
         - -chunk.storage-client=cassandra
-        - -cassandra.addresses=cassandra.variablename.svc.cluster.local
+        - -cassandra.addresses=cassandra.default.svc.cluster.local
         - -cassandra.keyspace=mayacortex
         - -dynamodb.periodic-table.prefix=cortex_weekly_
         - -dynamodb.periodic-table.from=2017-01-06
@@ -1203,7 +1203,7 @@ spec:
         - -dynamodb.v5-schema-from=2017-02-22
         - -dynamodb.v6-schema-from=2017-03-19
         - -dynamodb.chunk-table.from=2017-04-17
-        - -memcached.hostname=memcached.variablename.svc.cluster.local
+        - -memcached.hostname=memcached.default.svc.cluster.local
         - -memcached.timeout=100ms
         - -memcached.service=memcached
         - -distributor.replication-factor=1
@@ -1240,7 +1240,7 @@ spec:
         - -server.http-listen-port=80
         - -dynamodb.original-table-name=cortex
         - -chunk.storage-client=cassandra
-        - -cassandra.addresses=cassandra.variablename.svc.cluster.local
+        - -cassandra.addresses=cassandra.default.svc.cluster.local
         - -cassandra.keyspace=mayacortex
         - -dynamodb.periodic-table.prefix=cortex_weekly_
         - -dynamodb.periodic-table.from=2017-01-06
@@ -1278,7 +1278,7 @@ spec:
         - -server.http-listen-port=80
         - -storage.storage-client=cassandra
 #        - -cassandra.addresses=172.17.0.4
-        - -cassandra.addresses=cassandra.variablename.svc.cluster.local
+        - -cassandra.addresses=cassandra.default.svc.cluster.local
         - -cassandra.keyspace=mayaalerts
 #        - -storage.table-duration=5m
 #        - -cassandra.table-duration=5m
@@ -1316,7 +1316,7 @@ spec:
         - -server.http-listen-port=80
         - -storage.storage-client=cassandra
 #        - -cassandra.addresses=172.17.0.4
-        - -cassandra.addresses=cassandra.variablename.svc.cluster.local
+        - -cassandra.addresses=cassandra.default.svc.cluster.local
         - -cassandra.keyspace=mayaalerts
 #        - -cassandra.table-duration=5m
 #        - -tablemanager.table-duration=5m
@@ -1353,7 +1353,7 @@ data:
     [users]
     auto_assign_org = false
     # Default UI theme ("dark" or "light")
-    variablename_theme = light
+    default_theme = light
     [auth.proxy]
     enabled = true
     header_name = X-Scope-OrgID
@@ -1428,7 +1428,7 @@ kind: Service
 metadata:
   annotations:
   name: maya-grafana-service
-  namespace: variablename
+  namespace: default
 spec:
   ports:
   - nodePort: 30378
@@ -1452,7 +1452,7 @@ metadata:
   labels:
     k8s-app: kibana-logging
   name: kibana-logging
-  namespace: variablename
+  namespace: default
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -1492,7 +1492,7 @@ metadata:
   labels:
     k8s-app: kibana-logging
   name: kibana-logging
-  namespace: variablename
+  namespace: default
 spec:
   ports:
   - port: 5601
@@ -1522,9 +1522,9 @@ items:
     creationTimestamp: 2019-05-13T14:30:48Z
     generation: 5
     name: maya-auth-ingress
-    namespace: variablename
+    namespace: default
     resourceVersion: "4416837"
-    selfLink: /apis/extensions/v1beta1/namespaces/variablename/ingresses/maya-auth-ingress
+    selfLink: /apis/extensions/v1beta1/namespaces/default/ingresses/maya-auth-ingress
     uid: b3d51ca4-758b-11e9-9b05-0cc47a805c04
   spec:
     rules:
@@ -1569,7 +1569,7 @@ items:
       nginx.ingress.kubernetes.io/rewrite-target: /
       nginx.ingress.kubernetes.io/ssl-redirect: "false"
     name: maya-nginx-ingress
-    namespace: variablename
+    namespace: default
   spec:
     rules:
     - http:
@@ -1609,7 +1609,7 @@ kind: Deployment
 metadata:
   labels:
   name: maya-ui
-  namespace: variablename
+  namespace: default
 spec:
   selector:
     matchLabels:
@@ -1637,7 +1637,7 @@ metadata:
   labels:
     app: maya-ui
   name: maya-ui
-  namespace: variablename
+  namespace: default
 spec:
   ports:
   - name: maya-ui
@@ -1662,7 +1662,7 @@ metadata:
   labels:
     app: chat-server
   name: chat-server
-  namespace: variablename
+  namespace: default
 type: Opaque
 ---
 #maya-chat-server deployment
@@ -1672,7 +1672,7 @@ metadata:
   labels:
     app: chat-server
   name: chat-server
-  namespace: variablename
+  namespace: default
 spec:
   selector:
     matchLabels:
@@ -1721,7 +1721,7 @@ metadata:
   labels:
     app: chat-server
   name: chat-server
-  namespace: variablename
+  namespace: default
 spec:
   ports:
   - name: maya-chatops
@@ -1787,7 +1787,7 @@ spec:
         - name: maya-io
           args:
             - "--db-host"
-            - "mysql-0.mysql.variablename.svc.cluster.local"
+            - "mysql-0.mysql.default.svc.cluster.local"
             - "--db-user"
             - "maya"
             - "--db-pass"

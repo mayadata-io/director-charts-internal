@@ -16,7 +16,7 @@ spec:
         - name: maya-io
           args:
             - "--db-host"
-            - "mysql-0.mysql.variablename.svc.cluster.local"
+            - "mysql-0.mysql.default.svc.cluster.local"
             - "--db-user"
             - "maya"
             - "--db-pass"

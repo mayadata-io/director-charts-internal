@@ -4,7 +4,7 @@ metadata:
   labels:
     app: chat-server
   name: chat-server
-  namespace: variablename
+  namespace: default
 spec:
   selector:
     matchLabels:
@@ -53,7 +53,7 @@ metadata:
   labels:
     app: chat-server
   name: chat-server
-  namespace: variablename
+  namespace: default
 spec:
   ports:
   - name: maya-chatops

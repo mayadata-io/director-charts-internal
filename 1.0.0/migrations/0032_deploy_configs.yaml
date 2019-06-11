@@ -15,7 +15,7 @@ spec:
         imagePullPolicy: Always
         args:
         - -server.http-listen-port=80
-        - -database.uri=postgres://postgres@configs-db.variablename.svc.cluster.local/configs?sslmode=disable
+        - -database.uri=postgres://postgres@configs-db.default.svc.cluster.local/configs?sslmode=disable
         - -database.migrations=/migrations
         ports:
         - containerPort: 80

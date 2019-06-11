@@ -4,7 +4,7 @@ metadata:
   labels:
     k8s-app: kibana-logging
   name: kibana-logging
-  namespace: variablename
+  namespace: default
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -44,7 +44,7 @@ metadata:
   labels:
     k8s-app: kibana-logging
   name: kibana-logging
-  namespace: variablename
+  namespace: default
 spec:
   ports:
   - port: 5601

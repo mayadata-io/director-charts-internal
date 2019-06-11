@@ -17,7 +17,7 @@ spec:
         - -server.http-listen-port=80
         - -storage.storage-client=cassandra
 #        - -cassandra.addresses=172.17.0.4
-        - -cassandra.addresses=cassandra.variablename.svc.cluster.local
+        - -cassandra.addresses=cassandra.default.svc.cluster.local
         - -cassandra.keyspace=mayaalerts
 #        - -storage.table-duration=5m
 #        - -cassandra.table-duration=5m
