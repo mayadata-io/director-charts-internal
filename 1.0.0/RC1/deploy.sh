@@ -35,22 +35,16 @@ read botclientid
 echo bot client secret
 read botclientsecret
 
-eval "echo \"$(cat template.yml)\" > maya-config.yaml"
-sed -ri 's/(variablename)/'$NAMESPACE'/' "maya-config.yaml";
-kubectl apply -f maya-config.yaml;
+#export $botclientid
 
-for migration in $(ls migrations)
-do 
-  echo $migration | grep ".sh"; 
-  if [ $? == 0 ]; then 
-    echo $migration;
-    bash migrations/$migration;
-  else
-    echo "performing migration $migration ...";
-    sed -ri 's/(variablename)/'$NAMESPACE'/' "migrations/$migration";
-    kubectl apply -f migrations/$migration;
-    sleep 4;
-    echo "done migration $migration.";
-  fi
-done
+
+#git clone git@github.com:atulabhi/maya-hai-sab.git
+
+eval "echo \"$(cat template.yml)\" > deploy.yaml"
+
+cat operator.yaml >> deploy.yaml
+
+kubectl apply -f deploy.yaml
+
+
 
