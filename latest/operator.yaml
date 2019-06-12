@@ -1734,7 +1734,7 @@ spec:
           done
       containers:
       - name: alertstore
-        image: moteesh/alertstore:staging
+        image: index.docker.io/mayadata/alertstore:ci.ee
         imagePullPolicy: Always
         args:
         - -server.http-listen-port=80
@@ -1806,7 +1806,7 @@ spec:
           done
       containers:
       - name: alertstore-tablemanager
-        image: moteesh/alertstore-tablemanager:staging
+        image: ndex.docker.io/mayadata/alertstore-tablemanager:ci.ee
         imagePullPolicy: Always
         args:
         - -server.http-listen-port=80
@@ -1885,7 +1885,7 @@ spec:
         app: maya-grafana
     spec:
       containers:
-      - image: index.docker.io/mayadataio/graph-reporter:v1.11.5
+      - image: index.docker.io/mayadata/graph-reporter:ci.ee
         name: grafana-reporter
         imagePullPolicy: Always
         ports:
@@ -1895,7 +1895,7 @@ spec:
           value: "true"
         - name: GF_AUTH_ANONYMOUS_ENABLED
           value: "false"
-        image: index.docker.io/mayadata/maya-grafana:v1.11.2
+        image: index.docker.io/mayadata/maya-grafana:ci.ee
         imagePullPolicy: Always
         name: master-grafana
         ports:
@@ -2116,7 +2116,7 @@ spec:
         app: maya-ui
     spec:
       containers:
-      - image: index.docker.io/mayadataio/maya-ui:master-53d3efb3
+      - image: index.docker.io/mayadata/maya-ui:ci.ee
         imagePullPolicy: Always
         name: maya-ui
         resources:
@@ -2200,7 +2200,7 @@ spec:
             secretKeyRef:
               key: SLASH_COMMAND
               name: chat-server
-        image: mayadataio/maya-chatops:v1.11.10
+        image: mayadata/maya-chatops:ci.ee
         imagePullPolicy: Always
         name: chat-server
         resources:
@@ -2419,7 +2419,7 @@ spec:
             - "maya"
             - "--db-name"
             - "maya"
-          image: index.docker.io/mayadataio/maya-io-server:v1.11.42
+          image: index.docker.io/mayadata/maya-io-server:ci.ee
           imagePullPolicy: Always
           ports:
           - containerPort: 8080
