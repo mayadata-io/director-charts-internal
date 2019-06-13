@@ -20,8 +20,8 @@ Next milestone - RC1 (Delayed)
 ```
 ### Deploying OpenEBS Director
 1. Do git clone of the repositories (https://github.com/mayadata-io/enterprise-manifest.git).
-2. cd enterprise-manifest/1.0.0
-3. Execute deploy2.sh script and fill in the required values.
+2. cd /enterprise-manifest/1.0.0/RC1
+3. Execute deploy.sh script and fill in the required values.
 
 ```
     For Example:
@@ -43,20 +43,27 @@ Next milestone - RC1 (Delayed)
     bot client secret
     xxxx93387e8cxxxx7d4358197d9cxxxx
 ```
-4.Installation of MOD will start. you need to verify pods,configmap and pvc when requested by the script. once you verfify the same you need to press Enter in order to proceed to the next step.
+4.Installation of MOD will start.
 
 5.Wait till all the MOD pods come up in running state.
 
-6.You can open MOD webconsole in browser with the NodeIp provided in Step 4.
+6.You can open MOD webconsole in browser with the NodeIp provided in Step 3.
 
 Note:Pods take time to come in running state which you can verify by using watch kubectl get pods.
 
 ## Uninstalltion steps:
+
 1. Below command will clean up the MOD installation.
 
 ```
-kubectl delete -f enterprise-manifest/1.0.0/migrations/
+kubectl delete -f /enterprise-manifest/1.0.0/RC1/deploy.yaml
+
+kubectl delete pvc cassandra-data-cassandra-0 cassandra-data-cassandra-1 cassandra-data-cassandra-2 data-mysql-0 elasticsearch-logging-elasticsearch-logging-0
+
+kubectl delete jobs -l openebs.io/cas-type=jiva
+
 ```
+
 2.Cleaning up the repo:
 
   a. git reset --hard
