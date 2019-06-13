@@ -357,6 +357,7 @@ metadata:
   name: cassandra
   labels:
     app: cassandra
+  namespace: variablename
 spec:
   serviceName: cassandra
   replicas: 3
@@ -450,6 +451,7 @@ metadata:
   labels:
     app: cassandra
   name: cassandra
+  namespace: variablename
 spec:
   clusterIP: None
   ports:
@@ -691,7 +693,7 @@ spec:
       - emptyDir: {}
         name: conf
       - configMap:
-          variablenameMode: 420
+          defaultMode: 420
           name: mysql
         name: config-map
   volumeClaimTemplates:
@@ -848,6 +850,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: alertmanager
+  namespace: variablename
 spec:
   replicas: 1
   template:
@@ -921,6 +924,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: alertmanager
+  namespace: variablename
 spec:
   ports:
     - port: 80
@@ -966,6 +970,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: configs
+  namespace: variablename
 spec:
   replicas: 1
   template:
@@ -1023,6 +1028,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: configs
+  namespace: variablename
 spec:
   ports:
     - port: 80
@@ -1033,6 +1039,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: consul
+  namespace: variablename
 spec:
   replicas: 1
   template:
@@ -1067,6 +1074,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: consul
+  namespace: variablename
 spec:
   ports:
   - name: http
@@ -1078,6 +1086,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: distributor
+  namespace: variablename
 spec:
   replicas: 1
   template:
@@ -1151,6 +1160,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: distributor
+  namespace: variablename
 spec:
   ports:
     - port: 80
@@ -1161,6 +1171,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: ingester
+  namespace: variablename
 spec:
   replicas: 3
 
@@ -1292,6 +1303,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ingester
+  namespace: variablename
 spec:
   ports:
     - port: 80
@@ -1302,6 +1314,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: memcached
+  namespace: variablename
 spec:
   replicas: 1
   template:
@@ -1330,6 +1343,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: memcached
+  namespace: variablename
 spec:
   # The memcache client uses DNS to get a list of memcached servers and then
   # uses a consistent hash of the key to determine which server to pick.
@@ -1346,6 +1360,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: querier
+  namespace: variablename
 spec:
   replicas: 3
   template:
@@ -1449,6 +1464,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: querier
+  namespace: variablename
 spec:
   ports:
     - port: 80
@@ -1459,6 +1475,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: ruler
+  namespace: variablename
 spec:
   replicas: 1
   template:
@@ -1598,6 +1615,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ruler
+  namespace: variablename
 spec:
   ports:
     - port: 80
@@ -1608,6 +1626,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: table-manager
+  namespace: variablename
 spec:
   replicas: 1
   template:
@@ -1669,6 +1688,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: table-manager
+  namespace: variablename
 spec:
   ports:
     - port: 80
@@ -1680,6 +1700,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: alertstore
+  namespace: variablename
 spec:
   replicas: 1
   template:
@@ -1757,6 +1778,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: alertstore
+  namespace: variablename
 spec:
   type: ClusterIP
   ports:
@@ -1768,6 +1790,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: alertstore-tablemanager
+  namespace: variablename
 spec:
   replicas: 1
   template:
@@ -1829,6 +1852,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: alertstore-tablemanager
+  namespace: variablename
 spec:
   type: ClusterIP
   ports:
@@ -1843,6 +1867,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: maya-grafana-cfgmap
+  namespace: variablename
 data:
   grafana.ini: |
     #################################### Server ####################################
@@ -1868,6 +1893,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: grafana-claim
+  namespace: variablename
 spec:
   storageClassName: cstor-storage-class
   accessModes:
@@ -1883,6 +1909,7 @@ metadata:
   labels:
     app: maya-grafana
   name: maya-grafana
+  namespace: variablename
 spec:
   template:
     metadata:
@@ -2262,6 +2289,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mayastore
+  namespace: variablename
 spec:
   storageClassName: cstor-storage-class
   accessModes:
@@ -2274,7 +2302,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: sa-maya-io
-  namespace: default
+  namespace: variablename
 
 ---
 
@@ -2282,11 +2310,11 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
   name: crb-maya-io
-  namespace: default
+  namespace: variablename
 subjects:
 - kind: ServiceAccount
   name: sa-maya-io
-  namespace: default
+  namespace: variablename
 roleRef:
   kind: ClusterRole
   name: cluster-admin
@@ -2298,6 +2326,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: maya-io
+  namespace: variablename
 spec:
   replicas: 1
   strategy:
@@ -2474,6 +2503,7 @@ metadata:
   labels:
     app: maya-io
   name: maya-io
+  namespace: variablename
 spec:
   type: NodePort
   ports:
