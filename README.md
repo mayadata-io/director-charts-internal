@@ -69,6 +69,12 @@ kubectl delete jobs -l openebs.io/cas-type=jiva
   a. git reset --hard
   
   b. git clean -fd
+  
+3. Delete deploy.yaml file from /enterprise-manifest/1.0.0/RC1/
+
+```
+rm deploy.yaml
+```
 
 ## Steps to bring up MOD on Rancher
  < TO DO >
