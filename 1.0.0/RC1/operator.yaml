@@ -439,7 +439,7 @@ spec:
       name: cassandra-data
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: cstor-storage-class
+      storageClassName: openebs-hostpath
       resources:
         requests:
           storage: 40Gi
@@ -816,6 +816,15 @@ spec:
           privileged: true
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
+      - name: volume-mount-hack
+        image: busybox
+        imagePullPolicy: IfNotPresent
+        command: ["sh", "-c", "chown -R 1000:1000 /usr/share/elasticsearch/data"]
+        volumeMounts:
+        - name: elasticsearch-logging
+          mountPath: /usr/share/elasticsearch/data
+        securityContext:
+          privileged: true
       restartPolicy: Always
       schedulerName: variablename-scheduler
       securityContext:
@@ -832,7 +841,7 @@ spec:
       resources:
         requests:
           storage: 200Gi
-      storageClassName: cstor-storage-class    
+      storageClassName: openebs-hostpath
 ---
 #cortex deployment
 apiVersion: extensions/v1beta1
