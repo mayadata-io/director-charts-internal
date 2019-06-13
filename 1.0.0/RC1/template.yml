@@ -3,6 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: maya-config
+  namespace: variablename
 data:
   maya.properties: |
     api.ui.index=http://${URL}/ui/latest
