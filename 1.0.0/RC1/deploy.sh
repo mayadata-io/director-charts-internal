@@ -3,8 +3,6 @@ echo "ENTER NAMESPACE for OpenEBS Director"
 read NAMESPACE
 echo $NAMESPACE
 
-sed -ri 's/(variablename)/'$NAMESPACE'/' "operator.yaml"
-
 echo "ENTER URl for OpenEBS Director"
 read URL
 echo $URL
@@ -43,6 +41,9 @@ read botclientsecret
 eval "echo \"$(cat template.yml)\" > deploy.yaml"
 
 cat operator.yaml >> deploy.yaml
+
+sed -ri 's/(variablename)/'$NAMESPACE'/' "deploy.yaml"
+
 
 kubectl apply -f deploy.yaml
 
