@@ -687,7 +687,7 @@ spec:
         - mountPath: /etc/mysql/conf.d
           name: conf
       restartPolicy: Always
-      schedulerName: variablename-scheduler
+      schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
       volumes:
@@ -829,7 +829,7 @@ spec:
         securityContext:
           privileged: true
       restartPolicy: Always
-      schedulerName: variablename-scheduler
+      schedulerName: default-scheduler
       securityContext:
         fsGroup: 1000
       serviceAccount: elasticsearch-logging
