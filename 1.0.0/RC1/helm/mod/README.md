@@ -1,27 +1,24 @@
-OpenEBS
-=======
+Maya OpenEBS Director
+=====================
 
-[OpenEBS](https://github.com/openebs/openebs) is an open source storage platform that provides persistent and containerized block storage for DevOps and container environments.
-
-OpenEBS can be deployed on any Kubernetes cluster - either in cloud, on-premise or developer laptop (minikube). OpenEBS itself is deployed as just another container on your cluster, and enables storage services that can be designated on a per pod, application, cluster or container level.
 
 Introduction
 ------------
 
-This chart bootstraps OpenEBS deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+This chart bootstraps Maya OpenEBS Director on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
 ## Prerequisites
-- Kubernetes 1.7.5+ with RBAC enabled
+- Kubernetes 1.11.0+ with RBAC enabled
 - iSCSI PV support in the underlying infrastructure
 
-## Installing OpenEBS
+## Installing Maya OpenEBS Director
 ```
-helm install --namespace openebs stable/openebs
+helm install --namespace <yournamespace> latest/mod
 ```
 
-## Installing OpenEBS with the release name `my-release`:
+## Installing Maya OpenEBS Director with the release name `my-release`:
 ```
-helm install --name `my-release` --namespace openebs stable/openebs
+helm install --name `my-release` --namespace <yournamespace> <releases>/mod
 ```
 
 ## To uninstall/delete the `my-release` deployment:
@@ -33,7 +30,7 @@ helm delete `my-release`
 
 ## Configuration
 
-The following table lists the configurable parameters of the OpenEBS chart and their default values.
+The following table lists the configurable parameters of the Maya OpenEBS Director chart and their default values.
 
 | Parameter                               | Description                                   | Default                                   |
 | ----------------------------------------| --------------------------------------------- | ----------------------------------------- |
@@ -89,7 +86,7 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```shell
-helm install --name `my-release` -f values.yaml stable/openebs
+helm install --name `my-release` -f values.yaml latest/mod
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)

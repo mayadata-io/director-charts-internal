@@ -1,19 +1,17 @@
 apiVersion: v1
-version: 0.9.2
-name: openebs
-appVersion: 0.9.0
-description: Containerized Storage for Containers
+version: 1.0.0
+name: mod
+appVersion: 1.0.0
+description: Example description
 icon: https://raw.githubusercontent.com/openebs/chitrakala/master/OpenEBS%20logo/logo-square.png
-home: http://www.openebs.io/
+home: http://www.mayadata.io/
 keywords:
   - cloud-native-storage
   - block-storage
   - iSCSI
   - storage
 sources:
-  - https://github.com/openebs/openebs
+  - https://github.com/mayadata-io/enterprise-manifest
 maintainers:
-  - name: kmova
-    email: kiran.mova@openebs.io
-  - name: prateekpandey14
-    email: prateek.pandey@openebs.io
+  - name: moteesh
+    email: moteesh.reddy@mayadata.io
