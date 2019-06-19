@@ -1,0 +1,99 @@
+#TODO this will be removed when we use dockerhub public repos
+apiVersion: v1
+kind: Secret
+data:
+  .dockerconfigjson: ewoJImF1dGhzIjogewoJCSJodHRwczovL2luZGV4LmRvY2tlci5pby92MS8iOiB7CgkJCSJhdXRoIjogImJXRjVZV1JoZEdFNlRXRjVZVVJ2WTJ0bGNrQXhNak09IgoJCX0KCX0sCgkiSHR0cEhlYWRlcnMiOiB7CgkJIlVzZXItQWdlbnQiOiAiRG9ja2VyLUNsaWVudC8xNy4xMi4xLWNlIChsaW51eCkiCgl9Cn0=
+metadata:
+  name: mayadatasecret
+  namespace: variablename
+type: kubernetes.io/dockerconfigjson
+---
+---
+#elasticsearch service
+---
+--- 
+# RBAC authn and authz
+   
+---
+#elaticsearch sts
+---
+#cortex deployment
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+#alertstore deployment
+---
+---
+---
+---
+#grafana deployment
+#grafana configmap
+# grafana-config
+---
+#grafana pvc
+---
+#grafana deployment
+---
+#grafana svc
+---  
+#kibana deployment yaml
+---
+#kibana svc
+---
+#ingress
+---
+#maya-ui
+---
+#maya-ui svc
+---
+#chat serever secret
+apiVersion: v1
+data:
+  ADMIN_API_KEY: T0RsRk5qWkVRMFZGT0RkQ1JUTkdOekV3TVRJNmNUTjJkM2hsUW5Wa1NFaFJkbWd5WlhWYWNuaDFSRUp0TVVKeU9YYzJaa05HZFhsMWIyaFNNdz09
+  MAYA_SERVER_IP: aHR0cHM6Ly9hcHAubWF5YW9ubGluZS5pby92My8=
+  SERVER_ADDRESS: bWF5YW9ubGluZS5pbw==
+  SERVER_NAME: TWF5YU9ubGluZQ==
+  SIGNING_SECRET: OWNlZTAyNWI1ZTcxNmIxYjk4MDRiZGZmNGEyNzYyMzQ=
+  SLASH_COMMAND: L21heWE=
+  SUPPORT_EMAIL: c3VwcG9ydEBtYXlhZGF0YS5pbw==
+kind: Secret
+metadata:
+  labels:
+    app: chat-server
+  name: chat-server
+  namespace: variablename
+type: Opaque
+---
+#maya-chat-server deployment
+---
+#chat server svc 
+---
+#maya-io-pvc
+#grafana pvc
+---
+
+---
+
+
+---
+
+---
+---
+
