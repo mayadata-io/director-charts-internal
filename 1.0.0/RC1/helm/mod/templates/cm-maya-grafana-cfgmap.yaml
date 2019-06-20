@@ -14,7 +14,7 @@ data:
     [users]
     auto_assign_org = false
     # Default UI theme ("dark" or "light")
-    variablename_theme = light
+    default_theme = light
     [auth.proxy]
     enabled = true
     header_name = X-Scope-OrgID
