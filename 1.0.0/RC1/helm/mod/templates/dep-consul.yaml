@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: consul
-  namespace: {{ .Values.mod.namespace }}
+  namespace: {{ .Values.server.namespace }}
 spec:
   replicas: 1
   template:

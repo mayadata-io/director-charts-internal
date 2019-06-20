@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
   name: maya-ui
-  namespace: {{ .Values.mod.namespace }}
+  namespace: {{ .Values.server.namespace }}
 spec:
   selector:
     matchLabels:
@@ -21,7 +21,7 @@ spec:
           privileged: true
         env:
         - name: VENDOR
-          value: "mod"
+          value: "openebsdirector"
         command: ["sh","-c","./entrypoint.sh"]
         volumeMounts:
         - name: config-data
@@ -37,7 +37,7 @@ spec:
             memory: 512Mi
         env:
         - name: VENDOR
-          value: "mod"
+          value: "openebsdirector"
         volumeMounts:
         - name: config-data
           mountPath: /tmp/mo-vendor
@@ -46,5 +46,5 @@ spec:
           hostPath:
             path: /tmp/mo-vendor
       imagePullSecrets:
-      - name: {{ .Values.mod.dockersecret }}
+      - name: {{ .Values.server.dockersecret }}
 

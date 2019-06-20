@@ -4,9 +4,9 @@ metadata:
   labels:
     k8s-app: elasticsearch-logging
   name: elasticsearch-logging
-  namespace: {{ .Values.mod.namespace }}
+  namespace: {{ .Values.server.namespace }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.elasticsearch.replicas }}
   selector:
     matchLabels:
       k8s-app: elasticsearch-logging
@@ -50,7 +50,7 @@ spec:
         - mountPath: /usr/share/elasticsearch/data
           name: elasticsearch-logging
       imagePullSecrets:
-      - name: {{ .Values.mod.dockersecret }}
+      - name: {{ .Values.server.dockersecret }}
       initContainers:
       - command:
         - /sbin/sysctl

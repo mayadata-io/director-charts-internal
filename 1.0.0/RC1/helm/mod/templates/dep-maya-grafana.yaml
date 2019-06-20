@@ -4,7 +4,7 @@ metadata:
   labels:
     app: maya-grafana
   name: maya-grafana
-  namespace: {{ .Values.mod.namespace }}
+  namespace: {{ .Values.server.namespace }}
 spec:
   template:
     metadata:
@@ -36,7 +36,7 @@ spec:
         fsGroup: 107
         runAsUser: 104
       imagePullSecrets:
-      - name: {{ .Values.mod.dockersecret }}
+      - name: {{ .Values.server.dockersecret }}
       volumes:
       - configMap:
           name: maya-grafana-cfgmap

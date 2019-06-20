@@ -2,65 +2,51 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-rbac:
-  # Specifies whether RBAC resources should be created
-  create: true
-
-serviceAccount:
-  create: true
-  name:
-
-release:
-  # "mayadata.io/version" label for control plane components
-  version: "1.0.0"
-
-image:
-  pullPolicy: IfNotPresent
-
-mod:
+server:
   dockersecret: mayadatasecret
   namespace: default
-  INSTALL_NAMESPACE: default
   PROTOCOL: http
-  URL: 147.75.85.25
+  URL:
   API_AUTH_ACCESS_MODE: unrestricted
   SERVER_DEFAULT_ACCESS_GRANT: true
   API_UI_ENABLED: true
-  SETUP_NAME: mod-organizationname
+  SETUP_NAME: openebs-director
   API_AUTH_EXTERNAL_PROVIDER_ENABLED: true
-  API_AUTH_EXTERNAL_PROVIDER_CONFIGURED: true
+  API_AUTH_EXTERNAL_PROVIDER_CONFIGURED: githubconfig
   API_AUTH_INTERNAL_PROVIDER_ENABLED: false
-  API_AUTH_INTERNAL_PROVIDER_CONFIGURED: false
-  API_AUTH_ENABLER: github_user:1073250
-  API_AUTH_GITHUB_CLIENT_ID: 04e1a151827ecf0c20ff
-  API_AUTH_GITHUB_CLIENT_SECRET: 19b042fcaf547f1f593a6b4d66709bfd0d746ad7
-  API_AUTH_GOOGLE_CLIENT_ID: 
+  API_AUTH_INTERNAL_PROVIDER_CONFIGURED:
+  API_AUTH_ENABLER:
+  API_AUTH_GITHUB_CLIENT_ID:
+  API_AUTH_GITHUB_CLIENT_SECRET:
+  API_AUTH_GOOGLE_CLIENT_ID:
   API_AUTH_GOOGLE_CLIENT_SECRET:
   CLUSTER_DOMAIN: cluster.local
   FEATURE_SUBSCRIPTION_DISABLE: true
   SUBSCRIPTION_TYPE:
   FEATURE_BILLING_DISABLE: true
   BILLING_TYPE: external
-  FEATURE_EMAIL_DISABLE: false
-  SENDER_EMAIL_ADRESS: mod@mayadata.io
-  SENDER_EMAIL_ADRESS: password
-  FEATURE_DOCS_DISABLE: true
-  DOCS_URL: 147.75.85.25
-  FEATURE_CHATBOT_DISABLE: false
-  SLACK_CONFIG_BOT_CLIENT_ID: 300025606770.300026269266
-  SLACK_CONFIG_BOT_CLIENT_SECRET: 19b042fcaf547f1f593a6b4d66709bfd0d746ad7
-  SLACK_NOTIFICATION_WELCOME_MESSAGE: Hello\, this is a welcome message from your MuleBot at MayaOnline. This channel will be updated with Alert messages from your OpenEBS clusters. You can use /maya command to query the configuration and status of your clusters.
+  FEATURE_EMAIL_DISABLE: true
+  SENDER_EMAIL_ADRESS:
+  SENDER_EMAIL_PASSWORD:
+  FEATURE_DOCS_DISABLE: false
+  DOCS_URL: https://docs.mayaonline.io
+  FEATURE_CHATBOT_DISABLE: true
+  SLACK_CONFIG_BOT_CLIENT_ID:
+  SLACK_CONFIG_BOT_CLIENT_SECRET:
+  SLACK_NOTIFICATION_WELCOME_MESSAGE:
   FEATURE_KIALI_DISABLE: true
-  ANALYTICS_GOOGLE_CODE: UA-127388617-2
+  ANALYTICS_GOOGLE_CODE:
 
 mysql:
   storageclass: openebs-jiva-default
 
 elasticsearch:
   storageclass: openebs-hostpath
+  replicas: 1
 
 cassandra:
   storageclass: openebs-hostpath
+  replicas: 1
 
 mayastore:
   storageclass: cstor-storage-class
@@ -68,116 +54,11 @@ mayastore:
 grafana:
   storageclass: cstor-storage-class
 
+cortex:
+  replicationfactor: 1
+  timeout: 20s
 
+alertstore:
+  replicationfactor: 1
 
-
-
-#apiserver:
-#  image: "quay.io/openebs/m-apiserver"
-#  imageTag: "0.9.0"
-#  replicas: 1
-#  ports:
-#    externalPort: 5656
-#    internalPort: 5656
-#  sparse:
-#    enabled: "false"
-#  nodeSelector: {}
-#  tolerations: []
-#  affinity: {}
-#  healthCheck:
-#    initialDelaySeconds: 30
-#    periodSeconds: 60
-#
-#provisioner:
-#  image: "quay.io/openebs/openebs-k8s-provisioner"
-#  imageTag: "0.9.0"
-#  replicas: 1
-#  nodeSelector: {}
-#  tolerations: []
-#  affinity: {}
-#  healthCheck:
-#    initialDelaySeconds: 30
-#    periodSeconds: 60
-#
-#localprovisioner:
-#  image: "quay.io/openebs/provisioner-localpv"
-#  imageTag: "0.9.0"
-#  replicas: 1
-#  nodeSelector: {}
-#  tolerations: []
-#  affinity: {}
-#  healthCheck:
-#    initialDelaySeconds: 30
-#    periodSeconds: 60
-#
-#snapshotOperator:
-#  controller:
-#    image: "quay.io/openebs/snapshot-controller"
-#    imageTag: "0.9.0"
-#  provisioner:
-#    image: "quay.io/openebs/snapshot-provisioner"
-#    imageTag: "0.9.0"
-#  replicas: 1
-#  upgradeStrategy: "Recreate"
-#  nodeSelector: {}
-#  tolerations: []
-#  affinity: {}
-#  healthCheck:
-#    initialDelaySeconds: 30
-#    periodSeconds: 60
-#
-#ndm:
-#  image: "quay.io/openebs/node-disk-manager-amd64"
-#  imageTag: "v0.3.5"
-#  sparse:
-#    path: "/var/openebs/sparse"
-#    size: "10737418240"
-#    count: "1"
-#  filters:
-#    excludeVendors: "CLOUDBYT,OpenEBS"
-#    includePaths: ""
-#    excludePaths: "loop,fd0,sr0,/dev/ram,/dev/dm-,/dev/md"
-#  nodeSelector: {}
-#  healthCheck:
-#    initialDelaySeconds: 30
-#    periodSeconds: 60
-#
-#webhook:
-#  image: "quay.io/openebs/admission-server"
-#  imageTag: "0.9.0"
-#  generateTLS: true
-#  replicas: 1
-#  nodeSelector: {}
-#  tolerations: []
-#  affinity: {}
-#
-#jiva:
-#  image: "quay.io/openebs/jiva"
-#  imageTag: "0.9.0"
-#  replicas: 3
-#
-#cstor:
-#  pool:
-#    image: "quay.io/openebs/cstor-pool"
-#    imageTag: "0.9.0"
-#  poolMgmt:
-#    image: "quay.io/openebs/cstor-pool-mgmt"
-#    imageTag: "0.9.0"
-#  target:
-#    image: "quay.io/openebs/cstor-istgt"
-#    imageTag: "0.9.0"
-#  volumeMgmt:
-#    image: "quay.io/openebs/cstor-volume-mgmt"
-#    imageTag: "0.9.0"
-#
-#policies:
-#  monitoring:
-#    enabled: true
-#    image: "quay.io/openebs/m-exporter"
-#    imageTag: "0.9.0"
-#
-#analytics:
-#  enabled: true
-#  # Specify in hours the duration after which a ping event needs to be sent.
-#  pingInterval: "24h"
 
