@@ -8,61 +8,6 @@ metadata:
   namespace: variablename
 type: kubernetes.io/dockerconfigjson
 ---
----
-#elasticsearch service
----
---- 
-# RBAC authn and authz
-   
----
-#elaticsearch sts
----
-#cortex deployment
----
----
----
----
----
----
----
----
----
----
----
----
----
----
----
----
----
----
----
----
-#alertstore deployment
----
----
----
----
-#grafana deployment
-#grafana configmap
-# grafana-config
----
-#grafana pvc
----
-#grafana deployment
----
-#grafana svc
----  
-#kibana deployment yaml
----
-#kibana svc
----
-#ingress
----
-#maya-ui
----
-#maya-ui svc
----
 #chat serever secret
 apiVersion: v1
 data:
@@ -80,20 +25,5 @@ metadata:
   name: chat-server
   namespace: variablename
 type: Opaque
----
-#maya-chat-server deployment
----
-#chat server svc 
----
-#maya-io-pvc
-#grafana pvc
----
-
----
-
-
----
-
----
 ---
 

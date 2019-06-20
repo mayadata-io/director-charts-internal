@@ -44,5 +44,5 @@ spec:
             cpu: 100m
             memory: 256Mi
       imagePullSecrets:
-      - name: mayadatasecret
+      - name: {{ .Values.mod.dockersecret }}
 

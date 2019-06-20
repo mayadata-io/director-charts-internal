@@ -46,5 +46,5 @@ spec:
           hostPath:
             path: /tmp/mo-vendor
       imagePullSecrets:
-      - name: mayadatasecret
+      - name: {{ .Values.mod.dockersecret }}
 

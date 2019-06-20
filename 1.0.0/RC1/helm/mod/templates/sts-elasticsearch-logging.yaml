@@ -50,7 +50,7 @@ spec:
         - mountPath: /usr/share/elasticsearch/data
           name: elasticsearch-logging
       imagePullSecrets:
-      - name: mayadatasecret
+      - name: {{ .Values.mod.dockersecret }}
       initContainers:
       - command:
         - /sbin/sysctl

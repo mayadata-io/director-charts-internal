@@ -18,6 +18,7 @@ image:
   pullPolicy: IfNotPresent
 
 mod:
+  dockersecret: mayadatasecret
   namespace: default
   INSTALL_NAMESPACE: default
   PROTOCOL: http
