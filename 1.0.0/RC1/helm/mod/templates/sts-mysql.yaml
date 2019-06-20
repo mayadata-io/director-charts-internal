@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mysql
-  namespace: variablename
+  namespace: {{ .Values.mod.namespace }}
 spec:
   replicas: 1
   selector:
@@ -206,5 +206,5 @@ spec:
       resources:
         requests:
           storage: 100Gi
-      storageClassName: openebs-jiva-default
+      storageClassName: {{ .Values.mysql.storageclass }}
 

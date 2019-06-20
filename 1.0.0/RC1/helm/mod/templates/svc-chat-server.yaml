@@ -4,7 +4,7 @@ metadata:
   labels:
     app: chat-server
   name: chat-server
-  namespace: variablename
+  namespace: {{ .Values.mod.namespace }}
 spec:
   ports:
   - name: maya-chatops

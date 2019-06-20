@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
   name: maya-ui
-  namespace: variablename
+  namespace: {{ .Values.mod.namespace }}
 spec:
   selector:
     matchLabels:

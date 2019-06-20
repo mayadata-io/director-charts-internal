@@ -1,0 +1,62 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: maya-config
+  namespace: {{ .Values.mod.INSTALL_NAMESPACE }}
+data:
+  maya.properties: |
+    maya.server.url={{ .Values.mod.PROTOCOL }}://{{ .Values.mod.URL }}
+    external.svc.unauthorize.redirect.url={{ .Values.mod.PROTOCOL }}://{{ .Values.mod.URL }}/login
+    api.security.enabled=true
+    api.auth.access.mode={{ .Values.mod.API_AUTH_ACCESS_MODE }}
+    api.ui.index={{ .Values.mod.PROTOCOL }}://{{ .Values.mod.URL }}/ui/latest
+    server.default.access.grant={{ .Values.mod.SERVER_DEFAULT_ACCESS_GRANT }}
+    maya.api.ui.enabled={{ .Values.mod.API_UI_ENABLED }}
+    maya.setup.name={{ .Values.mod.SETUP_NAME }}
+    maya.ingress.auth=/mayastore/auth
+    api.auth.allowed.identities=:
+    api.auth.provider.identity.separator=,
+    api.auth.external.provider.enabled={{ .Values.mod.API_AUTH_EXTERNAL_PROVIDER_ENABLED }}
+    api.auth.external.provider.configured={{ .Values.mod.API_AUTH_EXTERNAL_PROVIDER_CONFIGURED }}
+    api.auth.internal.provider.enabled={{ .Values.mod.API_AUTH_INTERNAL_PROVIDER_ENABLED }}
+    api.auth.internal.provider.configured={{ .Values.mod.API_AUTH_INTERNAL_PROVIDER_CONFIGURED }}
+    api.github.scheme=https://
+    api.auth.enabler=github_user:{{ .Values.mod.API_AUTH_ENABLER }}
+    api.auth.github.client.id={{ .Values.mod.API_AUTH_GITHUB_CLIENT_ID }}
+    api.auth.github.client.secret={{ .Values.mod.API_AUTH_GITHUB_CLIENT_SECRET }}
+    api.auth.google.client.id={{ .Values.mod.API_AUTH_GOOGLE_CLIENT_ID }}
+    api.auth.google.client.secret={{ .Values.mod.API_AUTH_GOOGLE_CLIENT_SECRET }}
+    maya.cortex.push.url={{ .Values.mod.PROTOCOL }}://{{ .Values.mod.URL }}/maya-cortex-push/api/prom/push
+    maya.cortex.pull.url={{ .Values.mod.PROTOCOL }}://{{ .Values.mod.URL }}/maya-cortex-pull/api/prom
+    maya.cortex.configs.url={{ .Values.mod.PROTOCOL }}://{{ .Values.mod.URL }}/maya-cortex-configs/api/prom/configs/rules
+    maya.cortex.am.url={{ .Values.mod.PROTOCOL }}://{{ .Values.mod.URL }}/maya-cortex-am/api/prom/alertmanager/
+    maya.alertstore.url=http://alertstore.{{ .Values.mod.INSTALL_NAMESPACE }}.svc.{{ .Values.mod.CLUSTER_DOMAIN }}/
+    maya.alertstore.tablemanager.url=http://alertstore-tablemanager.{{ .Values.mod.INSTALL_NAMESPACE }}.svc.{{ .Values.mod.CLUSTER_DOMAIN }}/
+    maya.alertstore.ingress.url={{ .Values.mod.PROTOCOL }}://{{ .Values.mod.URL }}/alertstore/alerts
+    maya.grafana.admin.password=admin
+    maya.grafana.url=http://maya-grafana-service.{{ .Values.mod.INSTALL_NAMESPACE }}.svc.{{ .Values.mod.CLUSTER_DOMAIN }}:3000/
+    maya.grafana.reporter.url=http://maya-grafana-service.{{ .Values.mod.INSTALL_NAMESPACE }}.svc.{{ .Values.mod.CLUSTER_DOMAIN }}:8686/
+    maya.kibana.url=http://kibana-logging.{{ .Values.mod.INSTALL_NAMESPACE }}.svc.{{ .Values.mod.CLUSTER_DOMAIN }}:5601/
+    maya.elasticsearch.url=http://elasticsearch-logging.{{ .Values.mod.INSTALL_NAMESPACE }}.svc.{{ .Values.mod.CLUSTER_DOMAIN }}:9200/
+    maya.dmaas.cloud.agent.url=http://cloud-agent-service.{{ .Values.mod.INSTALL_NAMESPACE }}.svc.{{ .Values.mod.CLUSTER_DOMAIN }}:8880
+    feature.subscription.disable={{ .Values.mod.FEATURE_SUBSCRIPTION_DISABLE }}
+    maya.subscription.type={{ .Values.mod.SUBSCRIPTION_TYPE }}
+    feature.billing.disable={{ .Values.mod.FEATURE_BILLING_DISABLE }}
+    maya.billing.type={{ .Values.mod.BILLING_TYPE }}
+    feature.email.disable={{ .Values.mod.FEATURE_EMAIL_DISABLE }}
+    sender.email.address={{ .Values.mod.SENDER_EMAIL_ADRESS }}
+    sender.email.password={{ .Values.mod.SENDER_EMAIL_ADRESS }}
+    feature.docs.disable={{ .Values.mod.FEATURE_DOCS_DISABLE }}
+    maya.docs.url={{ .Values.mod.DOCS_URL }}
+    feature.mdape2e.disable=true
+    feature.tour.disable=true
+    feature.chatbot.disable={{ .Values.mod.FEATURE_CHATBOT_DISABLE }}
+    slack.config.bot.client.id={{ .Values.mod.SLACK_CONFIG_BOT_CLIENT_ID }}
+    slack.config.bot.client.secret={{ .Values.mod.SLACK_CONFIG_BOT_CLIENT_SECRET }}
+    slack.config.bot.oauth.url=https://slack.com/oauth/authorize?client_id={{ .Values.mod.SLACK_CONFIG_BOT_CLIENT_ID }}&scope=bot\,incoming-webhook\,commands
+    slack.notification.welcome.message={{ .Values.mod.SLACK_NOTIFICATION_WELCOME_MESSAGE }}
+    chatbot.alert.url={{ .Values.mod.PROTOCOL }}://{{ .Values.mod.URL }}/chat-server/maya-events
+    feature.kiali.disable={{ .Values.mod.FEATURE_KIALI_DISABLE }}
+    analytics.google.code={{ .Values.mod.ANALYTICS_GOOGLE_CODE }}
+---

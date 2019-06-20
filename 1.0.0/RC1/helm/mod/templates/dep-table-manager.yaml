@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: table-manager
-  namespace: variablename
+  namespace: {{ .Values.mod.namespace }}
 spec:
   replicas: 1
   template:
@@ -41,7 +41,7 @@ spec:
           do
              echo "wating for cassandra"
              sleep 2;
-             export COUNT=$(kubectl get pods -l app=cassandra -n variablename -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w cassandra | wc -l)
+             export COUNT=$(kubectl get pods -l app=cassandra -n {{ .Values.mod.namespace }} -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w cassandra | wc -l)
              echo $COUNT
           done
       containers:
@@ -52,7 +52,7 @@ spec:
         - -server.http-listen-port=80
         - -dynamodb.original-table-name=cortex
         - -chunk.storage-client=cassandra
-        - -cassandra.addresses=cassandra.variablename.svc.cluster.local
+        - -cassandra.addresses=cassandra.{{ .Values.mod.namespace }}.svc.cluster.local
         - -cassandra.keyspace=mayacortex
         - -dynamodb.periodic-table.prefix=cortex_weekly_
         - -dynamodb.periodic-table.from=2017-01-06

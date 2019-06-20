@@ -4,7 +4,7 @@ metadata:
   labels:
     app: maya-grafana
   name: maya-grafana
-  namespace: variablename
+  namespace: {{ .Values.mod.namespace }}
 spec:
   template:
     metadata:

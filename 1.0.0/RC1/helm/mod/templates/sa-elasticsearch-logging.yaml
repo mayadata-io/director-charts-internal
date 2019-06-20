@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: elasticsearch-logging
-  namespace: variablename
+  namespace: {{ .Values.mod.namespace }}
   labels:
     k8s-app: elasticsearch-logging
 

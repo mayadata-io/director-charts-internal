@@ -4,7 +4,7 @@ metadata:
   name: cassandra
   labels:
     app: cassandra
-  namespace: variablename
+  namespace: {{ .Values.mod.namespace }}
 spec:
   serviceName: cassandra
   replicas: 3
@@ -54,7 +54,7 @@ spec:
           - name: HEAP_NEWSIZE
             value: 100M
           - name: CASSANDRA_SEEDS
-            value: "cassandra-0.cassandra.variablename.svc.cluster.local"
+            value: "cassandra-0.cassandra.{{ .Values.mod.namespace }}.svc.cluster.local"
           - name: CASSANDRA_CLUSTER_NAME
             value: "K8Demo"
           - name: CASSANDRA_DC
@@ -87,7 +87,7 @@ spec:
       name: cassandra-data
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: openebs-hostpath
+      storageClassName: {{ .Values.cassandra.storageclass }}
       resources:
         requests:
           storage: 40Gi

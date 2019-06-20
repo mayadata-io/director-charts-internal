@@ -2,9 +2,9 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mayastore
-  namespace: variablename
+  namespace: {{ .Values.mod.namespace }}
 spec:
-  storageClassName: cstor-storage-class
+  storageClassName: {{ .Values.mayastore.storageclass }}
   accessModes:
   - ReadWriteOnce
   resources:

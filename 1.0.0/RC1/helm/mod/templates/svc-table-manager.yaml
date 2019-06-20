@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: table-manager
-  namespace: variablename
+  namespace: {{ .Values.mod.namespace }} 
 spec:
   ports:
     - port: 80

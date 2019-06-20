@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: configs-db
-  namespace: variablename
+  namespace: {{ .Values.mod.namespace }}
 spec:
   replicas: 1
   template:

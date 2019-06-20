@@ -17,17 +17,59 @@ release:
 image:
   pullPolicy: IfNotPresent
 
-mysqlconfig:
+mod:
   namespace: default
+  INSTALL_NAMESPACE: default
+  PROTOCOL: http
+  URL: 147.75.85.25
+  API_AUTH_ACCESS_MODE: unrestricted
+  SERVER_DEFAULT_ACCESS_GRANT: true
+  API_UI_ENABLED: true
+  SETUP_NAME: mod-organizationname
+  API_AUTH_EXTERNAL_PROVIDER_ENABLED: true
+  API_AUTH_EXTERNAL_PROVIDER_CONFIGURED: true
+  API_AUTH_INTERNAL_PROVIDER_ENABLED: false
+  API_AUTH_INTERNAL_PROVIDER_CONFIGURED: false
+  API_AUTH_ENABLER: github_user:1073250
+  API_AUTH_GITHUB_CLIENT_ID: 04e1a151827ecf0c20ff
+  API_AUTH_GITHUB_CLIENT_SECRET: 19b042fcaf547f1f593a6b4d66709bfd0d746ad7
+  API_AUTH_GOOGLE_CLIENT_ID: 
+  API_AUTH_GOOGLE_CLIENT_SECRET:
+  CLUSTER_DOMAIN: cluster.local
+  FEATURE_SUBSCRIPTION_DISABLE: true
+  SUBSCRIPTION_TYPE:
+  FEATURE_BILLING_DISABLE: true
+  BILLING_TYPE: external
+  FEATURE_EMAIL_DISABLE: false
+  SENDER_EMAIL_ADRESS: mod@mayadata.io
+  SENDER_EMAIL_ADRESS: password
+  FEATURE_DOCS_DISABLE: true
+  DOCS_URL: 147.75.85.25
+  FEATURE_CHATBOT_DISABLE: false
+  SLACK_CONFIG_BOT_CLIENT_ID: 300025606770.300026269266
+  SLACK_CONFIG_BOT_CLIENT_SECRET: 19b042fcaf547f1f593a6b4d66709bfd0d746ad7
+  SLACK_NOTIFICATION_WELCOME_MESSAGE: Hello\, this is a welcome message from your MuleBot at MayaOnline. This channel will be updated with Alert messages from your OpenEBS clusters. You can use /maya command to query the configuration and status of your clusters.
+  FEATURE_KIALI_DISABLE: true
+  ANALYTICS_GOOGLE_CODE: UA-127388617-2
 
-mysqlservice:
-  namespace: default
-  port: 3306
-
-mysqlstatefulset:
-  namespace: default
-  replicas: 1
+mysql:
   storageclass: openebs-jiva-default
+
+elasticsearch:
+  storageclass: openebs-hostpath
+
+cassandra:
+  storageclass: openebs-hostpath
+
+mayastore:
+  storageclass: cstor-storage-class
+
+grafana:
+  storageclass: cstor-storage-class
+
+
+
+
 
 #apiserver:
 #  image: "quay.io/openebs/m-apiserver"

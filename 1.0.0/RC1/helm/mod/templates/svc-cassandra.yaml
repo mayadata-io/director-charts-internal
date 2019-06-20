@@ -4,7 +4,7 @@ metadata:
   labels:
     app: cassandra
   name: cassandra
-  namespace: variablename
+  namespace: {{ .Values.mod.namespace }}
 spec:
   clusterIP: None
   ports:

@@ -3,7 +3,7 @@ kind: Service
 metadata:
   annotations:
   name: maya-grafana-service
-  namespace: variablename
+  namespace: {{ .Values.mod.namespace }} 
 spec:
   ports:
   - nodePort: 30378
