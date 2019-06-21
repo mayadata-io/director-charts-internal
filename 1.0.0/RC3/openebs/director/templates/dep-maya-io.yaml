@@ -15,7 +15,7 @@ spec:
       serviceAccountName: sa-maya-io
       initContainers:
       - name: mios-wait-for-crb
-        image: mayadataio/maya-init:latest
+        image: mayadataio/maya-init:v1.11.1
         command:
         - sh
         - "-c"
@@ -31,7 +31,7 @@ spec:
              echo $MAYA
           done
       - name: mios-wait-for-mysql
-        image: mayadataio/maya-init:latest
+        image: mayadataio/maya-init:v1.11.1
         command:
         - sh
         - "-c"
@@ -47,7 +47,7 @@ spec:
              echo $COUNT
           done
       - name: mios-wait-for-chat-server
-        image: mayadataio/maya-init:latest
+        image: mayadataio/maya-init:v1.11.1
         command:
         - sh
         - "-c"
@@ -63,7 +63,7 @@ spec:
              echo $COUNT
           done
       - name: mios-wait-for-maya-grafana-service
-        image: mayadataio/maya-init:latest
+        image: mayadataio/maya-init:v1.11.1
         command:
         - sh
         - "-c"
@@ -79,7 +79,7 @@ spec:
              echo $COUNT
           done
       - name: mios-wait-for-maya-ui
-        image: mayadataio/maya-init:latest
+        image: mayadataio/maya-init:v1.11.1
         command:
         - sh
         - "-c"
@@ -95,7 +95,7 @@ spec:
              echo $COUNT
           done
       - name: mios-wait-for-elasticsearch-logging
-        image: mayadataio/maya-init:latest
+        image: mayadataio/maya-init:v1.11.1
         command:
         - sh
         - "-c"
@@ -111,7 +111,7 @@ spec:
              echo $COUNT
           done
       - name: mios-wait-for-kibana-logging
-        image: mayadataio/maya-init:latest
+        image: mayadataio/maya-init:v1.11.1
         command:
         - sh
         - "-c"
@@ -127,7 +127,7 @@ spec:
              echo $COUNT
           done
       - name: mios-wait-for-alertstore-tablemanager
-        image: mayadataio/maya-init:latest
+        image: mayadataio/maya-init:v1.11.1
         command:
         - sh
         - "-c"

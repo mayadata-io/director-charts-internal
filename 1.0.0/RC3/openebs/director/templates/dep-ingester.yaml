@@ -35,7 +35,7 @@ spec:
       serviceAccountName: sa-maya-io
       initContainers:
       - name: in-wait-for-crb
-        image: mayadataio/maya-init:latest
+        image: mayadataio/maya-init:v1.11.1
         command:
         - sh
         - "-c"
@@ -51,7 +51,7 @@ spec:
              echo $MAYA
           done
       - name: in-wait-for-cassandra
-        image: mayadataio/maya-init:latest
+        image: mayadataio/maya-init:v1.11.1
         command:
         - sh
         - "-c"
@@ -67,7 +67,7 @@ spec:
              echo $COUNT
           done
       - name: in-wait-for-consul
-        image: mayadataio/maya-init:latest
+        image: mayadataio/maya-init:v1.11.1
         command:
         - sh
         - "-c"
@@ -83,7 +83,7 @@ spec:
              echo $COUNT
           done
       - name: in-wait-for-table-manager
-        image: mayadataio/maya-init:latest
+        image: mayadataio/maya-init:v1.11.1
         command:
         - sh
         - "-c"
