@@ -4,7 +4,7 @@ metadata:
   name: ingester
   namespace: {{ .Values.server.namespace }}
 spec:
-  replicas: 3
+  replicas: {{ .Values.ingester.replicas }}
 
   # Ingesters are not ready for at least 1 min
   # after creation.  This has to be in sync with

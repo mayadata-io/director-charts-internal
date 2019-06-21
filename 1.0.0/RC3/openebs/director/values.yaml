@@ -66,4 +66,10 @@ cortex:
 alertstore:
   replicationfactor: 1
 
+ingester:
+  replicas: 1
+
+querier:
+  replicas: 1
+
 
