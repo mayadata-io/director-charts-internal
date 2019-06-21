@@ -205,6 +205,6 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: 100Gi
+          storage: {{ .Values.mysql.storagecapacity }}
       storageClassName: {{ .Values.mysql.storageclass }}
 

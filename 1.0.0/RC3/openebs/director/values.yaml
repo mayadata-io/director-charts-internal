@@ -39,21 +39,25 @@ server:
 
 mysql:
   storageclass: openebs-jiva-default
+  storagecapacity: 50Gi
 
 elasticsearch:
   storageclass: openebs-hostpath
+  storagecapacity: 50Gi
   replicas: 1
 
 cassandra:
   storageclass: openebs-hostpath
-  storagecapacity: 100Gi
+  storagecapacity: 50Gi
   replicas: 1
 
 mayastore:
   storageclass: cstor-storage-class
+  storagecapacity: 10Gi
 
 grafana:
   storageclass: cstor-storage-class
+  storagecapacity: 50Gi
 
 cortex:
   replicationfactor: 1

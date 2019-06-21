@@ -88,6 +88,6 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: 200Gi
+          storage: {{ .Values.elasticsearch.storagecapacity }}
       storageClassName: {{ .Values.elasticsearch.storageclass }}
 
