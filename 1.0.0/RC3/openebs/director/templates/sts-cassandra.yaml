@@ -90,5 +90,5 @@ spec:
       storageClassName: {{ .Values.cassandra.storageclass }}
       resources:
         requests:
-          storage: 40Gi
+          storage: {{ .Values.cassandra.storagecapacity }}
 

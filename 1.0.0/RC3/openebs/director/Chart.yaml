@@ -11,7 +11,7 @@ keywords:
   - iSCSI
   - storage
 sources:
-  - https://github.com/mayadata-io/enterprise-manifest
+  - https://github.com/mayadata-io/openebs-director-charts.git
 maintainers:
   - name: moteesh
     email: moteesh.reddy@mayadata.io

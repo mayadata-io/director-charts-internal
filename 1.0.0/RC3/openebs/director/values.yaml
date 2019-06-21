@@ -46,6 +46,7 @@ elasticsearch:
 
 cassandra:
   storageclass: openebs-hostpath
+  storagecapacity: 100Gi
   replicas: 1
 
 mayastore:
