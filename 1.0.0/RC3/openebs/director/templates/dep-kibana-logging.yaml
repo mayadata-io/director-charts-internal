@@ -22,7 +22,7 @@ spec:
       - env:
         - name: SERVER_BASEPATH
           value: /kibana
-        image: mayadataio/kibana:{{ .Values.server.release }}
+        image: registry.mayadata.io/kibana:{{ .Values.server.release }}
         imagePullPolicy: Always
         name: kibana-logging
         ports:
