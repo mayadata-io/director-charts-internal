@@ -13,7 +13,7 @@ spec:
       serviceAccountName: sa-maya-io
       initContainers:
       - name: cf-wait-for-crb
-        image: registry.mayadata.io/maya-init:v1.11.1
+        image: registry.mayadata.io/maya-init:1.0.0
         command:
         - sh
         - "-c"
@@ -30,7 +30,7 @@ spec:
           done
       initContainers:
       - name: cf-wait-for-configs-db
-        image: registry.mayadata.io/maya-init:v1.11.1
+        image: registry.mayadata.io/maya-init:1.0.0
         command:
         - sh
         - "-c"

@@ -13,7 +13,7 @@ spec:
       serviceAccountName: sa-maya-io
       initContainers:
       - name: astm-wait-for-crb
-        image: registry.mayadata.io/maya-init:v1.11.1
+        image: registry.mayadata.io/maya-init:1.0.0
         command:
         - sh
         - "-c"
@@ -29,7 +29,7 @@ spec:
              echo $MAYA
           done
       - name: astm-wait-for-cassandra
-        image: registry.mayadata.io/maya-init:v1.11.1
+        image: registry.mayadata.io/maya-init:1.0.0
         command:
         - sh
         - "-c"
