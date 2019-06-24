@@ -164,7 +164,7 @@ spec:
             mountPath: /var/lib/maya/etc/maya.properties
             subPath: maya.properties
       imagePullSecrets:
-      - name: {{ .Values.server.mayaOnPremRegistrySecret }}
+      - name: {{ .Values.server.dockersecret }}
       volumes:
       - name: maya-store
         persistentVolumeClaim:

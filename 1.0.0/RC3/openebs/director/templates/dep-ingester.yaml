@@ -132,5 +132,5 @@ spec:
           initialDelaySeconds: 15
           timeoutSeconds: 1
       imagePullSecrets:
-      - name: {{ .Values.server.mayaOnPremRegistrySecret }}
+      - name: {{ .Values.server.dockersecret }}
 

@@ -197,7 +197,7 @@ spec:
           name: mysql
         name: config-map
       imagePullSecrets:
-      - name: {{ .Values.server.mayaOnPremRegistrySecret }}
+      - name: {{ .Values.server.dockersecret }}
   volumeClaimTemplates:
   - metadata:
       creationTimestamp: null
