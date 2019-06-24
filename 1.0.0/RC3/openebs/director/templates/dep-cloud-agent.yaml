@@ -22,4 +22,4 @@ spec:
             - containerPort: 8880
               protocol: TCP
       imagePullSecrets:
-      - name: {{ .Values.server.mayaonprem-registry-secret }}
+      - name: {{ .Values.server.mayaOnPremRegistrySecret }}

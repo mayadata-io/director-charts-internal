@@ -35,5 +35,5 @@ spec:
           requests:
             cpu: 100m
       imagePullSecrets:
-      - name: {{ .Values.server.mayaonprem-registry-secret }}
+      - name: {{ .Values.server.mayaOnPremRegistrySecret }}
 

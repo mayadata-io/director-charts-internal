@@ -44,5 +44,5 @@ spec:
             cpu: 100m
             memory: 256Mi
       imagePullSecrets:
-      - name: {{ .Values.server.mayaonprem-registry-secret }}
+      - name: {{ .Values.server.mayaOnPremRegistrySecret }}
 

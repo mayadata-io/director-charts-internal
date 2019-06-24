@@ -36,7 +36,7 @@ spec:
         fsGroup: 107
         runAsUser: 104
       imagePullSecrets:
-      - name: {{ .Values.server.mayaonprem-registry-secret }}
+      - name: {{ .Values.server.mayaOnPremRegistrySecret }}
       volumes:
       - configMap:
           name: maya-grafana-cfgmap

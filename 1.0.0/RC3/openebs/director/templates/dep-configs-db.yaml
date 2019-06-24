@@ -22,5 +22,5 @@ spec:
         ports:
         - containerPort: 5432
       imagePullSecrets:
-      - name: {{ .Values.server.mayaonprem-registry-secret }}
+      - name: {{ .Values.server.mayaOnPremRegistrySecret }}
 

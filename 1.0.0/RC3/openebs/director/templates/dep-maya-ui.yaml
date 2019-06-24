@@ -42,7 +42,7 @@ spec:
         - name: config-data
           mountPath: /tmp/mo-vendor
       imagePullSecrets:
-      - name: {{ .Values.server.mayaonprem-registry-secret }}
+      - name: {{ .Values.server.mayaOnPremRegistrySecret }}
       volumes:
         - name: config-data
           hostPath:
