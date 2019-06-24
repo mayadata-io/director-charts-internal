@@ -1,4 +1,4 @@
-# Default values for Maya OpenEBS Director.
+# Default values for MayaOnprem.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -11,7 +11,7 @@ server:
   API_AUTH_ACCESS_MODE: unrestricted
   SERVER_DEFAULT_ACCESS_GRANT: true
   API_UI_ENABLED: true
-  SETUP_NAME: openebs-director
+  SETUP_NAME: mayaonprem
   API_AUTH_EXTERNAL_PROVIDER_ENABLED: true
   API_AUTH_EXTERNAL_PROVIDER_CONFIGURED: githubconfig
   API_AUTH_INTERNAL_PROVIDER_ENABLED: false
