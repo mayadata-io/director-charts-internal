@@ -32,4 +32,6 @@ spec:
           containerPort: 8400
         - name: http-noscrape
           containerPort: 8500
+      imagePullSecrets:
+      - name: {{ .Values.server.dockersecret }}
 

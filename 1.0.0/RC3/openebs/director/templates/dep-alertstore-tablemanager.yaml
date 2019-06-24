@@ -13,7 +13,7 @@ spec:
       serviceAccountName: sa-maya-io
       initContainers:
       - name: astm-wait-for-crb
-        image: mayadataio/maya-init:v1.11.1
+        image: registry.mayadata.io/maya-init:1.0.0
         command:
         - sh
         - "-c"
@@ -29,7 +29,7 @@ spec:
              echo $MAYA
           done
       - name: astm-wait-for-cassandra
-        image: mayadataio/maya-init:v1.11.1
+        image: registry.mayadata.io/maya-init:1.0.0
         command:
         - sh
         - "-c"
@@ -46,7 +46,7 @@ spec:
           done
       containers:
       - name: alertstore-tablemanager
-        image: index.docker.io/mayadata/alertstore-tablemanager:1.0.0-RC1.ee
+        image: registry.mayadata.io/alertstore-tablemanager:{{ .Values.server.release }}
         imagePullPolicy: Always
         args:
         - -server.http-listen-port=80
@@ -57,4 +57,6 @@ spec:
         - -log.level=debug
         ports:
         - containerPort: 80
+      imagePullSecrets:
+      - name: {{ .Values.server.dockersecret }}
 

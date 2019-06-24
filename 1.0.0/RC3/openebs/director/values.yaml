@@ -3,7 +3,8 @@
 # Declare variables to be passed into your templates.
 
 server:
-  dockersecret: mayadatasecret
+  release: 1.0.0-RC3.ee
+  dockersecret: mayaonprem-registry-secret
   namespace: default
   PROTOCOL: http
   URL:
@@ -61,7 +62,7 @@ grafana:
 
 cortex:
   replicationfactor: 1
-  timeout: 20s
+  timeout: 5s
 
 alertstore:
   replicationfactor: 1

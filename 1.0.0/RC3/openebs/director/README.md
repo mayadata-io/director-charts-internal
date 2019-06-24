@@ -10,6 +10,7 @@ This chart bootstraps Maya OpenEBS Director on a [Kubernetes](http://kubernetes.
 ## Prerequisites
 - Kubernetes 1.11.0+ with RBAC enabled
 - iSCSI PV support in the underlying infrastructure
+- Create a secret with docker registry credentials and use it during helm install as parameter for value 'dockersecret'
 
 ## Installing Maya OpenEBS Director
 ```

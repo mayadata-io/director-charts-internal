@@ -27,7 +27,7 @@ spec:
           value: "false"
         - name: ES_JAVA_OPTS
           value: -Xms512m -Xmx512m
-        image: mayadataio/elasticsearch-search-guard:88a263ec
+        image: registry.mayadata.io/elasticsearch-search-guard:{{ .Values.server.release }}
         imagePullPolicy: IfNotPresent
         name: elasticsearch-logging
         ports:
@@ -79,6 +79,8 @@ spec:
         fsGroup: 1000
       serviceAccount: elasticsearch-logging
       serviceAccountName: elasticsearch-logging
+      imagePullSecrets:
+      - name: {{ .Values.server.dockersecret }}
   volumeClaimTemplates:
   - metadata:
       annotations:

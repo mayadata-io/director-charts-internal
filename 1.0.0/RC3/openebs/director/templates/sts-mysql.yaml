@@ -196,6 +196,8 @@ spec:
           defaultMode: 420
           name: mysql
         name: config-map
+      imagePullSecrets:
+      - name: {{ .Values.server.dockersecret }}
   volumeClaimTemplates:
   - metadata:
       creationTimestamp: null
