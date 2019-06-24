@@ -8,6 +8,8 @@ server:
   namespace: default
   PROTOCOL: http
   URL:
+  httpNodePort: 30380
+  httpsNodePort: 30381
   API_AUTH_ACCESS_MODE: unrestricted
   SERVER_DEFAULT_ACCESS_GRANT: true
   API_UI_ENABLED: true
