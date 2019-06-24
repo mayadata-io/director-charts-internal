@@ -62,7 +62,7 @@ spec:
           done
       containers:
       - name: alertstore
-        image: index.docker.io/mayadata/alertstore:1.0.0-RC1.ee
+        image: index.docker.io/mayadata/alertstore:{{ .Values.server.release }}
         imagePullPolicy: Always
         args:
         - -server.http-listen-port=80

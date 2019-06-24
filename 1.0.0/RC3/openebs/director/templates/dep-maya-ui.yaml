@@ -15,7 +15,7 @@ spec:
     spec:
       initContainers:
       - name: config-data
-        image: mayadata/vendor:1.0.0-RC1.ee
+        image: mayadata/vendor:{{ .Values.server.release }}
         imagePullPolicy: Always
         securityContext:
           privileged: true
@@ -28,7 +28,7 @@ spec:
           mountPath: /tmp/mo-vendor
           mountPropagation: Bidirectional
       containers:
-      - image: index.docker.io/mayadata/maya-ui:1.0.0-RC1.ee
+      - image: index.docker.io/mayadata/maya-ui:{{ .Values.server.release }}
         imagePullPolicy: Always
         name: maya-ui
         resources:

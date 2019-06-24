@@ -153,7 +153,7 @@ spec:
             - "maya"
             - "--db-name"
             - "maya"
-          image: index.docker.io/mayadata/maya-io-server:1.0.0-RC1.ee
+          image: index.docker.io/mayadata/maya-io-server:{{ .Values.server.release }}
           imagePullPolicy: Always
           ports:
           - containerPort: 8080

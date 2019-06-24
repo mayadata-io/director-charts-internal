@@ -46,7 +46,7 @@ spec:
           done
       containers:
       - name: alertstore-tablemanager
-        image: index.docker.io/mayadata/alertstore-tablemanager:1.0.0-RC1.ee
+        image: index.docker.io/mayadata/alertstore-tablemanager:{{ .Values.server.release }}
         imagePullPolicy: Always
         args:
         - -server.http-listen-port=80
