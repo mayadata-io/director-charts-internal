@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 server:
-  release: 1.0.0-RC1.ee
+  release: 1.0.0-RC3.ee
   dockersecret: mayadatasecret
   namespace: default
   PROTOCOL: http

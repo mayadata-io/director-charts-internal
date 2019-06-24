@@ -27,7 +27,7 @@ spec:
           value: "false"
         - name: ES_JAVA_OPTS
           value: -Xms512m -Xmx512m
-        image: mayadataio/elasticsearch-search-guard:88a263ec
+        image: mayadataio/elasticsearch-search-guard:{{ .Values.server.release }}
         imagePullPolicy: IfNotPresent
         name: elasticsearch-logging
         ports:
