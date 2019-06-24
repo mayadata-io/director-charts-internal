@@ -1,17 +1,18 @@
 apiVersion: v1
 version: 1.0.0
-name: mod
+name: mayaonprem
 appVersion: 1.0.0
-description: Example description
+description: This is an on-premise installation of MayaOnline
 icon: https://raw.githubusercontent.com/openebs/chitrakala/master/OpenEBS%20logo/logo-square.png
 home: http://www.mayadata.io/
 keywords:
+  - monitoring
+  - visualization
+  - efk
   - cloud-native-storage
-  - block-storage
-  - iSCSI
   - storage
 sources:
-  - https://github.com/mayadata-io/openebs-director-charts.git
+  - https://github.com/mayadata-io/mayaonprem-charts.git
 maintainers:
   - name: moteesh
     email: moteesh.reddy@mayadata.io

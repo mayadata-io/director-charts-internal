@@ -1,36 +1,36 @@
-Maya OpenEBS Director
+Maya On prem
 =====================
 
 
 Introduction
 ------------
 
-This chart bootstraps Maya OpenEBS Director on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+This chart bootstraps MayaOnprem on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
 ## Prerequisites
 - Kubernetes 1.11.0+ with RBAC enabled
 - iSCSI PV support in the underlying infrastructure
 - Create a secret with docker registry credentials and use it during helm install as parameter for value 'dockersecret'
 
-## Installing Maya OpenEBS Director
+## Installing MayaOnprem
 ```
 helm install --namespace <yournamespace> openebs/director
 ```
 
 ## Configuration
 
-The following table lists the configurable parameters of the Maya OpenEBS Director chart and their default values.
+The following table lists the configurable parameters of the MayaOnprem chart and their default values.
 
 | Parameter                                       | Description                                   | Default                                   |
 | ------------------------------------------------|-----------------------------------------------| ------------------------------------------|
 | `server.dockersecret`                           | Docker secret for pulling the images          |      none                                 |
-| `server.namespace`                              | Namespace for OpenEBS Director installations  |      default                              |
+| `server.namespace`                              | Namespace for MayaOnprem installations  |      default                              |
 | `server.PROTOCOL`                               | http/https protocol for accessing the UI      |      http                                 |
 | `server.URL`                                    | URL/IP address:port for UI                    |      none                                 |
 | `server.API_AUTH_ACCESS_MODE`                   | TBD                                           |      unrestricted                         |
 | `server.SERVER_DEFAULT_ACCESS_GRANT`            | TBD                                           |      true                                 |
 | `server.API_UI_ENABLED`                         | TBD                                           |      true                                 |
-| `server.SETUP_NAME`                             | TBD                                           |      openebs-director                     |
+| `server.SETUP_NAME`                             | TBD                                           |      mayaonprem                     |
 | `server.API_AUTH_EXTERNAL_PROVIDER_ENABLED`     | TBD                                           |      true                                 |
 | `server.API_AUTH_EXTERNAL_PROVIDER_CONFIGURED`  | TBD                                           |      githubconfig                         |
 | `server.API_AUTH_INTERNAL_PROVIDER_ENABLED`     | TBD                                           |      false                                |
