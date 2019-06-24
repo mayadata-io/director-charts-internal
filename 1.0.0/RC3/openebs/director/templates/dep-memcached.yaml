@@ -26,4 +26,6 @@ spec:
           runAsUser: 1000
       securityContext:
         fsGroup: 1000
+      imagePullSecrets:
+      - name: {{ .Values.server.mayaonprem-registry-secret }}
 

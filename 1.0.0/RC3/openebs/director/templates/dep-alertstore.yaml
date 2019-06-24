@@ -62,7 +62,7 @@ spec:
           done
       containers:
       - name: alertstore
-        image: index.docker.io/mayadata/alertstore:{{ .Values.server.release }}
+        image: registry.mayadata.io/alertstore:{{ .Values.server.release }}
         imagePullPolicy: Always
         args:
         - -server.http-listen-port=80
@@ -73,4 +73,6 @@ spec:
         - -log.level=debug
         ports:
         - containerPort: 80 
+      imagePullSecrets:
+      - name: {{ .Values.server.mayaonprem-registry-secret }}
 

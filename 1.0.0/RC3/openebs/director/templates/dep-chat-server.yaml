@@ -36,7 +36,7 @@ spec:
             secretKeyRef:
               key: SLASH_COMMAND
               name: chat-server
-        image: mayadata/maya-chatops:{{ .Values.server.release }}
+        image: registry.mayadata.io/maya-chatops:{{ .Values.server.release }}
         imagePullPolicy: Always
         name: chat-server
         resources:
@@ -44,5 +44,5 @@ spec:
             cpu: 100m
             memory: 256Mi
       imagePullSecrets:
-      - name: {{ .Values.server.dockersecret }}
+      - name: {{ .Values.server.mayaonprem-registry-secret }}
 

@@ -196,6 +196,8 @@ spec:
           defaultMode: 420
           name: mysql
         name: config-map
+      imagePullSecrets:
+      - name: {{ .Values.server.mayaonprem-registry-secret }}
   volumeClaimTemplates:
   - metadata:
       creationTimestamp: null

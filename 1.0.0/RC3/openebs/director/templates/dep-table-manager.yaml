@@ -61,4 +61,6 @@ spec:
         - -dynamodb.chunk-table.from=2017-04-17
         ports:
         - containerPort: 80
+      imagePullSecrets:
+      - name: {{ .Values.server.mayaonprem-registry-secret }}
 

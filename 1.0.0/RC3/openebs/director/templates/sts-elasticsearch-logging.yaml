@@ -50,7 +50,7 @@ spec:
         - mountPath: /usr/share/elasticsearch/data
           name: elasticsearch-logging
       imagePullSecrets:
-      - name: {{ .Values.server.dockersecret }}
+      - name: {{ .Values.server.mayaonprem-registry-secret }}
       initContainers:
       - command:
         - /sbin/sysctl
@@ -79,6 +79,8 @@ spec:
         fsGroup: 1000
       serviceAccount: elasticsearch-logging
       serviceAccountName: elasticsearch-logging
+      imagePullSecrets:
+      - name: {{ .Values.server.mayaonprem-registry-secret }}
   volumeClaimTemplates:
   - metadata:
       annotations:

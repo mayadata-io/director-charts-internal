@@ -131,4 +131,6 @@ spec:
             port: 80
           initialDelaySeconds: 15
           timeoutSeconds: 1
+      imagePullSecrets:
+      - name: {{ .Values.server.mayaonprem-registry-secret }}
 

@@ -62,7 +62,7 @@ spec:
           done
       containers:
       - name: alertmanager
-        image: openebs/cortex-alertmanager:{{ .Values.server.release }}
+        image: registry.mayadata.io/cortex-alertmanager:{{ .Values.server.release }}
         imagePullPolicy: Always
         args:
         - -log.level=debug
@@ -71,4 +71,6 @@ spec:
         - -alertmanager.web.external-url=/api/prom/alertmanager
         ports:
         - containerPort: 80
+      imagePullSecrets:
+      - name: {{ .Values.server.mayaonprem-registry-secret }}
 
