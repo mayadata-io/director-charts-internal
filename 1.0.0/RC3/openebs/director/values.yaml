@@ -6,7 +6,7 @@ server:
   release: 1.0.0-RC3.ee
   dockerSecret: mayaonprem-registry-secret
   namespace: default
-  PROTOCOL: http
+  protocol: http
   URL:
   httpNodePort: 30380
   httpsNodePort: 30381

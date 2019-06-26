@@ -25,7 +25,7 @@ The following table lists the configurable parameters of the MayaOnprem chart an
 | ------------------------------------------------|-----------------------------------------------| ------------------------------------------|
 | `server.dockerSecret`                           | Docker secret for pulling the images          |      none                                 |
 | `server.namespace`                              | Namespace for MayaOnprem installations  |      default                              |
-| `server.PROTOCOL`                               | http/https protocol for accessing the UI      |      http                                 |
+| `server.protocol`                               | http/https protocol for accessing the UI      |      http                                 |
 | `server.URL`                                    | URL/IP address:port for UI                    |      none                                 |
 | `server.API_AUTH_ACCESS_MODE`                   | TBD                                           |      unrestricted                         |
 | `server.SERVER_DEFAULT_ACCESS_GRANT`            | TBD                                           |      true                                 |
