@@ -4,7 +4,7 @@
 
 server:
   release: 1.0.0-RC3.ee
-  dockersecret: mayaonprem-registry-secret
+  dockerSecret: mayaonprem-registry-secret
   namespace: default
   PROTOCOL: http
   URL:

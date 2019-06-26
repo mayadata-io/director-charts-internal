@@ -27,5 +27,5 @@ spec:
       securityContext:
         fsGroup: 1000
       imagePullSecrets:
-      - name: {{ .Values.server.dockersecret }}
+      - name: {{ .Values.server.dockerSecret }}
 

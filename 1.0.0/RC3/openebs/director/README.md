@@ -10,7 +10,7 @@ This chart bootstraps MayaOnprem on a [Kubernetes](http://kubernetes.io) cluster
 ## Prerequisites
 - Kubernetes 1.11.0+ with RBAC enabled
 - iSCSI PV support in the underlying infrastructure
-- Create a secret with docker registry credentials and use it during helm install as parameter for value 'dockersecret'
+- Create a secret with docker registry credentials and use it during helm install as parameter for value 'dockerSecret'
 
 ## Installing MayaOnprem
 ```
@@ -23,7 +23,7 @@ The following table lists the configurable parameters of the MayaOnprem chart an
 
 | Parameter                                       | Description                                   | Default                                   |
 | ------------------------------------------------|-----------------------------------------------| ------------------------------------------|
-| `server.dockersecret`                           | Docker secret for pulling the images          |      none                                 |
+| `server.dockerSecret`                           | Docker secret for pulling the images          |      none                                 |
 | `server.namespace`                              | Namespace for MayaOnprem installations  |      default                              |
 | `server.PROTOCOL`                               | http/https protocol for accessing the UI      |      http                                 |
 | `server.URL`                                    | URL/IP address:port for UI                    |      none                                 |

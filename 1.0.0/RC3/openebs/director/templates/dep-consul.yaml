@@ -33,5 +33,5 @@ spec:
         - name: http-noscrape
           containerPort: 8500
       imagePullSecrets:
-      - name: {{ .Values.server.dockersecret }}
+      - name: {{ .Values.server.dockerSecret }}
 

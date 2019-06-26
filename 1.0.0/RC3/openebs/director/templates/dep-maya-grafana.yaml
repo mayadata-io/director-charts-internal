@@ -31,7 +31,7 @@ spec:
         fsGroup: 107
         runAsUser: 104
       imagePullSecrets:
-      - name: {{ .Values.server.dockersecret }}
+      - name: {{ .Values.server.dockerSecret }}
       volumes:
       - configMap:
           name: maya-grafana-cfgmap

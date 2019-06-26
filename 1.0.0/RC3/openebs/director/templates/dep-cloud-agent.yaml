@@ -22,4 +22,4 @@ spec:
             - containerPort: 8880
               protocol: TCP
       imagePullSecrets:
-      - name: {{ .Values.server.dockersecret }}
+      - name: {{ .Values.server.dockerSecret }}
