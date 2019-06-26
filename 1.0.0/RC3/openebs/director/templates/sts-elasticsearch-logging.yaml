@@ -90,6 +90,6 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: {{ .Values.elasticsearch.storagecapacity }}
-      storageClassName: {{ .Values.elasticsearch.storageclass }}
+          storage: {{ .Values.elasticsearch.storageCapacity }}
+      storageClassName: {{ .Values.elasticsearch.storageClass }}
 

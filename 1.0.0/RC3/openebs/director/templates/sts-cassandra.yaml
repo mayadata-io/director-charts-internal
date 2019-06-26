@@ -87,8 +87,8 @@ spec:
       name: cassandra-data
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ .Values.cassandra.storageclass }}
+      storageClassName: {{ .Values.cassandra.storageClass }}
       resources:
         requests:
-          storage: {{ .Values.cassandra.storagecapacity }}
+          storage: {{ .Values.cassandra.storageCapacity }}
 

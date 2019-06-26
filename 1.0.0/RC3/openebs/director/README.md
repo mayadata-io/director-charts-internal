@@ -57,17 +57,17 @@ The following table lists the configurable parameters of the MayaOnprem chart an
 | `server.FEATURE_KIALI_DISABLE`                  | TBD                                           |      true                                 |
 | `server.ANALYTICS_GOOGLE_CODE`                  | TBD                                           |      none                                 |
 |                                                 |                                               |                                           |
-| `mysql.storageclass`                            | TBD                                           |      openebs-jiva-default                 |
+| `mysql.storageClass`                            | TBD                                           |      openebs-jiva-default                 |
 |                                                 |                                               |                                           |
-| `elasticsearch.storageclass`                    | TBD                                           |      openebs-hostpath                     |
+| `elasticsearch.storageClass`                    | TBD                                           |      openebs-hostpath                     |
 | `elasticsearch.replicas`                        | TBD                                           |      1                                    |
 |                                                 |                                               |                                           |
-| `cassandra.storageclass`                        | TBD                                           |      openebs-hostpath                     |
+| `cassandra.storageClass`                        | TBD                                           |      openebs-hostpath                     |
 | `cassandra.replicas`                            | TBD                                           |      1                                    |
 |                                                 |                                               |                                           |
-| `mayastore.storageclass`                        | TBD                                           |      cstor-storage-class                  |
+| `mayastore.storageClass`                        | TBD                                           |      cstor-storage-class                  |
 |                                                 |                                               |                                           |
-| `grafana.storageclass`                          | TBD                                           |      cstor-storage-class                  |
+| `grafana.storageClass`                          | TBD                                           |      cstor-storage-class                  |
 |                                                 |                                               |                                           |
 | `cortex.replicationFactor`                      | TBD                                           |      1                                    |
 | `cortex.timeout`                                | TBD                                           |      20s                                  |

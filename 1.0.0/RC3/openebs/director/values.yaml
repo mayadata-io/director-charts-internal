@@ -41,26 +41,26 @@ server:
   ANALYTICS_GOOGLE_CODE:
 
 mysql:
-  storageclass: openebs-jiva-default
-  storagecapacity: 50Gi
+  storageClass: openebs-jiva-default
+  storageCapacity: 50Gi
 
 elasticsearch:
-  storageclass: openebs-hostpath
-  storagecapacity: 50Gi
+  storageClass: openebs-hostpath
+  storageCapacity: 50Gi
   replicas: 1
 
 cassandra:
-  storageclass: openebs-hostpath
-  storagecapacity: 50Gi
+  storageClass: openebs-hostpath
+  storageCapacity: 50Gi
   replicas: 1
 
 mayastore:
-  storageclass: cstor-storage-class
-  storagecapacity: 10Gi
+  storageClass: cstor-storage-class
+  storageCapacity: 10Gi
 
 grafana:
-  storageclass: cstor-storage-class
-  storagecapacity: 50Gi
+  storageClass: cstor-storage-class
+  storageCapacity: 50Gi
 
 cortex:
   replicationFactor: 1
