@@ -72,7 +72,7 @@ The following table lists the configurable parameters of the MayaOnprem chart an
 | `cortex.replicationFactor`                      | TBD                                           |      1                                    |
 | `cortex.timeout`                                | TBD                                           |      20s                                  |
 |                                                 |                                               |                                           |
-| `alertstore.replicationFactor`                  | TBD                                           |      1                                    |
+| `alertStore.replicationFactor`                  | TBD                                           |      1                                    |
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 
