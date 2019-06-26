@@ -44,7 +44,7 @@ mysql:
   storageClass: openebs-jiva-default
   storageCapacity: 50Gi
 
-elasticsearch:
+elasticSearch:
   storageClass: openebs-hostpath
   storageCapacity: 50Gi
   replicas: 1
@@ -54,7 +54,7 @@ cassandra:
   storageCapacity: 50Gi
   replicas: 1
 
-mayastore:
+mayaStore:
   storageClass: cstor-storage-class
   storageCapacity: 10Gi
 

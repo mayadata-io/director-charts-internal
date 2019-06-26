@@ -6,7 +6,7 @@ metadata:
   name: elasticsearch-logging
   namespace: {{ .Values.server.namespace }}
 spec:
-  replicas: {{ .Values.elasticsearch.replicas }}
+  replicas: {{ .Values.elasticSearch.replicas }}
   selector:
     matchLabels:
       k8s-app: elasticsearch-logging
@@ -90,6 +90,6 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: {{ .Values.elasticsearch.storageCapacity }}
-      storageClassName: {{ .Values.elasticsearch.storageClass }}
+          storage: {{ .Values.elasticSearch.storageCapacity }}
+      storageClassName: {{ .Values.elasticSearch.storageClass }}
 

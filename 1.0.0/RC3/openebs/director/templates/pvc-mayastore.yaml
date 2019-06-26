@@ -4,10 +4,10 @@ metadata:
   name: mayastore
   namespace: {{ .Values.server.namespace }}
 spec:
-  storageClassName: {{ .Values.mayastore.storageClass }}
+  storageClassName: {{ .Values.mayaStore.storageClass }}
   accessModes:
   - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.mayastore.storageCapacity }}
+      storage: {{ .Values.mayaStore.storageCapacity }}
 

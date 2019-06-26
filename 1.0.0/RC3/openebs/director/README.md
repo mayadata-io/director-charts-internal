@@ -59,13 +59,13 @@ The following table lists the configurable parameters of the MayaOnprem chart an
 |                                                 |                                               |                                           |
 | `mysql.storageClass`                            | TBD                                           |      openebs-jiva-default                 |
 |                                                 |                                               |                                           |
-| `elasticsearch.storageClass`                    | TBD                                           |      openebs-hostpath                     |
-| `elasticsearch.replicas`                        | TBD                                           |      1                                    |
+| `elasticSearch.storageClass`                    | TBD                                           |      openebs-hostpath                     |
+| `elasticSearch.replicas`                        | TBD                                           |      1                                    |
 |                                                 |                                               |                                           |
 | `cassandra.storageClass`                        | TBD                                           |      openebs-hostpath                     |
 | `cassandra.replicas`                            | TBD                                           |      1                                    |
 |                                                 |                                               |                                           |
-| `mayastore.storageClass`                        | TBD                                           |      cstor-storage-class                  |
+| `mayaStore.storageClass`                        | TBD                                           |      cstor-storage-class                  |
 |                                                 |                                               |                                           |
 | `grafana.storageClass`                          | TBD                                           |      cstor-storage-class                  |
 |                                                 |                                               |                                           |
