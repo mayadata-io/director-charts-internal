@@ -87,7 +87,7 @@ spec:
         - -chunk.storage-client=cassandra
         - -cassandra.addresses=cassandra.{{ .Values.server.namespace }}.svc.cluster.local
         - -cassandra.keyspace=mayacortex
-        - -cassandra.replication-factor={{ .Values.cortex.replicationfactor }}
+        - -cassandra.replication-factor={{ .Values.cortex.replicationFactor }}
         - -cassandra.timeout={{ .Values.cortex.timeout }}
         - -dynamodb.periodic-table.prefix=cortex_weekly_
         - -dynamodb.periodic-table.from=2017-01-06

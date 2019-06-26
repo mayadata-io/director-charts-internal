@@ -69,10 +69,10 @@ The following table lists the configurable parameters of the MayaOnprem chart an
 |                                                 |                                               |                                           |
 | `grafana.storageclass`                          | TBD                                           |      cstor-storage-class                  |
 |                                                 |                                               |                                           |
-| `cortex.replicationfactor`                      | TBD                                           |      1                                    |
+| `cortex.replicationFactor`                      | TBD                                           |      1                                    |
 | `cortex.timeout`                                | TBD                                           |      20s                                  |
 |                                                 |                                               |                                           |
-| `alertstore.replicationfactor`                  | TBD                                           |      1                                    |
+| `alertstore.replicationFactor`                  | TBD                                           |      1                                    |
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 

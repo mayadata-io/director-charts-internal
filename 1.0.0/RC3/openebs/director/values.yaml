@@ -63,11 +63,11 @@ grafana:
   storagecapacity: 50Gi
 
 cortex:
-  replicationfactor: 1
+  replicationFactor: 1
   timeout: 5s
 
 alertstore:
-  replicationfactor: 1
+  replicationFactor: 1
 
 ingester:
   replicas: 1

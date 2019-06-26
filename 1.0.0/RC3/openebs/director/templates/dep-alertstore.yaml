@@ -69,7 +69,7 @@ spec:
         - -storage.storage-client=cassandra
         - -cassandra.addresses=cassandra.{{ .Values.server.namespace }}.svc.cluster.local
         - -cassandra.keyspace=mayaalerts
-        - -cassandra.replication-factor={{ .Values.alertstore.replicationfactor }}
+        - -cassandra.replication-factor={{ .Values.alertstore.replicationFactor }}
         - -log.level=debug
         ports:
         - containerPort: 80 
