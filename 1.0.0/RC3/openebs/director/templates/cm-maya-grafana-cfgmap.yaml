@@ -7,7 +7,7 @@ data:
     #################################### Server ####################################
     [server]
     # The public facing domain name used to access grafana from a browser
-    domain = ${URL}
+    domain = {{ .Values.server.url }}
     # If you use reverse proxy and sub path specify full url (with sub path)
     root_url = %(protocol)s://%(domain)s:/grafana
     [users]
