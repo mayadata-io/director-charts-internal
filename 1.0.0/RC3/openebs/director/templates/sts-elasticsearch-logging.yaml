@@ -4,7 +4,7 @@ metadata:
   labels:
     k8s-app: elasticsearch-logging
   name: elasticsearch-logging
-  namespace: {{ .Values.server.namespace }}
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.elasticsearch.replicas }}
   selector:

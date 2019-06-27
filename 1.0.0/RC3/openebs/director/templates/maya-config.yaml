@@ -3,14 +3,13 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: maya-config
-  namespace: {{ .Values.server.namespace }}
 data:
   maya.properties: |
     maya.server.url={{ .Values.server.PROTOCOL }}://{{ .Values.server.URL }}
     external.svc.unauthorize.redirect.url={{ .Values.server.PROTOCOL }}://{{ .Values.server.URL }}/login
     api.security.enabled=true
     api.auth.access.mode={{ .Values.server.API_AUTH_ACCESS_MODE }}
-    api.ui.index={{ .Values.server.PROTOCOL }}://maya-ui.{{ .Values.server.namespace }}.svc.{{ .Values.server.CLUSTER_DOMAIN }}/latest/index.html
+    api.ui.index={{ .Values.server.PROTOCOL }}://maya-ui.{{ .Release.Namespace }}.svc.{{ .Values.server.CLUSTER_DOMAIN }}/latest/index.html
     server.default.access.grant={{ .Values.server.SERVER_DEFAULT_ACCESS_GRANT }}
     maya.api.ui.enabled={{ .Values.server.API_UI_ENABLED }}
     maya.setup.name={{ .Values.server.SETUP_NAME }}
@@ -31,15 +30,15 @@ data:
     maya.cortex.pull.url={{ .Values.server.PROTOCOL }}://{{ .Values.server.URL }}/maya-cortex-pull/api/prom
     maya.cortex.configs.url={{ .Values.server.PROTOCOL }}://{{ .Values.server.URL }}/maya-cortex-configs/api/prom/configs/rules
     maya.cortex.am.url={{ .Values.server.PROTOCOL }}://{{ .Values.server.URL }}/maya-cortex-am/api/prom/alertmanager/
-    maya.alertstore.url=http://alertstore.{{ .Values.server.namespace }}.svc.{{ .Values.server.CLUSTER_DOMAIN }}/
-    maya.alertstore.tablemanager.url=http://alertstore-tablemanager.{{ .Values.server.namespace }}.svc.{{ .Values.server.CLUSTER_DOMAIN }}/
+    maya.alertstore.url=http://alertstore.{{ .Release.Namespace }}.svc.{{ .Values.server.CLUSTER_DOMAIN }}/
+    maya.alertstore.tablemanager.url=http://alertstore-tablemanager.{{ .Release.Namespace }}.svc.{{ .Values.server.CLUSTER_DOMAIN }}/
     maya.alertstore.ingress.url={{ .Values.server.PROTOCOL }}://{{ .Values.server.URL }}/alertstore/alerts
     maya.grafana.admin.password=admin
-    maya.grafana.url=http://maya-grafana-service.{{ .Values.server.namespace }}.svc.{{ .Values.server.CLUSTER_DOMAIN }}:3000/
-    maya.grafana.reporter.url=http://maya-grafana-service.{{ .Values.server.namespace }}.svc.{{ .Values.server.CLUSTER_DOMAIN }}:8686/
-    maya.kibana.url=http://kibana-logging.{{ .Values.server.namespace }}.svc.{{ .Values.server.CLUSTER_DOMAIN }}:5601/
-    maya.elasticsearch.url=http://elasticsearch-logging.{{ .Values.server.namespace }}.svc.{{ .Values.server.CLUSTER_DOMAIN }}:9200/
-    maya.dmaas.cloud.agent.url=http://cloud-agent-service.{{ .Values.server.namespace }}.svc.{{ .Values.server.CLUSTER_DOMAIN }}:8880
+    maya.grafana.url=http://maya-grafana-service.{{ .Release.Namespace }}.svc.{{ .Values.server.CLUSTER_DOMAIN }}:3000/
+    maya.grafana.reporter.url=http://maya-grafana-service.{{ .Release.Namespace }}.svc.{{ .Values.server.CLUSTER_DOMAIN }}:8686/
+    maya.kibana.url=http://kibana-logging.{{ .Release.Namespace }}.svc.{{ .Values.server.CLUSTER_DOMAIN }}:5601/
+    maya.elasticsearch.url=http://elasticsearch-logging.{{ .Release.Namespace }}.svc.{{ .Values.server.CLUSTER_DOMAIN }}:9200/
+    maya.dmaas.cloud.agent.url=http://cloud-agent-service.{{ .Release.Namespace }}.svc.{{ .Values.server.CLUSTER_DOMAIN }}:8880
     feature.subscription.disable={{ .Values.server.FEATURE_SUBSCRIPTION_DISABLE }}
     maya.subscription.type={{ .Values.server.SUBSCRIPTION_TYPE }}
     feature.billing.disable={{ .Values.server.FEATURE_BILLING_DISABLE }}

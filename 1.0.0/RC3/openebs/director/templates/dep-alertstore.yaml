@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: alertstore
-  namespace: {{ .Values.server.namespace }}
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   template:
@@ -41,7 +41,7 @@ spec:
           do
              echo "wating for cassandra"
              sleep 2;
-             export COUNT=$(kubectl get pods -l app=cassandra -n {{ .Values.server.namespace }} -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w cassandra | wc -l)
+             export COUNT=$(kubectl get pods -l app=cassandra -n {{ .Release.Namespace }} -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w cassandra | wc -l)
              echo $COUNT
           done
       - name: as-wait-for-as-tablemanager
@@ -57,7 +57,7 @@ spec:
           do
              echo "wating for alertstore-tablemanager"
              sleep 2;
-             export COUNT=$(kubectl get pods -l name=alertstore-tablemanager -n {{ .Values.server.namespace }} -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w alertstore-tablemanager | wc -l)
+             export COUNT=$(kubectl get pods -l name=alertstore-tablemanager -n {{ .Release.Namespace }} -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w alertstore-tablemanager | wc -l)
              echo $COUNT
           done
       containers:
@@ -67,7 +67,7 @@ spec:
         args:
         - -server.http-listen-port=80
         - -storage.storage-client=cassandra
-        - -cassandra.addresses=cassandra.{{ .Values.server.namespace }}.svc.cluster.local
+        - -cassandra.addresses=cassandra.{{ .Release.Namespace }}.svc.cluster.local
         - -cassandra.keyspace=mayaalerts
         - -cassandra.replication-factor={{ .Values.alertstore.replicationfactor }}
         - -log.level=debug

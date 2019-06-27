@@ -4,7 +4,7 @@ metadata:
   labels:
     app: maya-io
   name: maya-io
-  namespace: {{ .Values.server.namespace }}
+  namespace: {{ .Release.Namespace }}
 spec:
   type: NodePort
   ports:

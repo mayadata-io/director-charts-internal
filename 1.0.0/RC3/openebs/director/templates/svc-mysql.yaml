@@ -4,7 +4,7 @@ metadata:
   labels:
     app: mysql
   name: mysql
-  namespace: {{ .Values.server.namespace }}
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
   - name: mysql
