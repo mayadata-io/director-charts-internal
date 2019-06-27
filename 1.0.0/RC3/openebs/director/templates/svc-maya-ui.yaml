@@ -4,7 +4,7 @@ metadata:
   labels:
     app: maya-ui
   name: maya-ui
-  namespace: {{ .Values.server.namespace }}
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
   - name: maya-ui

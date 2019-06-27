@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
   name: maya-ui
-  namespace: {{ .Values.server.namespace }}
+  namespace: {{ .Release.Namespace }}
 spec:
   selector:
     matchLabels:

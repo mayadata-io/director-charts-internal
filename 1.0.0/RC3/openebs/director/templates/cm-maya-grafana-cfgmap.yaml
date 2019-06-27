@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: maya-grafana-cfgmap
-  namespace: {{ .Values.server.namespace }}
+  namespace: {{ .Release.Namespace }}
 data:
   grafana.ini: |
     #################################### Server ####################################
