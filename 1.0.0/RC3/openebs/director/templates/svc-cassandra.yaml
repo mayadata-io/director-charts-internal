@@ -4,7 +4,6 @@ metadata:
   labels:
     app: cassandra
   name: cassandra
-  namespace: {{ .Release.Namespace }}
 spec:
   clusterIP: None
   ports:

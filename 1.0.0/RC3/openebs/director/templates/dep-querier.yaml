@@ -2,7 +2,6 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: querier
-  namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.querier.replicas }}
   template:

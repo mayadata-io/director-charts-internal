@@ -2,7 +2,6 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: ingester
-  namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.ingester.replicas }}
 

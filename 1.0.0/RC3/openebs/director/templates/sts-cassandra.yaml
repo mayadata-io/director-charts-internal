@@ -4,7 +4,6 @@ metadata:
   name: cassandra
   labels:
     app: cassandra
-  namespace: {{ .Release.Namespace }}
 spec:
   serviceName: cassandra
   replicas: {{ .Values.cassandra.replicas }}

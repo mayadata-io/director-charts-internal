@@ -4,7 +4,6 @@ metadata:
   labels:
     app: maya-grafana
   name: maya-grafana
-  namespace: {{ .Release.Namespace }}
 spec:
   template:
     metadata:

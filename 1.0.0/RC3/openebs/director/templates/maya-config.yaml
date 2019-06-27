@@ -3,7 +3,6 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: maya-config
-  namespace: {{ .Release.Namespace }}
 data:
   maya.properties: |
     maya.server.url={{ .Values.server.protocol }}://{{ .Values.server.url }}

@@ -4,7 +4,6 @@ metadata:
   labels:
     k8s-app: kibana-logging
   name: kibana-logging
-  namespace: {{ .Release.Namespace }}
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
