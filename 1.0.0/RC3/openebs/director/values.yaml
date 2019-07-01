@@ -32,7 +32,7 @@ server:
   senderEmailPassword:
   featureDocsDisable: false
   docsUrl: https://docs.mayaonline.io
-  featureChatBotDisable: false
+  featureChatBotDisable: true
   slackConfigBotClientId:
   slackConfigBotClientSecret:
   slackNotificationWelcomeMessage:
