@@ -59,4 +59,5 @@ data:
     chatbot.alert.url={{ .Values.server.protocol }}://{{ .Values.server.url }}/chat-server/maya-events
     feature.kiali.disable={{ .Values.server.featureKialiDisable }}
     analytics.google.code={{ .Values.server.analyticsGoogleCode }}
+    local.cluster.autoconnect={{ .Values.server.autoconnectLocalCluster }}
 ---
