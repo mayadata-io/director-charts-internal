@@ -15,8 +15,8 @@ server:
   setupName: mayaonprem
   apiAuthExternalProviderEnabled: true
   apiAuthExternalProviderConfigured: githubconfig
-  apiAuthInternalProviderEnabled: false
-  apiAuthInternalProviderConfigured:
+  apiAuthInternalProviderEnabled: true
+  apiAuthInternalProviderConfigured: localAuthConfig
   apiAuthEnabler:
   apiAuthGithubClientId:
   apiAuthGithubClientSecret:

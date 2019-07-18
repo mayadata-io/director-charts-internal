@@ -26,6 +26,7 @@ data:
     api.auth.github.client.secret={{ .Values.server.apiAuthGithubClientSecret }}
     api.auth.google.client.id={{ .Values.server.apiAuthGoogleClientId }}
     api.auth.google.client.secret={{ .Values.server.apiAuthGoogleClientSecret }}
+    api.auth.google.redirect.url={{ .Values.server.protocol }}://{{ .Values.server.url }}
     maya.cortex.push.url={{ .Values.server.protocol }}://{{ .Values.server.url }}/maya-cortex-push/api/prom/push
     maya.cortex.pull.url={{ .Values.server.protocol }}://{{ .Values.server.url }}/maya-cortex-pull/api/prom
     maya.cortex.configs.url={{ .Values.server.protocol }}://{{ .Values.server.url }}/maya-cortex-configs/api/prom/configs/rules
@@ -51,6 +52,7 @@ data:
     feature.mdape2e.disable=true
     feature.tour.disable=true
     feature.mayaonpremregistration.disable=true
+    feature.cortexquerier.disable=true
     feature.chatbot.disable={{ .Values.server.featureChatBotDisable }}
     slack.config.bot.client.id={{ .Values.server.slackConfigBotClientId }}
     slack.config.bot.client.secret={{ .Values.server.slackConfigBotClientSecret }}
