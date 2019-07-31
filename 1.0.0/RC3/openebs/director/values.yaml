@@ -13,8 +13,8 @@ server:
   serverDefaultAccessGrant: true
   apiUiEnabled: true
   setupName: mayaonprem
-  apiAuthExternalProviderEnabled: true
-  apiAuthExternalProviderConfigured: githubconfig
+  apiAuthExternalProviderEnabled: false
+  apiAuthExternalProviderConfigured:
   apiAuthInternalProviderEnabled: true
   apiAuthInternalProviderConfigured: localAuthConfig
   apiAuthEnabler:
