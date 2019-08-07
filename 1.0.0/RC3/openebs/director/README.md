@@ -5,21 +5,21 @@ Maya On prem
 Introduction
 ------------
 
-This chart bootstraps MayaOnprem on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+This chart bootstraps DirectorOnPrem on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
 ## Prerequisites
 - Kubernetes 1.11.0+ with RBAC enabled
 - iSCSI PV support in the underlying infrastructure
 - Create a secret with docker registry credentials and use it during helm install as parameter for value 'dockerSecret'
 
-## Installing MayaOnprem
+## Installing DirectorOnPrem
 ```
 helm install --namespace <yournamespace> openebs/director
 ```
 
 ## Configuration
 
-The following table lists the configurable parameters of the MayaOnprem chart and their default values.
+The following table lists the configurable parameters of the DirectorOnPrem chart and their default values.
 
 | Parameter                                       | Description                                   | Default                                   |
 | ------------------------------------------------|-----------------------------------------------| ------------------------------------------|
@@ -29,7 +29,7 @@ The following table lists the configurable parameters of the MayaOnprem chart an
 | `server.apiAuthAccessMode`                   | TBD                                           |      unrestricted                         |
 | `server.serverDefaultAccessGrant`            | TBD                                           |      true                                 |
 | `server.apiUiEnabled`                         | TBD                                           |      true                                 |
-| `server.setupName`                             | TBD                                           |      mayaonprem                     |
+| `server.setupName`                             | TBD                                           |      directoronprem                     |
 | `server.apiAuthExternalProviderEnabled`     | TBD                                           |      true                                 |
 | `server.apiAuthExternalProviderConfigured`  | TBD                                           |      githubconfig                         |
 | `server.apiAuthInternalProviderEnabled`     |  Enable local authentication                  |      true                                     |
