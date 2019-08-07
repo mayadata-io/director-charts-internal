@@ -54,6 +54,8 @@ spec:
         - -cassandra.keyspace=mayaalerts
         - -cassandra.replication-factor={{ .Values.alertStore.replicationFactor }}
         - -log.level=debug
+        - -tablemanager.version=1
+        - -alertstore.version=1
         ports:
         - containerPort: 80
       imagePullSecrets:
