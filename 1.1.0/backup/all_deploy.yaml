@@ -1,0 +1,2136 @@
+apiVersion: v1
+items:
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:33Z"
+    generation: 1
+    labels:
+      name: alertmanager
+    name: alertmanager
+    namespace: maya
+    resourceVersion: "31910"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/alertmanager
+    uid: 5476e73e-69f6-4887-a217-e2a834055ea6
+  spec:
+    progressDeadlineSeconds: 2147483647
+    replicas: 1
+    revisionHistoryLimit: 2147483647
+    selector:
+      matchLabels:
+        name: alertmanager
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          name: alertmanager
+      spec:
+        containers:
+        - args:
+          - -log.level=debug
+          - -server.http-listen-port=80
+          - -alertmanager.configs.url=http://configs.maya.svc.cluster.local:80
+          - -alertmanager.web.external-url=/api/prom/alertmanager
+          image: registry.mayadata.io/cortex-alertmanager:1.1.0-ee
+          imagePullPolicy: Always
+          name: alertmanager
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+            echo $MAYA
+            until [ ! -z "$MAYA" ]
+            do
+               echo "wating for ClusterRoleBinding";
+               sleep 1;
+               export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}');
+               echo $MAYA;
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: am-wait-for-crb
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for configs"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l name=configs -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w configs | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: am-wait-for-configs
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for maya-io-server"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l app=maya-io -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w maya-io | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: am-wait-for-maya-io
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: sa-maya-io
+        serviceAccountName: sa-maya-io
+        terminationGracePeriodSeconds: 30
+  status:
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:45:34Z"
+      lastUpdateTime: "2019-09-10T10:45:34Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    replicas: 1
+    unavailableReplicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:33Z"
+    generation: 1
+    labels:
+      name: alertstore
+    name: alertstore
+    namespace: maya
+    resourceVersion: "31922"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/alertstore
+    uid: bf838b79-c09a-4a31-86a1-f85cdc471904
+  spec:
+    progressDeadlineSeconds: 2147483647
+    replicas: 1
+    revisionHistoryLimit: 2147483647
+    selector:
+      matchLabels:
+        name: alertstore
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          name: alertstore
+      spec:
+        containers:
+        - args:
+          - -server.http-listen-port=80
+          - -storage.storage-client=cassandra
+          - -cassandra.addresses=cassandra.maya.svc.cluster.local
+          - -cassandra.keyspace=mayaalerts
+          - -cassandra.replication-factor=1
+          - -log.level=debug
+          - -alertstore.version=1
+          image: registry.mayadata.io/alertstore:1.1.0-ee
+          imagePullPolicy: Always
+          name: alertstore
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+            echo $MAYA
+            until [ ! -z "$MAYA" ]
+            do
+               echo "wating for ClusterRoleBinding"
+               sleep 1;
+               export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+               echo $MAYA
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: init-agent
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for cassandra"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l app=cassandra -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w cassandra | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: as-wait-for-cassandra
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for alertstore-tablemanager"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l name=alertstore-tablemanager -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w alertstore-tablemanager | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: as-wait-for-as-tablemanager
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: sa-maya-io
+        serviceAccountName: sa-maya-io
+        terminationGracePeriodSeconds: 30
+  status:
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:45:37Z"
+      lastUpdateTime: "2019-09-10T10:45:37Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    replicas: 1
+    unavailableReplicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:33Z"
+    generation: 1
+    labels:
+      name: alertstore-tablemanager
+    name: alertstore-tablemanager
+    namespace: maya
+    resourceVersion: "31911"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/alertstore-tablemanager
+    uid: fb97824b-9b19-4324-a928-af66b12d961d
+  spec:
+    progressDeadlineSeconds: 2147483647
+    replicas: 1
+    revisionHistoryLimit: 2147483647
+    selector:
+      matchLabels:
+        name: alertstore-tablemanager
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          name: alertstore-tablemanager
+      spec:
+        containers:
+        - args:
+          - -server.http-listen-port=80
+          - -storage.storage-client=cassandra
+          - -cassandra.addresses=cassandra.maya.svc.cluster.local
+          - -cassandra.keyspace=mayaalerts
+          - -cassandra.replication-factor=1
+          - -log.level=debug
+          - -tablemanager.version=1
+          - -alertstore.version=1
+          image: registry.mayadata.io/alertstore-tablemanager:1.1.0-ee
+          imagePullPolicy: Always
+          name: alertstore-tablemanager
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+            echo $MAYA
+            until [ ! -z "$MAYA" ]
+            do
+               echo "wating for ClusterRoleBinding"
+               sleep 1;
+               export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+               echo $MAYA
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: astm-wait-for-crb
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for cassandra"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l app=cassandra -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w cassandra | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: astm-wait-for-cassandra
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: sa-maya-io
+        serviceAccountName: sa-maya-io
+        terminationGracePeriodSeconds: 30
+  status:
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:45:35Z"
+      lastUpdateTime: "2019-09-10T10:45:35Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    replicas: 1
+    unavailableReplicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:34Z"
+    generation: 1
+    labels:
+      app: chat-server
+    name: chat-server
+    namespace: maya
+    resourceVersion: "33947"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/chat-server
+    uid: 6749857f-7690-4a0b-95e3-4eff386fec17
+  spec:
+    progressDeadlineSeconds: 2147483647
+    replicas: 1
+    revisionHistoryLimit: 2147483647
+    selector:
+      matchLabels:
+        app: chat-server
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: chat-server
+      spec:
+        containers:
+        - env:
+          - name: ADMIN_API_KEY
+            valueFrom:
+              secretKeyRef:
+                key: ADMIN_API_KEY
+                name: chat-server
+          - name: SIGNING_SECRET
+            valueFrom:
+              secretKeyRef:
+                key: SIGNING_SECRET
+                name: chat-server
+          - name: MAYA_SERVER_IP
+            valueFrom:
+              secretKeyRef:
+                key: MAYA_SERVER_IP
+                name: chat-server
+          - name: SLASH_COMMAND
+            valueFrom:
+              secretKeyRef:
+                key: SLASH_COMMAND
+                name: chat-server
+          image: registry.mayadata.io/maya-chatops:1.1.0-ee
+          imagePullPolicy: Always
+          name: chat-server
+          resources:
+            requests:
+              cpu: 100m
+              memory: 32Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:45:36Z"
+      lastUpdateTime: "2019-09-10T10:45:36Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:34Z"
+    generation: 1
+    labels:
+      app: cloud-agent
+      name: cloud-agent
+    name: cloud-agent
+    namespace: maya
+    resourceVersion: "32548"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/cloud-agent
+    uid: 4c1fbbda-c871-4a4c-b298-cb6ed6b45da0
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 2
+    selector:
+      matchLabels:
+        app: cloud-agent
+        name: cloud-agent
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: cloud-agent
+          name: cloud-agent
+      spec:
+        containers:
+        - image: registry.mayadata.io/cloud-agent:1.1.0-ee
+          imagePullPolicy: Always
+          name: cloud-agent
+          ports:
+          - containerPort: 8880
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:47:58Z"
+      lastUpdateTime: "2019-09-10T10:47:58Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2019-09-10T10:45:36Z"
+      lastUpdateTime: "2019-09-10T10:47:58Z"
+      message: ReplicaSet "cloud-agent-5b78cbff6b" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:36Z"
+    generation: 1
+    labels:
+      name: configs
+    name: configs
+    namespace: maya
+    resourceVersion: "35155"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/configs
+    uid: 6c1d9a75-d29a-4e05-887b-3e26d8d4b289
+  spec:
+    progressDeadlineSeconds: 2147483647
+    replicas: 1
+    revisionHistoryLimit: 2147483647
+    selector:
+      matchLabels:
+        name: configs
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          name: configs
+      spec:
+        containers:
+        - args:
+          - -server.http-listen-port=80
+          - -database.uri=postgres://postgres@configs-db.maya.svc.cluster.local/configs?sslmode=disable
+          - -database.migrations=/migrations
+          image: registry.mayadata.io/cortex-configs:1.1.0-ee
+          imagePullPolicy: Always
+          name: configs
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for configs-db"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l name=configs-db -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w configs-db | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: cf-wait-for-configs-db
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: sa-maya-io
+        serviceAccountName: sa-maya-io
+        terminationGracePeriodSeconds: 30
+  status:
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:45:41Z"
+      lastUpdateTime: "2019-09-10T10:45:41Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    replicas: 1
+    unavailableReplicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:35Z"
+    generation: 1
+    labels:
+      name: configs-db
+    name: configs-db
+    namespace: maya
+    resourceVersion: "33867"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/configs-db
+    uid: 592abe91-067c-43e6-8a07-24eec6e3ff50
+  spec:
+    progressDeadlineSeconds: 2147483647
+    replicas: 1
+    revisionHistoryLimit: 2147483647
+    selector:
+      matchLabels:
+        name: configs-db
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          prometheus.io.scrape: "false"
+        creationTimestamp: null
+        labels:
+          name: configs-db
+      spec:
+        containers:
+        - env:
+          - name: POSTGRES_DB
+            value: configs
+          image: postgres:9.6
+          imagePullPolicy: IfNotPresent
+          name: configs-db
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:45:40Z"
+      lastUpdateTime: "2019-09-10T10:45:40Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:37Z"
+    generation: 1
+    labels:
+      name: consul
+    name: consul
+    namespace: maya
+    resourceVersion: "33884"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/consul
+    uid: 6ee78817-2b6d-4b98-babe-9a9b295615ff
+  spec:
+    progressDeadlineSeconds: 2147483647
+    replicas: 1
+    revisionHistoryLimit: 2147483647
+    selector:
+      matchLabels:
+        name: consul
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          name: consul
+      spec:
+        containers:
+        - args:
+          - agent
+          - -ui
+          - -server
+          - -client=0.0.0.0
+          - -bootstrap
+          env:
+          - name: CHECKPOINT_DISABLE
+            value: "1"
+          image: consul:0.7.1
+          imagePullPolicy: IfNotPresent
+          name: consul
+          ports:
+          - containerPort: 8300
+            name: server-noscrape
+            protocol: TCP
+          - containerPort: 8301
+            name: serf-noscrape
+            protocol: TCP
+          - containerPort: 8400
+            name: client-noscrape
+            protocol: TCP
+          - containerPort: 8500
+            name: http-noscrape
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:45:44Z"
+      lastUpdateTime: "2019-09-10T10:45:44Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:41Z"
+    generation: 1
+    labels:
+      name: distributor
+    name: distributor
+    namespace: maya
+    resourceVersion: "32064"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/distributor
+    uid: 857d99e2-02f3-4f24-bdd4-6ff5ba573b5a
+  spec:
+    progressDeadlineSeconds: 2147483647
+    replicas: 1
+    revisionHistoryLimit: 2147483647
+    selector:
+      matchLabels:
+        name: distributor
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          name: distributor
+      spec:
+        containers:
+        - args:
+          - -log.level=debug
+          - -server.http-listen-port=80
+          - -consul.hostname=consul.maya.svc.cluster.local:8500
+          - -distributor.replication-factor=1
+          image: quay.io/cortexproject/distributor:master-590e72c6
+          imagePullPolicy: IfNotPresent
+          name: distributor
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+            echo $MAYA
+            until [ ! -z "$MAYA" ]
+            do
+               echo "wating for ClusterRoleBinding"
+               sleep 1;
+               export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+               echo $MAYA
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: di-wait-for-crb
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for consul"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l name=consul -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w consul | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: di-wait-for-consul
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for ingester"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l name=ingester -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w ingester | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: di-wait-for-ingester
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: sa-maya-io
+        serviceAccountName: sa-maya-io
+        terminationGracePeriodSeconds: 30
+  status:
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:45:45Z"
+      lastUpdateTime: "2019-09-10T10:45:45Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    replicas: 1
+    unavailableReplicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:42Z"
+    generation: 1
+    labels:
+      name: ingester
+    name: ingester
+    namespace: maya
+    resourceVersion: "32077"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/ingester
+    uid: 2470feea-645e-4107-9002-11c4a9830713
+  spec:
+    minReadySeconds: 60
+    progressDeadlineSeconds: 2147483647
+    replicas: 1
+    revisionHistoryLimit: 2147483647
+    selector:
+      matchLabels:
+        name: ingester
+    strategy:
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          name: ingester
+      spec:
+        containers:
+        - args:
+          - -ingester.join-after=30s
+          - -ingester.claim-on-rollout=true
+          - -consul.hostname=consul.maya.svc.cluster.local:8500
+          - -dynamodb.original-table-name=cortex
+          - -chunk.storage-client=cassandra
+          - -cassandra.addresses=cassandra.maya.svc.cluster.local
+          - -cassandra.keyspace=mayacortex
+          - -cassandra.replication-factor=1
+          - -cassandra.timeout=5s
+          - -dynamodb.periodic-table.prefix=cortex_weekly_
+          - -dynamodb.periodic-table.from=2017-01-06
+          - -dynamodb.daily-buckets-from=2017-01-10
+          - -dynamodb.base64-buckets-from=2017-01-17
+          - -dynamodb.v4-schema-from=2017-02-05
+          - -dynamodb.v5-schema-from=2017-02-22
+          - -dynamodb.v6-schema-from=2017-03-19
+          - -dynamodb.chunk-table.from=2017-04-17
+          - -memcached.hostname=memcached.maya.svc.cluster.local
+          - -memcached.timeout=100ms
+          - -memcached.service=memcached
+          image: quay.io/cortexproject/ingester:master-590e72c6
+          imagePullPolicy: IfNotPresent
+          name: ingester
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ready
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+            echo $MAYA
+            until [ ! -z "$MAYA" ]
+            do
+               echo "wating for ClusterRoleBinding"
+               sleep 1;
+               export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+               echo $MAYA
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: in-wait-for-crb
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for cassandra"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l app=cassandra -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w cassandra | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: in-wait-for-cassandra
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for consul"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l name=consul -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w consul | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: in-wait-for-consul
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for table-manager"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l name=table-manager -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w table-manager | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: in-wait-for-table-manager
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: sa-maya-io
+        serviceAccountName: sa-maya-io
+        terminationGracePeriodSeconds: 300
+  status:
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:45:46Z"
+      lastUpdateTime: "2019-09-10T10:45:46Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    replicas: 1
+    unavailableReplicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:42Z"
+    generation: 1
+    labels:
+      k8s-app: kibana-logging
+    name: kibana-logging
+    namespace: maya
+    resourceVersion: "35201"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/kibana-logging
+    uid: 3717be43-eef2-4a22-8cef-a937d29a9779
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        k8s-app: kibana-logging
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          k8s-app: kibana-logging
+      spec:
+        containers:
+        - env:
+          - name: SERVER_BASEPATH
+            value: /kibana
+          image: registry.mayadata.io/kibana:1.1.0-ee
+          imagePullPolicy: Always
+          name: kibana-logging
+          ports:
+          - containerPort: 5601
+            name: ui
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 30m
+            requests:
+              cpu: 10m
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:45:47Z"
+      lastUpdateTime: "2019-09-10T10:45:47Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2019-09-10T10:45:45Z"
+      lastUpdateTime: "2019-09-10T10:48:19Z"
+      message: ReplicaSet "kibana-logging-555778755f" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:44Z"
+    generation: 1
+    labels:
+      app: maya-grafana
+    name: maya-grafana
+    namespace: maya
+    resourceVersion: "33091"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/maya-grafana
+    uid: ca492db0-1c3e-4085-a0e3-cafd15bbfa16
+  spec:
+    progressDeadlineSeconds: 2147483647
+    replicas: 1
+    revisionHistoryLimit: 2147483647
+    selector:
+      matchLabels:
+        app: maya-grafana
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: maya-grafana
+      spec:
+        containers:
+        - env:
+          - name: GF_AUTH_BASIC_ENABLED
+            value: "true"
+          - name: GF_AUTH_ANONYMOUS_ENABLED
+            value: "false"
+          image: registry.mayadata.io/maya-grafana:1.1.0-ee
+          imagePullPolicy: Always
+          name: master-grafana
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/grafana
+            name: config-volume
+          - mountPath: /var/lib/grafana
+            name: maya-grafana-store
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 107
+          runAsUser: 104
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: maya-grafana-cfgmap
+          name: config-volume
+        - name: maya-grafana-store
+          persistentVolumeClaim:
+            claimName: grafana-claim
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:45:49Z"
+      lastUpdateTime: "2019-09-10T10:45:49Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:45Z"
+    generation: 1
+    labels:
+      app: maya-io
+    name: maya-io
+    namespace: maya
+    resourceVersion: "33643"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/maya-io
+    uid: 1a218743-4b26-471e-860a-294f573c2bb2
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 2
+    selector:
+      matchLabels:
+        app: maya-io
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: maya-io
+      spec:
+        containers:
+        - args:
+          - --db-host
+          - mysql.maya.svc.cluster.local
+          - --db-user
+          - maya
+          - --db-pass
+          - maya
+          - --db-name
+          - maya
+          image: registry.mayadata.io/maya-io-server:1.1.0-ee
+          imagePullPolicy: Always
+          name: maya-io
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mayastore
+            name: maya-store
+          - mountPath: /var/lib/maya/etc/maya.properties
+            name: maya-config
+            subPath: maya.properties
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+            echo $MAYA
+            until [ ! -z "$MAYA" ]
+            do
+               echo "wating for ClusterRoleBinding"
+               sleep 1;
+               export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+               echo $MAYA
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: mios-wait-for-crb
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for mysql"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l app=mysql -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w mysql | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: mios-wait-for-mysql
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for chat-server"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l app=chat-server -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w chat-server | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: mios-wait-for-chat-server
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for maya-grafana"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l app=maya-grafana -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w maya-grafana | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: mios-wait-for-maya-grafana-service
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for maya-ui"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l app=maya-ui -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w maya-ui | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: mios-wait-for-maya-ui
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for elasticsearch-logging"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l k8s-app=elasticsearch-logging -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w elasticsearch-logging | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: mios-wait-for-elasticsearch-logging
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for kibana-logging"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l k8s-app=kibana-logging -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w kibana-logging | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: mios-wait-for-kibana-logging
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for alertstore-tablamanager"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l name=alertstore-tablemanager -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w alertstore-tablemanager | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: mios-wait-for-alertstore-tablemanager
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: sa-maya-io
+        serviceAccountName: sa-maya-io
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: maya-store
+          persistentVolumeClaim:
+            claimName: mayastore
+        - configMap:
+            defaultMode: 420
+            name: maya-config
+          name: maya-config
+  status:
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:45:49Z"
+      lastUpdateTime: "2019-09-10T10:45:49Z"
+      message: Deployment does not have minimum availability.
+      reason: MinimumReplicasUnavailable
+      status: "False"
+      type: Available
+    - lastTransitionTime: "2019-09-10T10:55:54Z"
+      lastUpdateTime: "2019-09-10T10:55:54Z"
+      message: ReplicaSet "maya-io-6fc7c84b6d" has timed out progressing.
+      reason: ProgressDeadlineExceeded
+      status: "False"
+      type: Progressing
+    observedGeneration: 1
+    replicas: 1
+    unavailableReplicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:46Z"
+    generation: 1
+    labels:
+      app: maya-ui
+    name: maya-ui
+    namespace: maya
+    resourceVersion: "33483"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/maya-ui
+    uid: a2b8684b-4473-4af1-928f-f648b8dca698
+  spec:
+    progressDeadlineSeconds: 2147483647
+    replicas: 1
+    revisionHistoryLimit: 2147483647
+    selector:
+      matchLabels:
+        app: maya-ui
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: maya-ui
+      spec:
+        containers:
+        - env:
+          - name: VENDOR
+            value: mod
+          image: registry.mayadata.io/maya-ui:1.1.0-ee
+          imagePullPolicy: Always
+          name: maya-ui
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /tmp/mo-vendor
+            name: config-data
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - ./entrypoint.sh
+          env:
+          - name: VENDOR
+            value: mod
+          image: registry.mayadata.io/vendor:1.1.0-ee
+          imagePullPolicy: Always
+          name: config-data
+          resources: {}
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /tmp/mo-vendor
+            mountPropagation: Bidirectional
+            name: config-data
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - hostPath:
+            path: /tmp/mo-vendor
+            type: ""
+          name: config-data
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:45:52Z"
+      lastUpdateTime: "2019-09-10T10:45:52Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:47Z"
+    generation: 1
+    labels:
+      name: memcached
+    name: memcached
+    namespace: maya
+    resourceVersion: "33050"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/memcached
+    uid: 2b9c54b0-313a-4568-8366-01ccae00312c
+  spec:
+    progressDeadlineSeconds: 2147483647
+    replicas: 1
+    revisionHistoryLimit: 2147483647
+    selector:
+      matchLabels:
+        name: memcached
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          prometheus.io.scrape: "false"
+        creationTimestamp: null
+        labels:
+          name: memcached
+      spec:
+        containers:
+        - args:
+          - -m 64
+          - -p 11211
+          image: memcached:1.4.25
+          imagePullPolicy: IfNotPresent
+          name: memcached
+          ports:
+          - containerPort: 11211
+            name: clients
+            protocol: TCP
+          resources: {}
+          securityContext:
+            runAsUser: 1000
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 1000
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:45:53Z"
+      lastUpdateTime: "2019-09-10T10:45:53Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:49Z"
+    generation: 1
+    labels:
+      name: querier
+    name: querier
+    namespace: maya
+    resourceVersion: "32149"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/querier
+    uid: 78503916-40cc-4cf2-8255-d304663a8cc3
+  spec:
+    progressDeadlineSeconds: 2147483647
+    replicas: 1
+    revisionHistoryLimit: 2147483647
+    selector:
+      matchLabels:
+        name: querier
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          name: querier
+      spec:
+        containers:
+        - args:
+          - -server.http-listen-port=80
+          - -consul.hostname=consul.maya.svc.cluster.local:8500
+          - -dynamodb.original-table-name=cortex
+          - -chunk.storage-client=cassandra
+          - -cassandra.addresses=cassandra.maya.svc.cluster.local
+          - -cassandra.keyspace=mayacortex
+          - -cassandra.replication-factor=1
+          - -cassandra.timeout=5s
+          - -dynamodb.periodic-table.prefix=cortex_weekly_
+          - -dynamodb.periodic-table.from=2017-01-06
+          - -dynamodb.daily-buckets-from=2017-01-10
+          - -dynamodb.base64-buckets-from=2017-01-17
+          - -dynamodb.v4-schema-from=2017-02-05
+          - -dynamodb.v5-schema-from=2017-02-22
+          - -dynamodb.v6-schema-from=2017-03-19
+          - -dynamodb.chunk-table.from=2017-04-17
+          - -memcached.hostname=memcached.maya.svc.cluster.local
+          - -memcached.timeout=100ms
+          - -memcached.service=memcached
+          - -distributor.replication-factor=1
+          image: quay.io/cortexproject/querier:master-590e72c6
+          imagePullPolicy: IfNotPresent
+          name: querier
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+            echo $MAYA
+            until [ ! -z "$MAYA" ]
+            do
+               echo "wating for ClusterRoleBinding"
+               sleep 1;
+               export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+               echo $MAYA
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: qu-wait-for-crb
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for cassandra"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l app=cassandra -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w cassandra | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: qu-wait-for-cassandra
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for consul"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l name=consul -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w consul | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: qu-wait-for-consul
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for table-manager"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l name=table-manager -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w table-manager | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: qu-wait-for-table-manager
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: sa-maya-io
+        serviceAccountName: sa-maya-io
+        terminationGracePeriodSeconds: 30
+  status:
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:45:54Z"
+      lastUpdateTime: "2019-09-10T10:45:54Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    replicas: 1
+    unavailableReplicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:49Z"
+    generation: 1
+    labels:
+      name: ruler
+    name: ruler
+    namespace: maya
+    resourceVersion: "32145"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/ruler
+    uid: 330da9fa-1dde-48d9-82f8-3877fba01b81
+  spec:
+    progressDeadlineSeconds: 2147483647
+    replicas: 1
+    revisionHistoryLimit: 2147483647
+    selector:
+      matchLabels:
+        name: ruler
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          name: ruler
+      spec:
+        containers:
+        - args:
+          - -log.level=debug
+          - -server.http-listen-port=80
+          - -ruler.configs.url=http://configs.maya.svc.cluster.local:80
+          - -ruler.alertmanager-url=http://alertmanager.maya.svc.cluster.local/api/prom/alertmanager/
+          - -consul.hostname=consul.maya.svc.cluster.local:8500
+          - -dynamodb.original-table-name=cortex
+          - -chunk.storage-client=cassandra
+          - -cassandra.addresses=cassandra.maya.svc.cluster.local
+          - -cassandra.keyspace=mayacortex
+          - -cassandra.replication-factor=1
+          - -cassandra.timeout=5s
+          - -dynamodb.periodic-table.prefix=cortex_weekly_
+          - -dynamodb.periodic-table.from=2017-01-06
+          - -dynamodb.daily-buckets-from=2017-01-10
+          - -dynamodb.base64-buckets-from=2017-01-17
+          - -dynamodb.v4-schema-from=2017-02-05
+          - -dynamodb.v5-schema-from=2017-02-22
+          - -dynamodb.v6-schema-from=2017-03-19
+          - -dynamodb.chunk-table.from=2017-04-17
+          - -memcached.hostname=memcached.maya.svc.cluster.local
+          - -memcached.timeout=100ms
+          - -memcached.service=memcached
+          - -distributor.replication-factor=1
+          - -ruler.num-workers=64
+          image: quay.io/cortexproject/ruler:master-590e72c6
+          imagePullPolicy: IfNotPresent
+          name: ruler
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+            echo $MAYA
+            until [ ! -z "$MAYA" ]
+            do
+               echo "wating for ClusterRoleBinding"
+               sleep 1;
+               export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+               echo $MAYA
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: rl-wait-for-crb
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for cassandra"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l app=cassandra -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w cassandra | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: rl-wait-for-cassandra
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for consul"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l name=consul -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w consul | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: rl-wait-for-consul
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for ingester"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l name=ingester -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w ingester | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: rl-wait-for-ingester
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for querier"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l name=querier -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w querier | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: rl-wait-for-querier
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for alertmanager"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l name=alertmanager -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w alertmanager | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: rl-wait-for-alertmanager
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: sa-maya-io
+        serviceAccountName: sa-maya-io
+        terminationGracePeriodSeconds: 30
+  status:
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:45:56Z"
+      lastUpdateTime: "2019-09-10T10:45:56Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    replicas: 1
+    unavailableReplicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2019-09-10T10:45:51Z"
+    generation: 1
+    labels:
+      name: table-manager
+    name: table-manager
+    namespace: maya
+    resourceVersion: "32162"
+    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/table-manager
+    uid: 313dfe78-51b8-46a4-bad4-09e3b47aca53
+  spec:
+    progressDeadlineSeconds: 2147483647
+    replicas: 1
+    revisionHistoryLimit: 2147483647
+    selector:
+      matchLabels:
+        name: table-manager
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          name: table-manager
+      spec:
+        containers:
+        - args:
+          - -server.http-listen-port=80
+          - -dynamodb.original-table-name=cortex
+          - -chunk.storage-client=cassandra
+          - -cassandra.addresses=cassandra.maya.svc.cluster.local
+          - -cassandra.keyspace=mayacortex
+          - -cassandra.replication-factor=1
+          - -cassandra.timeout=5s
+          - -dynamodb.periodic-table.prefix=cortex_weekly_
+          - -dynamodb.periodic-table.from=2017-01-06
+          - -dynamodb.chunk-table.from=2017-04-17
+          image: quay.io/cortexproject/table-manager:master-590e72c6
+          imagePullPolicy: IfNotPresent
+          name: table-manager
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: directoronprem-registry-secret
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+            echo $MAYA
+            until [ ! -z "$MAYA" ]
+            do
+               echo "wating for ClusterRoleBinding"
+               sleep 1;
+               export MAYA=$(kubectl get ClusterRoleBinding | grep -w crb-maya-io | awk '{print $1}')
+               echo $MAYA
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: init-agent
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - |
+            set -ex
+            export COUNT=0
+            echo $COUNT
+            until [ $COUNT -ne 0 ]
+            do
+               echo "wating for cassandra"
+               sleep 2;
+               export COUNT=$(kubectl get pods -l app=cassandra -n maya -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w cassandra | wc -l)
+               echo $COUNT
+            done
+          image: registry.mayadata.io/maya-init:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: tm-wait-for-cassandra
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: sa-maya-io
+        serviceAccountName: sa-maya-io
+        terminationGracePeriodSeconds: 30
+  status:
+    conditions:
+    - lastTransitionTime: "2019-09-10T10:45:56Z"
+      lastUpdateTime: "2019-09-10T10:45:56Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    replicas: 1
+    unavailableReplicas: 1
+    updatedReplicas: 1
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

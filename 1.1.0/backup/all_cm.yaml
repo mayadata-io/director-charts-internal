@@ -1,0 +1,124 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  data:
+    maya.properties: |
+      maya.server.url=http://192.168.99.61:30380
+      external.svc.unauthorize.redirect.url=http://192.168.99.61:30380/login
+      api.security.enabled=true
+      api.auth.access.mode=unrestricted
+      api.ui.index=http://maya-ui.maya.svc.cluster.local/latest/index.html
+      server.default.access.grant=true
+      maya.api.ui.enabled=true
+      maya.setup.name=directoronprem
+      maya.ingress.auth=/mayastore/auth
+      api.auth.allowed.identities=:
+      api.auth.provider.identity.separator=,
+      api.auth.external.provider.enabled=false
+      api.auth.external.provider.configured=
+      api.auth.internal.provider.enabled=true
+      api.auth.internal.provider.configured=localAuthConfig
+      api.github.scheme=https://
+      api.auth.enabler=github_user:
+      api.auth.github.client.id=
+      api.auth.github.client.secret=
+      api.auth.google.client.id=
+      api.auth.google.client.secret=
+      api.auth.google.redirect.url=http://192.168.99.61:30380
+      maya.cortex.push.url=http://192.168.99.61:30380/maya-cortex-push/api/prom/push
+      maya.cortex.pull.url=http://192.168.99.61:30380/maya-cortex-pull/api/prom
+      maya.cortex.configs.url=http://192.168.99.61:30380/maya-cortex-configs/api/prom/configs/rules
+      maya.cortex.am.url=http://192.168.99.61:30380/maya-cortex-am/api/prom/alertmanager/
+      maya.alertstore.url=http://alertstore.maya.svc.cluster.local/
+      maya.alertstore.tablemanager.url=http://alertstore-tablemanager.maya.svc.cluster.local/
+      maya.alertstore.ingress.url=http://192.168.99.61:30380/alertstore/alerts
+      maya.grafana.admin.password=admin
+      maya.grafana.url=http://maya-grafana-service.maya.svc.cluster.local:3000/
+      maya.grafana.reporter.url=http://maya-grafana-service.maya.svc.cluster.local:8686/
+      maya.kibana.url=http://kibana-logging.maya.svc.cluster.local:5601/
+      maya.elasticsearch.url=http://elasticsearch-logging.maya.svc.cluster.local:9200/
+      maya.dmaas.cloud.agent.url=http://cloud-agent-service.maya.svc.cluster.local:8880
+      feature.subscription.disable=false
+      maya.subscription.type=internal
+      feature.billing.disable=true
+      maya.billing.type=external
+      feature.email.disable=true
+      sender.email.address=
+      sender.email.password=
+      feature.docs.disable=false
+      maya.docs.url=https://docs.mayaonline.io
+      feature.mdape2e.disable=true
+      feature.tour.disable=true
+      feature.mayaonpremregistration.disable=true
+      feature.cortexquerier.disable=true
+      feature.chatbot.disable=true
+      slack.config.bot.client.id=
+      slack.config.bot.client.secret=
+      slack.config.bot.oauth.url=https://slack.com/oauth/authorize?client_id=&scope=bot\,incoming-webhook\,commands
+      slack.notification.welcome.message=
+      chatbot.alert.url=http://192.168.99.61:30380/chat-server/maya-events
+      feature.kiali.disable=true
+      analytics.google.code=
+      local.cluster.autoconnect=true
+  kind: ConfigMap
+  metadata:
+    creationTimestamp: "2019-09-10T10:45:09Z"
+    name: maya-config
+    namespace: maya
+    resourceVersion: "31698"
+    selfLink: /api/v1/namespaces/maya/configmaps/maya-config
+    uid: 70df482e-c4c3-4269-b4cb-a487198ea922
+- apiVersion: v1
+  data:
+    grafana.ini: |
+      #################################### Server ####################################
+      [server]
+      # The public facing domain name used to access grafana from a browser
+      domain = 192.168.99.61:30380
+      # If you use reverse proxy and sub path specify full url (with sub path)
+      root_url = %(protocol)s://%(domain)s:/grafana
+      [users]
+      auto_assign_org = false
+      # Default UI theme ("dark" or "light")
+      default_theme = light
+      [auth.proxy]
+      enabled = true
+      header_name = X-Scope-OrgID
+      header_property = username
+      auto_sign_up = true
+      disable_signout_menu = true
+      disable_login_form = true
+  kind: ConfigMap
+  metadata:
+    creationTimestamp: "2019-09-10T10:45:08Z"
+    name: maya-grafana-cfgmap
+    namespace: maya
+    resourceVersion: "31689"
+    selfLink: /api/v1/namespaces/maya/configmaps/maya-grafana-cfgmap
+    uid: e7f59c90-8287-47bf-bb89-ea03c864205a
+- apiVersion: v1
+  data:
+    master.cnf: |
+      # Apply this config only on the master.
+      [mysqld]
+      log-bin
+      expire_logs_days=3
+      max_allowed_packet=16M
+    slave.cnf: |
+      # Apply this config only on slaves.
+      [mysqld]
+      super-read-only
+  kind: ConfigMap
+  metadata:
+    creationTimestamp: "2019-09-10T10:45:08Z"
+    labels:
+      app: mysql
+    name: mysql
+    namespace: maya
+    resourceVersion: "31692"
+    selfLink: /api/v1/namespaces/maya/configmaps/mysql
+    uid: 99223517-397d-4cdc-b3de-7d0877cb96bc
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
