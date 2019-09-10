@@ -41,7 +41,8 @@ spec:
         resources:
           requests:
             cpu: 100m
-            memory: 256Mi
+            #memory: 256Mi
+            memory: 32Mi
       imagePullSecrets:
       - name: {{ .Values.server.dockerSecret }}
 

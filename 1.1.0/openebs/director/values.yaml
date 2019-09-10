@@ -6,7 +6,7 @@ server:
   release: 1.1.0-ee
   dockerSecret: directoronprem-registry-secret
   protocol: http
-  url:
+  url: 192.168.99.61:30380
   httpNodePort: 30380
   httpsNodePort: 30381
   apiAuthAccessMode: unrestricted
@@ -42,30 +42,30 @@ server:
 
 mysql:
   #storageClass: openebs-jiva-default
-  storageClass: standard
-  storageCapacity: 50Gi
+  storageClass: openebs-hostpath
+  storageCapacity: 10Gi
 
 elasticSearch:
   #storageClass: openebs-hostpath
-  storageClass: standard
-  storageCapacity: 50Gi
+  storageClass: openebs-hostpath
+  storageCapacity: 10Gi
   replicas: 1
 
 cassandra:
   #storageClass: openebs-hostpath
-  storageClass: standard
-  storageCapacity: 50Gi
+  storageClass: openebs-hostpath
+  storageCapacity: 10Gi
   replicas: 1
 
 mayaStore:
   #storageClass: cstor-storage-class
-  storageClass: standard
-  storageCapacity: 10Gi
+  storageClass: openebs-hostpath
+  storageCapacity: 1Gi
 
 grafana:
   #storageClass: cstor-storage-class
-  storageClass: standard
-  storageCapacity: 50Gi
+  storageClass: openebs-hostpath
+  storageCapacity: 10Gi
 
 cortex:
   replicationFactor: 1

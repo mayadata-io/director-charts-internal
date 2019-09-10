@@ -25,8 +25,9 @@ spec:
         - name: NODE_MASTER
           value: "false"
         - name: ES_JAVA_OPTS
-          value: -Xms512m -Xmx512m
-        image: registry.mayadata.io/elasticsearch:{{ .Values.server.release }}
+          #value: -Xms512m -Xmx512m
+          value: -Xms32m -Xmx32m
+        image: registry.mayadata.io/elasticsearch-search-guard:{{ .Values.server.release }}
         imagePullPolicy: IfNotPresent
         name: elasticsearch-logging
         ports:
@@ -38,9 +39,11 @@ spec:
           protocol: TCP
         resources:
           limits:
-            cpu: 1000m
-          requests:
+            #cpu: 1000m
             cpu: 100m
+          requests:
+            #cpu: 100m
+            cpu: 10m
         securityContext:
           runAsUser: 1000
         terminationMessagePath: /dev/termination-log
@@ -54,7 +57,8 @@ spec:
       - command:
         - /sbin/sysctl
         - -w
-        - vm.max_map_count=262144
+        #- vm.max_map_count=262144
+        - vm.max_map_count=2621
         image: alpine:3.6
         imagePullPolicy: IfNotPresent
         name: elasticsearch-logging-init

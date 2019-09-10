@@ -32,8 +32,10 @@ spec:
         name: maya-ui
         resources:
           requests:
-            cpu: 100m
-            memory: 512Mi
+            #cpu: 100m
+            cpu: 10m
+            #memory: 512Mi
+            memory: 32Mi
         env:
         - name: VENDOR
           value: "mod"
