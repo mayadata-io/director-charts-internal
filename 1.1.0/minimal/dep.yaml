@@ -3,21 +3,12 @@ items:
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
-    annotations:
-      deployment.kubernetes.io/revision: "1"
-    creationTimestamp: "2019-09-10T10:45:33Z"
-    generation: 1
     labels:
       name: alertmanager
     name: alertmanager
     namespace: maya
-    resourceVersion: "31910"
-    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/alertmanager
-    uid: 5476e73e-69f6-4887-a217-e2a834055ea6
   spec:
-    progressDeadlineSeconds: 2147483647
     replicas: 1
-    revisionHistoryLimit: 2147483647
     selector:
       matchLabels:
         name: alertmanager
@@ -28,7 +19,6 @@ items:
       type: RollingUpdate
     template:
       metadata:
-        creationTimestamp: null
         labels:
           name: alertmanager
       spec:
@@ -117,36 +107,15 @@ items:
         serviceAccount: sa-maya-io
         serviceAccountName: sa-maya-io
         terminationGracePeriodSeconds: 30
-  status:
-    conditions:
-    - lastTransitionTime: "2019-09-10T10:45:34Z"
-      lastUpdateTime: "2019-09-10T10:45:34Z"
-      message: Deployment has minimum availability.
-      reason: MinimumReplicasAvailable
-      status: "True"
-      type: Available
-    observedGeneration: 1
-    replicas: 1
-    unavailableReplicas: 1
-    updatedReplicas: 1
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
-    annotations:
-      deployment.kubernetes.io/revision: "1"
-    creationTimestamp: "2019-09-10T10:45:33Z"
-    generation: 1
     labels:
       name: alertstore
     name: alertstore
     namespace: maya
-    resourceVersion: "31922"
-    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/alertstore
-    uid: bf838b79-c09a-4a31-86a1-f85cdc471904
   spec:
-    progressDeadlineSeconds: 2147483647
     replicas: 1
-    revisionHistoryLimit: 2147483647
     selector:
       matchLabels:
         name: alertstore
@@ -249,36 +218,15 @@ items:
         serviceAccount: sa-maya-io
         serviceAccountName: sa-maya-io
         terminationGracePeriodSeconds: 30
-  status:
-    conditions:
-    - lastTransitionTime: "2019-09-10T10:45:37Z"
-      lastUpdateTime: "2019-09-10T10:45:37Z"
-      message: Deployment has minimum availability.
-      reason: MinimumReplicasAvailable
-      status: "True"
-      type: Available
-    observedGeneration: 1
-    replicas: 1
-    unavailableReplicas: 1
-    updatedReplicas: 1
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
-    annotations:
-      deployment.kubernetes.io/revision: "1"
-    creationTimestamp: "2019-09-10T10:45:33Z"
-    generation: 1
     labels:
       name: alertstore-tablemanager
     name: alertstore-tablemanager
     namespace: maya
-    resourceVersion: "31911"
-    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/alertstore-tablemanager
-    uid: fb97824b-9b19-4324-a928-af66b12d961d
   spec:
-    progressDeadlineSeconds: 2147483647
     replicas: 1
-    revisionHistoryLimit: 2147483647
     selector:
       matchLabels:
         name: alertstore-tablemanager
@@ -362,37 +310,16 @@ items:
         serviceAccount: sa-maya-io
         serviceAccountName: sa-maya-io
         terminationGracePeriodSeconds: 30
-  status:
-    conditions:
-    - lastTransitionTime: "2019-09-10T10:45:35Z"
-      lastUpdateTime: "2019-09-10T10:45:35Z"
-      message: Deployment has minimum availability.
-      reason: MinimumReplicasAvailable
-      status: "True"
-      type: Available
-    observedGeneration: 1
-    replicas: 1
-    unavailableReplicas: 1
-    updatedReplicas: 1
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
-    annotations:
-      deployment.kubernetes.io/revision: "1"
-    creationTimestamp: "2019-09-10T10:45:34Z"
-    generation: 1
     labels:
       app: cloud-agent
       name: cloud-agent
     name: cloud-agent
     namespace: maya
-    resourceVersion: "32548"
-    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/cloud-agent
-    uid: 4c1fbbda-c871-4a4c-b298-cb6ed6b45da0
   spec:
-    progressDeadlineSeconds: 600
     replicas: 1
-    revisionHistoryLimit: 2
     selector:
       matchLabels:
         app: cloud-agent
@@ -426,43 +353,15 @@ items:
         schedulerName: default-scheduler
         securityContext: {}
         terminationGracePeriodSeconds: 30
-  status:
-    availableReplicas: 1
-    conditions:
-    - lastTransitionTime: "2019-09-10T10:47:58Z"
-      lastUpdateTime: "2019-09-10T10:47:58Z"
-      message: Deployment has minimum availability.
-      reason: MinimumReplicasAvailable
-      status: "True"
-      type: Available
-    - lastTransitionTime: "2019-09-10T10:45:36Z"
-      lastUpdateTime: "2019-09-10T10:47:58Z"
-      message: ReplicaSet "cloud-agent-5b78cbff6b" has successfully progressed.
-      reason: NewReplicaSetAvailable
-      status: "True"
-      type: Progressing
-    observedGeneration: 1
-    readyReplicas: 1
-    replicas: 1
-    updatedReplicas: 1
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
-    annotations:
-      deployment.kubernetes.io/revision: "1"
-    creationTimestamp: "2019-09-10T10:45:36Z"
-    generation: 1
     labels:
       name: configs
     name: configs
     namespace: maya
-    resourceVersion: "36006"
-    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/configs
-    uid: 6c1d9a75-d29a-4e05-887b-3e26d8d4b289
   spec:
-    progressDeadlineSeconds: 2147483647
     replicas: 1
-    revisionHistoryLimit: 2147483647
     selector:
       matchLabels:
         name: configs
@@ -521,37 +420,15 @@ items:
         serviceAccount: sa-maya-io
         serviceAccountName: sa-maya-io
         terminationGracePeriodSeconds: 30
-  status:
-    availableReplicas: 1
-    conditions:
-    - lastTransitionTime: "2019-09-10T10:45:41Z"
-      lastUpdateTime: "2019-09-10T10:45:41Z"
-      message: Deployment has minimum availability.
-      reason: MinimumReplicasAvailable
-      status: "True"
-      type: Available
-    observedGeneration: 1
-    readyReplicas: 1
-    replicas: 1
-    updatedReplicas: 1
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
-    annotations:
-      deployment.kubernetes.io/revision: "1"
-    creationTimestamp: "2019-09-10T10:45:35Z"
-    generation: 1
     labels:
       name: configs-db
     name: configs-db
     namespace: maya
-    resourceVersion: "33867"
-    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/configs-db
-    uid: 592abe91-067c-43e6-8a07-24eec6e3ff50
   spec:
-    progressDeadlineSeconds: 2147483647
     replicas: 1
-    revisionHistoryLimit: 2147483647
     selector:
       matchLabels:
         name: configs-db
@@ -588,37 +465,15 @@ items:
         schedulerName: default-scheduler
         securityContext: {}
         terminationGracePeriodSeconds: 30
-  status:
-    availableReplicas: 1
-    conditions:
-    - lastTransitionTime: "2019-09-10T10:45:40Z"
-      lastUpdateTime: "2019-09-10T10:45:40Z"
-      message: Deployment has minimum availability.
-      reason: MinimumReplicasAvailable
-      status: "True"
-      type: Available
-    observedGeneration: 1
-    readyReplicas: 1
-    replicas: 1
-    updatedReplicas: 1
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
-    annotations:
-      deployment.kubernetes.io/revision: "1"
-    creationTimestamp: "2019-09-10T10:45:37Z"
-    generation: 1
     labels:
       name: consul
     name: consul
     namespace: maya
-    resourceVersion: "33884"
-    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/consul
-    uid: 6ee78817-2b6d-4b98-babe-9a9b295615ff
   spec:
-    progressDeadlineSeconds: 2147483647
     replicas: 1
-    revisionHistoryLimit: 2147483647
     selector:
       matchLabels:
         name: consul
@@ -669,33 +524,13 @@ items:
         schedulerName: default-scheduler
         securityContext: {}
         terminationGracePeriodSeconds: 30
-  status:
-    availableReplicas: 1
-    conditions:
-    - lastTransitionTime: "2019-09-10T10:45:44Z"
-      lastUpdateTime: "2019-09-10T10:45:44Z"
-      message: Deployment has minimum availability.
-      reason: MinimumReplicasAvailable
-      status: "True"
-      type: Available
-    observedGeneration: 1
-    readyReplicas: 1
-    replicas: 1
-    updatedReplicas: 1
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
-    annotations:
-      deployment.kubernetes.io/revision: "1"
-    creationTimestamp: "2019-09-10T10:45:42Z"
-    generation: 1
     labels:
       k8s-app: kibana-logging
     name: kibana-logging
     namespace: maya
-    resourceVersion: "36390"
-    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/kibana-logging
-    uid: 3717be43-eef2-4a22-8cef-a937d29a9779
   spec:
     progressDeadlineSeconds: 600
     replicas: 1
@@ -739,124 +574,15 @@ items:
         schedulerName: default-scheduler
         securityContext: {}
         terminationGracePeriodSeconds: 30
-  status:
-    conditions:
-    - lastTransitionTime: "2019-09-10T10:45:47Z"
-      lastUpdateTime: "2019-09-10T10:45:47Z"
-      message: Deployment has minimum availability.
-      reason: MinimumReplicasAvailable
-      status: "True"
-      type: Available
-    - lastTransitionTime: "2019-09-10T10:45:45Z"
-      lastUpdateTime: "2019-09-10T10:48:19Z"
-      message: ReplicaSet "kibana-logging-555778755f" has successfully progressed.
-      reason: NewReplicaSetAvailable
-      status: "True"
-      type: Progressing
-    observedGeneration: 1
-    replicas: 1
-    unavailableReplicas: 1
-    updatedReplicas: 1
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
-    annotations:
-      deployment.kubernetes.io/revision: "1"
-    creationTimestamp: "2019-09-10T10:45:44Z"
-    generation: 1
-    labels:
-      app: maya-grafana
-    name: maya-grafana
-    namespace: maya
-    resourceVersion: "33091"
-    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/maya-grafana
-    uid: ca492db0-1c3e-4085-a0e3-cafd15bbfa16
-  spec:
-    progressDeadlineSeconds: 2147483647
-    replicas: 1
-    revisionHistoryLimit: 2147483647
-    selector:
-      matchLabels:
-        app: maya-grafana
-    strategy:
-      rollingUpdate:
-        maxSurge: 1
-        maxUnavailable: 1
-      type: RollingUpdate
-    template:
-      metadata:
-        creationTimestamp: null
-        labels:
-          app: maya-grafana
-      spec:
-        containers:
-        - env:
-          - name: GF_AUTH_BASIC_ENABLED
-            value: "true"
-          - name: GF_AUTH_ANONYMOUS_ENABLED
-            value: "false"
-          image: registry.mayadata.io/maya-grafana:1.1.0-ee
-          imagePullPolicy: Always
-          name: master-grafana
-          ports:
-          - containerPort: 3000
-            protocol: TCP
-          resources: {}
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-          volumeMounts:
-          - mountPath: /etc/grafana
-            name: config-volume
-          - mountPath: /var/lib/grafana
-            name: maya-grafana-store
-        dnsPolicy: ClusterFirst
-        imagePullSecrets:
-        - name: directoronprem-registry-secret
-        restartPolicy: Always
-        schedulerName: default-scheduler
-        securityContext:
-          fsGroup: 107
-          runAsUser: 104
-        terminationGracePeriodSeconds: 30
-        volumes:
-        - configMap:
-            defaultMode: 420
-            name: maya-grafana-cfgmap
-          name: config-volume
-        - name: maya-grafana-store
-          persistentVolumeClaim:
-            claimName: grafana-claim
-  status:
-    availableReplicas: 1
-    conditions:
-    - lastTransitionTime: "2019-09-10T10:45:49Z"
-      lastUpdateTime: "2019-09-10T10:45:49Z"
-      message: Deployment has minimum availability.
-      reason: MinimumReplicasAvailable
-      status: "True"
-      type: Available
-    observedGeneration: 1
-    readyReplicas: 1
-    replicas: 1
-    updatedReplicas: 1
-- apiVersion: extensions/v1beta1
-  kind: Deployment
-  metadata:
-    annotations:
-      deployment.kubernetes.io/revision: "1"
-    creationTimestamp: "2019-09-10T10:45:45Z"
-    generation: 1
     labels:
       app: maya-io
     name: maya-io
     namespace: maya
-    resourceVersion: "33643"
-    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/maya-io
-    uid: 1a218743-4b26-471e-860a-294f573c2bb2
   spec:
-    progressDeadlineSeconds: 600
     replicas: 1
-    revisionHistoryLimit: 2
     selector:
       matchLabels:
         app: maya-io
@@ -864,7 +590,6 @@ items:
       type: Recreate
     template:
       metadata:
-        creationTimestamp: null
         labels:
           app: maya-io
       spec:
@@ -1071,42 +796,15 @@ items:
             defaultMode: 420
             name: maya-config
           name: maya-config
-  status:
-    conditions:
-    - lastTransitionTime: "2019-09-10T10:45:49Z"
-      lastUpdateTime: "2019-09-10T10:45:49Z"
-      message: Deployment does not have minimum availability.
-      reason: MinimumReplicasUnavailable
-      status: "False"
-      type: Available
-    - lastTransitionTime: "2019-09-10T10:55:54Z"
-      lastUpdateTime: "2019-09-10T10:55:54Z"
-      message: ReplicaSet "maya-io-6fc7c84b6d" has timed out progressing.
-      reason: ProgressDeadlineExceeded
-      status: "False"
-      type: Progressing
-    observedGeneration: 1
-    replicas: 1
-    unavailableReplicas: 1
-    updatedReplicas: 1
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
-    annotations:
-      deployment.kubernetes.io/revision: "1"
-    creationTimestamp: "2019-09-10T10:45:46Z"
-    generation: 1
     labels:
       app: maya-ui
     name: maya-ui
     namespace: maya
-    resourceVersion: "33483"
-    selfLink: /apis/extensions/v1beta1/namespaces/maya/deployments/maya-ui
-    uid: a2b8684b-4473-4af1-928f-f648b8dca698
   spec:
-    progressDeadlineSeconds: 2147483647
     replicas: 1
-    revisionHistoryLimit: 2147483647
     selector:
       matchLabels:
         app: maya-ui
@@ -1117,7 +815,6 @@ items:
       type: RollingUpdate
     template:
       metadata:
-        creationTimestamp: null
         labels:
           app: maya-ui
       spec:
@@ -1169,20 +866,3 @@ items:
             path: /tmp/mo-vendor
             type: ""
           name: config-data
-  status:
-    availableReplicas: 1
-    conditions:
-    - lastTransitionTime: "2019-09-10T10:45:52Z"
-      lastUpdateTime: "2019-09-10T10:45:52Z"
-      message: Deployment has minimum availability.
-      reason: MinimumReplicasAvailable
-      status: "True"
-      type: Available
-    observedGeneration: 1
-    readyReplicas: 1
-    replicas: 1
-    updatedReplicas: 1
-kind: List
-metadata:
-  resourceVersion: ""
-  selfLink: ""
