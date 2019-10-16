@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 server:
-  release: 1.2.0-RC1
+  release: 1.2.0-ee
   dockerSecret: directoronprem-registry-secret
   protocol: http
   url:
