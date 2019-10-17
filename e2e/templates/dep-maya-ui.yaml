@@ -27,7 +27,7 @@ spec:
           mountPath: /tmp/mo-vendor
           mountPropagation: Bidirectional
       containers:
-      - image: mayadataio/maya-ui:{{ .Values.server.release }}
+      - image: mayadataio/maya-ui:ci-2dad4284
         imagePullPolicy: Always
         name: maya-ui
         resources:
