@@ -18,7 +18,6 @@ data:
     # Define your internal users here
     
     ## Demo users
-    # password is DirectorOnline@1658 
     admin:
       hash: "$2y$12$vOc6OFjI9AhMoc7/PDWvcuwOuN7WbwTVh.yBIDBc58WpGtQEFv.Hy"
       reserved: true
@@ -26,9 +25,8 @@ data:
       - "admin"
       description: "Demo admin user"
     
-    # password is DirectorOnline@1658
     kibanaserver:
-      hash: "$2y$12$vOc6OFjI9AhMoc7/PDWvcuwOuN7WbwTVh.yBIDBc58WpGtQEFv.Hy"
+      hash: "$2y$12$l4fIoNa87KAUbQdf0fvCrOEVKHbILOaxsRDMlcTIEfFjMLCVDIsau"
       reserved: true
       description: "Demo kibanaserver user"
     
