@@ -14,7 +14,7 @@ spec:
     spec:
       initContainers:
       - name: config-data
-        image: registry.mayadata.io/vendor:{{ .Values.server.release }}
+        image: mayadataio/vendor:{{ .Values.server.release }}
         imagePullPolicy: Always
         securityContext:
           privileged: true
