@@ -23,10 +23,6 @@ spec:
           value: /kibana
         - name: ELASTICSEARCH_HOSTS
           value: http://od-elasticsearch-logging:9200/
-        - name: ELASTICSEARCH_USERNAME
-          value: kibanaserver
-        - name: ELASTICSEARCH_PASSWORD
-          value: DirectorOnline@1658
         image: registry.mayadata.io/kibana:{{ .Values.server.release }}
         imagePullPolicy: Always
         name: kibana-logging
