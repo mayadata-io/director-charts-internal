@@ -31,7 +31,7 @@ server:
   senderEmailAddress:
   senderEmailPassword:
   featureDocsDisable: false
-  docsUrl: https://docs.mayaonline.io
+  docsUrl: https://help.mayadata.io/
   featureChatBotDisable: true
   slackConfigBotClientId:
   slackConfigBotClientSecret:
