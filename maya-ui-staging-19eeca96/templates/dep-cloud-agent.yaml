@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: cloud-agent
-          image: registry.mayadata.io/cloud-agent:{{ .Values.server.release }}
+          image: mayadataio/cloud-agent:staging-e923dc1
           imagePullPolicy: Always
           ports:
             - containerPort: 8880
