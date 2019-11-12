@@ -4,7 +4,7 @@
 
 server:
   release: 1.2.0-ee
-  dockerSecret: directoronprem-registry-secret
+  dockerSecret: dop-secret
   protocol: http
   url: mayadataurl
   httpNodePort: 30380
