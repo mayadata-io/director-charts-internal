@@ -65,4 +65,5 @@ data:
     feature.kiali.disable={{ .Values.server.featureKialiDisable }}
     analytics.google.code={{ .Values.server.analyticsGoogleCode }}
     local.cluster.autoconnect={{ .Values.server.autoconnectLocalCluster }}
+    default.curator.retention.period={{ .Values.curator.retentionPeriod }}
 ---
