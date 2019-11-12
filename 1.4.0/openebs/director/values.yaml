@@ -80,4 +80,5 @@ ingester:
 querier:
   replicas: 1
 
-
+curator:
+  retentionPeriod: 30
