@@ -102,8 +102,7 @@ items:
       nginx.ingress.kubernetes.io/auth-response-headers: username
       nginx.ingress.kubernetes.io/ssl-redirect: "false"
       nginx.ingress.kubernetes.io/configuration-snippet: |
-        proxy_set_header X-Scope-OrgID $remote_user;
-        proxy_set_header x-proxy-roles "";
+        proxy_set_header Authorization $http_authorization;
     name: maya-elasticsearch-ingress
   spec:
     rules:
@@ -111,6 +110,6 @@ items:
         paths:
         - path: /elasticsearch/
           backend:
-            serviceName: elasticsearch-logging
+            serviceName: od-elasticsearch-logging
             servicePort: 9200
 kind: List
