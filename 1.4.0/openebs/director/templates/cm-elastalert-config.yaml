@@ -8,7 +8,7 @@ data:
   elastalert_config.yaml: |-
     # The elasticsearch hostname for metadata writeback
     # Note that every rule can have its own elasticsearch host
-    es_host: od-elasticsearch-data
+    es_host: od-elasticsearch-logging.{{ .Release.Namespace }}.svc.{{ .Values.server.clusterDomain }}
     
     # The elasticsearch port
     es_port: 9200
@@ -47,7 +47,7 @@ data:
     
     # Option basic-auth username and password for elasticsearch
     es_username: admin
-    es_password: DirectorOnline@1658
+    es_password: password
     
     # The index on es_host which is used for metadata storage
     # This can be a unmapped index, but it is recommended that you run
