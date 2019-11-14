@@ -66,4 +66,6 @@ data:
     analytics.google.code={{ .Values.server.analyticsGoogleCode }}
     local.cluster.autoconnect={{ .Values.server.autoconnectLocalCluster }}
     default.curator.retention.period={{ .Values.curator.retentionPeriod }}
+    kibana.admin.user=admin
+    kibana.admin.password=password
 ---
