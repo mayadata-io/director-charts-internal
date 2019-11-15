@@ -44,7 +44,7 @@ data:
           job: 'cluster_uuid_{cluster_id}'
           severity: '{severity}'
         annotations:
-          SUMMARY: '{msg} : {reason}'
+          SUMMARY: '{msg} : {rname} : {reason}'
           DESCRIPTION: ''
           RESOURCE_NAME: '{rname}'
           EVENTCODE: '{eventcode}'
@@ -93,7 +93,7 @@ data:
           job: 'cluster_uuid_{cluster_id}'
           severity: '{severity}'
         annotations:
-          SUMMARY: '{msg} : {reason}'
+          SUMMARY: '{msg} : {rname} : {reason}'
           DESCRIPTION: ''
           RESOURCE_NAME: '{rname}'
           EVENTCODE: '{eventcode}'
