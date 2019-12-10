@@ -2,6 +2,9 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# Update platfrom according to your Platform, Default include(GKE,Packet) and SUSE
+platform: Default
+
 server:
   release: 1.5.0-ee
   dockerSecret: directoronprem-registry-secret

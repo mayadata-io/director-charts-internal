@@ -23,6 +23,7 @@ The following table lists the configurable parameters of the DirectorOnPrem char
 
 | Parameter                                       | Description                                   | Default                                   |
 | ------------------------------------------------|-----------------------------------------------| ------------------------------------------|
+| `platform`                           | Choose your kubernetes platform          |      default                                |
 | `server.dockerSecret`                           | Docker secret for pulling the images          |      none                                 |
 | `server.protocol`                               | http/https protocol for accessing the UI      |      http                                 |
 | `server.url`                                    | url/IP address:port for UI                    |      none                                 |
@@ -75,6 +76,11 @@ The following table lists the configurable parameters of the DirectorOnPrem char
 | `alertStore.replicationFactor`                  | TBD                                           |      1                                    |
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
+
+# Platform
+   The `Platform` flag let you choose which platfrom you want to intall. 
+    -  Default value is for GKE, Packet
+    -  SUSE value is for SUSE Kubernetes platform
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
