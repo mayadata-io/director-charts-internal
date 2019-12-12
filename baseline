@@ -1,4 +1,4 @@
-date=12-12-19,time=07:08:19,repo=maya-io-server,branch=staging,commit=staging-1576134435
+date=12-12-19,time=07:08:19,repo=maya-io-server,from-repo=dmaas-agent,dmaas-agent-commit=staging-e5e227e,branch=staging,commit=staging-1576134435
 date=12-12-19,time=07:02:29,repo=maya-io-server,from-repo=websocket-proxy,websocket-proxy-commit=staging-ef5765f,branch=staging,commit=staging-1576134071
 date=12-11-19,time=15:10:14,repo=maya-ui,branch=staging,commit=staging-40eabde4
 date=12-11-19,time=13:17:22,repo=maya-io-server,branch=staging,commit=staging-1576070175
