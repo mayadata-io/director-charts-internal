@@ -1,4 +1,4 @@
-date=12-20-19,time=09:18:18,repo=maya-io-server,branch=staging,commit=staging-1576833429
+date=12-20-19,time=09:18:18,repo=maya-io-server,from-repo=maya-auth-service,maya-auth-service-commit=staging-7424274,branch=staging,commit=staging-1576833429
 date=12-20-19,time=06:50:53,repo=maya-ui,branch=staging,commit=staging-cfb858b4
 date=12-20-19,time=06:02:04,repo=maya-ui,branch=staging,commit=staging-9ee84e06
 date=12-19-19,time=10:52:10,repo=maya-ui,branch=staging,commit=staging-78e0a1bb
