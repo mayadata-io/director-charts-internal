@@ -1,0 +1,18 @@
+apiVersion: v1
+version: staging-1577436244
+name: mayaonprem
+appVersion: staging-1577436244
+description: This is an on-premise installation of MayaOnline
+icon: https://raw.githubusercontent.com/mayadata-io/mayaonprem-charts/master/mayaonprem-logo.png
+home: https://www.mayadata.io/
+keywords:
+  - monitoring
+  - visualization
+  - efk
+  - cloud-native-storage
+  - storage
+sources:
+  - https://github.com/mayadata-io/mayaonprem-charts.git
+maintainers:
+  - name: moteesh
+    email: moteesh.reddy@mayadata.io
