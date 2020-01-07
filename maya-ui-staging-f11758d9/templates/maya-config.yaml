@@ -54,7 +54,6 @@ data:
     feature.mayaonpremregistration.disable=true
     feature.cortexquerier.disable=true
     feature.litmus.disable=true
-    feature.rbac.disable=true
     feature.zendesk.disable=true
     feature.chatbot.disable={{ .Values.server.featureChatBotDisable }}
     slack.config.bot.client.id={{ .Values.server.slackConfigBotClientId }}
