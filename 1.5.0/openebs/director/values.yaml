@@ -6,7 +6,7 @@
 platform: Default
 
 server:
-  release: 1.5.0-ee
+  release: 1.6.0-RC2.ee
   dockerSecret: directoronprem-registry-secret
   protocol: http
   url:
@@ -19,7 +19,7 @@ server:
   apiAuthExternalProviderEnabled: false
   apiAuthExternalProviderConfigured:
   apiAuthInternalProviderEnabled: true
-  apiAuthInternalProviderConfigured: localAuthConfig
+  apiAuthInternalProviderConfigured: localAuthConfig\,adconfig
   apiAuthEnabler:
   apiAuthGithubClientId:
   apiAuthGithubClientSecret:
@@ -42,32 +42,38 @@ server:
   featureKialiDisable: true
   analyticsGoogleCode:
   autoconnectLocalCluster: true
+  addomain: dc=cloud,dc=local
+  adport: 389
+  adhost: 10.31.1.100
+  adsvcAccUser: rancher@cloud.local
+  adsvcAccPwd: Test@123
+  adtls: false
 
 mysql:
   #storageClass: openebs-jiva-default
-  storageClass: standard
+  storageClass: openebs-hostpath
   storageCapacity: 50Gi
 
 elasticSearch:
   #storageClass: openebs-hostpath
-  storageClass: standard
+  storageClass: cstor-storage-class
   storageCapacity: 50Gi
   replicas: 1
 
 cassandra:
   #storageClass: openebs-hostpath
-  storageClass: standard
+  storageClass: cstor-storage-class
   storageCapacity: 50Gi
   replicas: 1
 
 mayaStore:
   #storageClass: cstor-storage-class
-  storageClass: standard
+  storageClass: cstor-storage-class
   storageCapacity: 10Gi
 
 grafana:
   #storageClass: cstor-storage-class
-  storageClass: standard
+  storageClass: cstor-storage-class
   storageCapacity: 50Gi
 
 cortex:
