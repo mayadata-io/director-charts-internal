@@ -68,4 +68,10 @@ data:
     default.curator.retention.period={{ .Values.curator.retentionPeriod }}
     kibana.admin.user=admin
     kibana.admin.password=password
+    api.auth.ad.domain={{ .Values.server.addomain }}
+    api.auth.ad.port={{ .Values.server.adport }}
+    api.auth.ad.server={{ .Values.server.adhost }}
+    api.auth.ad.service.account.user={{ .Values.server.adsvcAccUser }}
+    api.auth.ad.service.account.password={{ .Values.server.adsvcAccPwd }}
+    api.auth.ad.tls={{ .Values.server.adtls }}
 ---
