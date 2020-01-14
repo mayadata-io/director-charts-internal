@@ -42,6 +42,17 @@ server:
   featureKialiDisable: true
   analyticsGoogleCode:
   autoconnectLocalCluster: true
+  adDomain:
+  adPort: 636
+  adHost:
+  adSvcAccUser:
+  adSvcAccPwd:
+  adTLS: true
+  adLoginField: sAMAccountName
+  adNameField: givenName
+  adUserObjectClass: person
+  adUserSearchField: sAMAccountName
+  adConnectionTimeout: 5000
 
 mysql:
   #storageClass: openebs-jiva-default
