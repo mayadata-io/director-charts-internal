@@ -42,12 +42,12 @@ server:
   featureKialiDisable: true
   analyticsGoogleCode:
   autoconnectLocalCluster: true
+  adHost:
   adDomain:
   adPort: 636
-  adHost:
+  adTLS: true
   adSvcAccUser:
   adSvcAccPwd:
-  adTLS: true
   adLoginField: sAMAccountName
   adNameField: givenName
   adUserObjectClass: person
