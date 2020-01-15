@@ -35,11 +35,6 @@ data:
     maya.alertstore.tablemanager.url=http://alertstore-tablemanager."default".svc.cluster.local/
     maya.alertstore.ingress.url=https://${URL}/alertstore/alerts
     maya.alertstore.url=http://alertstore."default".svc.cluster.local/
-    maya.killbill.server.url=http://killbill-server."default".svc.cluster.local:8080
-    maya.killbill.admin.username=admin
-    maya.killbill.admin.password=MayaOnline@123
-    maya.killbill.mayaonline.tenant.api.key=mayaonline
-    maya.killbill.mayaonline.tenant.api.secret=MayaOnline@123
     sales.email.address=support@mayadata.io
     maya.dmaas.cloud.agent.url=http://cloud-agent-service."default".svc.cluster.local:8880
     maya.setup.name=mayaonline-staging

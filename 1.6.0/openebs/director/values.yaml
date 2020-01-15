@@ -50,12 +50,12 @@ server:
   adPort: 636
   adTLS: true
   # an ADuser with read access to the AD server, someuser@domain.d1adSvcAccUser:
+  adSvcAccUser:
   adSvcAccPwd:
-  # the field used for logging in, sAMAccountName is globally unique and indexed
-  adLoginField: sAMAccountName
   adNameField: givenName
   # default objectclass for users
   adUserObjectClass: person
+  adGroupObjectClass: group
   # connection timeout in milliseconds
   adConnectionTimeout: 5000
 
