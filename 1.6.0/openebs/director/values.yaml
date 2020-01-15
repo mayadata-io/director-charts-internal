@@ -42,6 +42,22 @@ server:
   featureKialiDisable: true
   analyticsGoogleCode:
   autoconnectLocalCluster: true
+  # The host URL of the AD server
+  adHost:
+  # The base domain of the AD server
+  adDomain:
+  # The port number on which the AD server is listening
+  adPort: 636
+  adTLS: true
+  # an ADuser with read access to the AD server, someuser@domain.d1adSvcAccUser:
+  adSvcAccUser:
+  adSvcAccPwd:
+  adNameField: givenName
+  # default objectclass for users
+  adUserObjectClass: person
+  adGroupObjectClass: group
+  # connection timeout in milliseconds
+  adConnectionTimeout: 5000
 
 mysql:
   #storageClass: openebs-jiva-default

@@ -67,4 +67,16 @@ data:
     default.curator.retention.period={{ .Values.curator.retentionPeriod }}
     kibana.admin.user=admin
     kibana.admin.password=password
+    api.auth.ad.domain={{ .Values.server.adDomain }}
+    # assuming the ad domain to be the default domain
+    api.auth.ad.login.domain={{ .Values.server.adDomain }}
+    api.auth.ad.port={{ .Values.server.adPort }}
+    api.auth.ad.server={{ .Values.server.adHost }}
+    api.auth.ad.service.account.user={{ .Values.server.adSvcAccUser }}
+    api.auth.ad.service.account.password={{ .Values.server.adSvcAccPwd }}
+    api.auth.ad.tls={{ .Values.server.adTLS }}
+    api.auth.ad.user.name.field={{ .Values.server.adNameField }}
+    api.auth.ad.user.object.class={{ .Values.server.adUserObjectClass }}
+    api.auth.ad.connection.timeout={{ .Values.server.adConnectionTimeout }}
+    api.auth.ad.group.object.class={{ .Values.server.adGroupObjectClass }}
 ---
