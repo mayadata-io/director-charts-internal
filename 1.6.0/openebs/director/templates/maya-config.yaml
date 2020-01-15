@@ -75,7 +75,6 @@ data:
     api.auth.ad.service.account.user={{ .Values.server.adSvcAccUser }}
     api.auth.ad.service.account.password={{ .Values.server.adSvcAccPwd }}
     api.auth.ad.tls={{ .Values.server.adTLS }}
-    api.auth.ad.user.login.field={{ .Values.server.adLoginField }}
     api.auth.ad.user.name.field={{ .Values.server.adNameField }}
     api.auth.ad.user.object.class={{ .Values.server.adUserObjectClass }}
     api.auth.ad.connection.timeout={{ .Values.server.adConnectionTimeout }}
