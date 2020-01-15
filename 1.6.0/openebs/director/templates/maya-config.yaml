@@ -78,6 +78,5 @@ data:
     api.auth.ad.user.login.field={{ .Values.server.adLoginField }}
     api.auth.ad.user.name.field={{ .Values.server.adNameField }}
     api.auth.ad.user.object.class={{ .Values.server.adUserObjectClass }}
-    api.auth.ad.user.search.field={{ .Values.server.adUserSearchField }}
     api.auth.ad.connection.timeout={{ .Values.server.adConnectionTimeout }}
 ---

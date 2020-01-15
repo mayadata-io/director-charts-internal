@@ -42,16 +42,21 @@ server:
   featureKialiDisable: true
   analyticsGoogleCode:
   autoconnectLocalCluster: true
+  # The host URL of the AD server
   adHost:
+  # The base domain of the AD server
   adDomain:
+  # The port number on which the AD server is listening
   adPort: 636
   adTLS: true
-  adSvcAccUser:
+  # an ADuser with read access to the AD server, someuser@domain.d1adSvcAccUser:
   adSvcAccPwd:
+  # the field used for logging in, sAMAccountName is globally unique and indexed
   adLoginField: sAMAccountName
   adNameField: givenName
+  # default objectclass for users
   adUserObjectClass: person
-  adUserSearchField: sAMAccountName
+  # connection timeout in milliseconds
   adConnectionTimeout: 5000
 
 mysql:
