@@ -14,5 +14,5 @@ keywords:
 sources:
   - https://github.com/mayadata-io/director-charts.git
 maintainers:
-  - name: moteesh
-    email: moteesh.reddy@mayadata.io
+  - name: MayaData
+    email: support@mayadata.io
