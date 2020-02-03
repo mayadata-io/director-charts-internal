@@ -9,7 +9,7 @@ server:
   release: 1.6.0-ee
   dockerSecret: directoronprem-registry-secret
   protocol: http
-  url: 
+  url:
   httpNodePort: 30380
   httpsNodePort: 30381
   apiAuthAccessMode: unrestricted
@@ -108,7 +108,7 @@ nginx-ingress:
   enabled: true
   tcpExternalConfig: "true"
   controller:
-    kind: DaemonSet
+    kind: Deployment
     config:
       hsts-include-subdomains: "false"
       server-name-hash-bucket-size: "256"
