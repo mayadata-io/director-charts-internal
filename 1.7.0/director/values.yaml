@@ -121,23 +121,19 @@ nginx-ingress:
     extraArgs:
       force-namespace-isolation: ""
     service:
-      enabled: true
+      enabled: false
       type: NodePort
       nodePorts:
         http: 30380
         https: 30381
-      #externalTrafficPolicy: "Local"
-    containerPort:
-    http: 80
-    https: 443  
     resources:
       requests:
         cpu: 100m
         memory: 100Mi
     publishService:
       enabled: true
-    replicaCount: 3
-    minAvailable: 2
+    replicaCount: 1
+    minAvailable: 1
     scope:
       enabled: true
     stats:

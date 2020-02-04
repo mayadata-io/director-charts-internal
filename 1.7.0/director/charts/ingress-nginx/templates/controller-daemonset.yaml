@@ -209,7 +209,7 @@ spec:
       initContainers:
 {{ toYaml .Values.controller.extraInitContainers | indent 8}}
 {{- end }}
-      hostNetwork: {{ .Values.controller.hostNetwork }}
+      hostNetwork: true
     {{- if .Values.controller.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.controller.nodeSelector | indent 8 }}
