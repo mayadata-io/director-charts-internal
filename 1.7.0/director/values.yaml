@@ -15,6 +15,7 @@ server:
   apiAuthAccessMode: unrestricted
   serverDefaultAccessGrant: true
   apiUiEnabled: true
+  maxMemberCountInOneProject: 10
   setupName: directoronprem
   apiAuthExternalProviderEnabled: false
   apiAuthExternalProviderConfigured:

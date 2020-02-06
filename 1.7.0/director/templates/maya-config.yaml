@@ -79,4 +79,5 @@ data:
     api.auth.ad.user.object.class={{ .Values.server.adUserObjectClass }}
     api.auth.ad.connection.timeout={{ .Values.server.adConnectionTimeout }}
     api.auth.ad.group.object.class={{ .Values.server.adGroupObjectClass }}
+    server.projectmember.max.limit={{ .Values.server.maxMemberCountInOneProject }}
 ---
