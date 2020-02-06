@@ -57,6 +57,7 @@ The following table lists the configurable parameters of the DirectorOnPrem char
 | `server.featureKialiDisable`                  | TBD                                           |      true                                 |
 | `server.analyticsGoogleCode`                  | TBD                                           |      none                                 |
 | `server.autoconnectLocalCluster`                | Autoconnect local cluster to openebs director |       true                                |
+| `server.maxMemberCountInOneProject`             | Maximum member count in one project. Some special values -  0 -> You can add as many members as you want. 1 -> You can not add any member(Disable teaming).         |       10                                |
 |                                                 |                                               |                                           |
 | `mysql.storageClass`                            | TBD                                           |      standard                             |
 |                                                 |                                               |                                           |
