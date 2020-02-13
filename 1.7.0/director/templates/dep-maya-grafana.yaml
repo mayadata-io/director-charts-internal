@@ -8,6 +8,8 @@ spec:
   selector:
     matchLabels:
       app: maya-grafana
+  strategy:
+    type: Recreate    
   template:
     metadata:
       labels:
