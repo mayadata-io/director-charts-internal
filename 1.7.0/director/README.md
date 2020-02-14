@@ -23,53 +23,52 @@ The following table lists the configurable parameters of the DirectorOnPrem char
 
 | Parameter                                       | Description                                   | Default                                   |
 | ------------------------------------------------|-----------------------------------------------| ------------------------------------------|
-| `platform`                           | Choose your kubernetes platform          |      default                                |
+| `platform`                                      | Choose your kubernetes platform          |      default                                |
 | `server.dockerSecret`                           | Docker secret for pulling the images          |      none                                 |
 | `server.protocol`                               | http/https protocol for accessing the UI      |      http                                 |
 | `server.url`                                    | url/IP address:port for UI                    |      none                                 |
-| `server.apiAuthAccessMode`                   | TBD                                           |      unrestricted                         |
-| `server.serverDefaultAccessGrant`            | TBD                                           |      true                                 |
-| `server.apiUiEnabled`                         | TBD                                           |      true                                 |
-| `server.setupName`                             | TBD                                           |      mayaonprem                     |
-| `server.apiAuthExternalProviderEnabled`     | TBD                                           |      true                                 |
-| `server.apiAuthExternalProviderConfigured`  | TBD                                           |      githubconfig                         |
-| `server.apiAuthInternalProviderEnabled`     |  Enable local authentication                  |      true                                     |
-| `server.apiAuthInternalProviderConfigured`  |  Type of local authentication (u/p, ldap etc) |      localAuthConfig                          |
-| `server.apiAuthEnabler`                       | TBD                                           |      none                                 |
-| `server.apiAuthGithubClientId`              | TBD                                           |      none                                 |
-| `server.apiAuthGithubClientSecret`          | TBD                                           |      none                                 |
-| `server.apiAuthGoogleClientId`              | TBD                                           |      none                                 |
-| `server.apiAuthGoogleClientSecret`          | TBD                                           |      none                                 |
-| `server.clusterDomain`                         | TBD                                           |      cluster.local                        |
-| `server.featureSubscriptionDisable`           | TBD                                           |      true                                 |
-| `server.subscriptionType`                      | TBD                                           |      none                                 |
-| `server.featureBillingDisable`                | TBD                                           |      true                                 |
-| `server.billingType`                           | TBD                                           |      external                             |
-| `server.featureEmailDisable`                  | TBD                                           |      true                                 |
-| `server.senderEmailAddress`                    | TBD                                           |      none                                 |
-| `server.senderEmailPassword`                  | TBD                                           |      none                                 |
-| `server.featureDocsDisable`                   | TBD                                           |      false                                |
-| `server.docsUrl`                               | TBD                                           |      https://help.mayadata.io/hc/en-us        |
-| `server.featureChatBotDisable`                | TBD                                           |      true                                 |
+| `server.apiAuthAccessMode`                   | TBD                                           |      unrestricted                            |
+| `server.serverDefaultAccessGrant`            | Allow users to sign-up and use Director without explicit approval from admin  |      true    |
+| `server.apiUiEnabled`                         | Allow a rich API viewer                       |      true                                 |
+| `server.setupName`| Name of the setup, should be set to directoronprem unless requested otherwise by MayaData |      directoronprem       |
+| `server.apiAuthExternalProviderEnabled`     | Enable OAuth one click sign-in via Google and/or GitHub  |      true                         |
+| `server.apiAuthExternalProviderConfigured`  | Specify supported authentication providers, e.g. githubconfig\,googleconfig |      githubconfig   |
+| `server.apiAuthInternalProviderEnabled`     |  Enable local and directory authentication services  |      true                              |
+| `server.apiAuthInternalProviderConfigured`  |  Types of local authentication (e.g. localAuthConfig\,adconfig ) |      localAuthConfig     |
+| `server.apiAuthGithubClientId`              | GitHub Oauth client-id if github external auth provider is enabled    |   none                |
+| `server.apiAuthGithubClientSecret`          | GitHub Oauth client-secret if github external auth provider is enabled   |      none         |
+| `server.apiAuthGoogleClientId`              | Google Oauth client-id if Google external auth provider is enabled    |      none       |
+| `server.apiAuthGoogleClientSecret`          |  Google Oauth client-secret if Google external auth provider is enabled  |      none                                 |
+| `server.clusterDomain`                      | TBD                                           |      cluster.local                        |
+| `server.featureSubscriptionDisable`         | TBD                                           |      true                                 |
+| `server.subscriptionType`                   | TBD                                           |      none                                 |
+| `server.featureBillingDisable`              | TBD                                           |      true                                 |
+| `server.billingType`                        | TBD                                           |      external                             |
+| `server.featureEmailDisable`     | Email feature is disabled when users' environment doesn't have dedicated mail accounts of a mailserver to send out mails via DirectorOnPrem   |  true |
+| `server.senderEmailAddress`         | bot email account at a mailserver to send out emails via this application   |   none              |
+| `server.senderEmailPassword`                  | password of the bot email account           |      none                                 |
+| `server.featureDocsDisable`                   | TBD                                         |      false                                |
+| `server.docsUrl`                              | TBD                                         |      https://help.mayadata.io/hc/en-us    |
+| `server.featureChatBotDisable`                | TBD                                         |      true                                 |
 | `server.slackConfigBotClientId`             | TBD                                           |      none                                 |
 | `server.slackConfigBotClientSecret`         | TBD                                           |      none                                 |
-| `server.slackNotificationWelcomeMessage`     | TBD                                           |      none                                 |
-| `server.featureKialiDisable`                  | TBD                                           |      true                                 |
-| `server.analyticsGoogleCode`                  | TBD                                           |      none                                 |
-| `server.autoconnectLocalCluster`                | Autoconnect local cluster to openebs director |       true                                |
-| `server.maxMemberCountInOneProject`             | Maximum member count in one project. Some special values -  0 -> You can add as many members as you want. 1 -> You can not add any member(Disable teaming).         |       10                                |
+| `server.slackNotificationWelcomeMessage`     | TBD                                          |      none                                 |
+| `server.featureKialiDisable`                  | TBD                                         |      true                                 |
+| `server.featureAnalyticsDisable`              | Disable anonymous usage data collection     |      none                                 |
+| `server.autoconnectLocalCluster`              | Autoconnect host cluster to openebs director |       true                                |
+| `server.maxMemberCountInOneProject`           | Maximum member count in one project. Some special values -  0 -> You can add as many members as you want. 1 -> You can not add any member(Disable teaming).         |       10                                |
 |                                                 |                                               |                                           |
-| `mysql.storageClass`                            | TBD                                           |      standard                             |
+| `mysql.storageClass`                            | storage engine/backend for MySQL              |      standard                             |
 |                                                 |                                               |                                           |
-| `elasticSearch.storageClass`                    | TBD                                           |      standard                             |
-| `elasticSearch.replicas`                        | TBD                                           |      1                                    |
+| `elasticSearch.storageClass`                    | storage engine/backend for your logs storage  |      standard                             |
+| `elasticSearch.replicas`                        | storage replication for logs         |      1                                    |
 |                                                 |                                               |                                           |
-| `cassandra.storageClass`                        | TBD                                           |      standard                             |
-| `cassandra.replicas`                            | TBD                                           |      1                                    |
+| `cassandra.storageClass`                        | storage engine/backend for Cassandra          |      standard                             |
+| `cassandra.replicas`                            | storage replication for Cassandra             |      1                                    |
 |                                                 |                                               |                                           |
-| `mayaStore.storageClass`                        | TBD                                           |      standard                             |
+| `mayaStore.storageClass`                        | storage engine/backend for mayastore          |      standard                             |
 |                                                 |                                               |                                           |
-| `grafana.storageClass`                          | TBD                                           |      standard                             |
+| `grafana.storageClass`                          | storage engine/backend for grafana            |      standard                             |
 |                                                 |                                               |                                           |
 | `cortex.replicationFactor`                      | TBD                                           |      1                                    |
 | `cortex.timeout`                                | TBD                                           |      20s                                  |
@@ -79,7 +78,7 @@ The following table lists the configurable parameters of the DirectorOnPrem char
 
 
 # Platform
-   The `Platform` flag let you choose which platfrom you want to intall. 
+   The `Platform` flag let you choose which platfrom you want to intall.
     -  Default value is for GKE, Packet
     -  SUSE value is for SUSE Kubernetes platform
 

@@ -21,7 +21,6 @@ data:
     api.auth.internal.provider.enabled={{ .Values.server.apiAuthInternalProviderEnabled }}
     api.auth.internal.provider.configured={{ .Values.server.apiAuthInternalProviderConfigured }}
     api.github.scheme=https://
-    api.auth.enabler=github_user:{{ .Values.server.apiAuthEnabler }}
     api.auth.github.client.id={{ .Values.server.apiAuthGithubClientId }}
     api.auth.github.client.secret={{ .Values.server.apiAuthGithubClientSecret }}
     api.auth.google.client.id={{ .Values.server.apiAuthGoogleClientId }}
@@ -63,6 +62,7 @@ data:
     chatbot.alert.url={{ .Values.server.protocol }}://{{ .Values.server.url }}/chat-server/maya-events
     feature.kiali.disable={{ .Values.server.featureKialiDisable }}
     analytics.google.code={{ .Values.server.analyticsGoogleCode }}
+    feature.analytics.disable={{ .Values.server.featureAnalyticsDisable }}
     local.cluster.autoconnect={{ .Values.server.autoconnectLocalCluster }}
     default.curator.retention.period={{ .Values.curator.retentionPeriod }}
     kibana.admin.user=admin

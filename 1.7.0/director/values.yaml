@@ -9,7 +9,7 @@ server:
   release: 1.7.0-ee
   dockerSecret: directoronprem-registry-secret
   protocol: http
-  url: 
+  url:
   httpNodePort: 30380
   httpsNodePort: 30381
   apiAuthAccessMode: unrestricted
@@ -21,7 +21,6 @@ server:
   apiAuthExternalProviderConfigured:
   apiAuthInternalProviderEnabled: true
   apiAuthInternalProviderConfigured: localAuthConfig
-  apiAuthEnabler:
   apiAuthGithubClientId:
   apiAuthGithubClientSecret:
   apiAuthGoogleClientId:
@@ -155,4 +154,4 @@ nginx-ingress:
     create: true
   serviceAccount:
     create: true
-      
+
