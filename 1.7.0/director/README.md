@@ -26,7 +26,7 @@ The following table lists the configurable parameters of the DirectorOnPrem char
 | `platform`                                      | Choose your kubernetes platform          |      default                                |
 | `server.dockerSecret`                           | Docker secret for pulling the images          |      none                                 |
 | `server.protocol`                               | http/https protocol for accessing the UI      |      http                                 |
-| `server.url`                                    | url/IP address:port for UI                    |      none                                 |
+| `server.url`                                    | url/IP address                    |      none                                 |
 | `server.apiAuthAccessMode`                   | TBD                                           |      unrestricted                            |
 | `server.serverDefaultAccessGrant`            | Allow users to sign-up and use Director without explicit approval from admin  |      true    |
 | `server.apiUiEnabled`                         | Allow a rich API viewer                       |      true                                 |
@@ -90,8 +90,8 @@ Alternatively, a YAML file that specifies the values for the parameters can be p
 helm install -f values.yaml .
 ```
 
-Once DOP pods are in running state, it can be accessible from browser using NodeIp given in URL along with NodePort(Nodeip:port)
+Once DOP pods are in running state, it can be accessible from browser using NodeIp given in URL. If ingress is used as deployment then URL is given along with NodePort(Nodeip:port)
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
 
-> **Tip**: Intial login credentails for Administrator. Username: **Administrator** Password: **password**
+> **Tip**: Initial login credentails for Administrator. Username: **Administrator** Password: **password**
