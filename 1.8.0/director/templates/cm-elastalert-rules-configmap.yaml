@@ -40,7 +40,7 @@ data:
       alerts:
       - status: firing
         labels:
-          alertname: '{eventcode}'
+          alertname: '{alertname}'
           job: 'cluster_uuid_{cluster_id}'
           severity: '{severity}'
         annotations:
@@ -50,6 +50,8 @@ data:
           EVENTCODE: '{eventcode}'
           REASON: '{reason}'
           MSG: '{msg}'
+          COMPONENTID: '{rname}'
+          COMPONENTTYPE: '{component_type}'
         startsAt: '{@timestamp}'
         endsAt: '{@timestamp}'
 
@@ -89,7 +91,7 @@ data:
       - status: firing
         sender: Elastalert
         labels:
-          alertname: '{eventcode}'
+          alertname: '{alertname}'
           job: 'cluster_uuid_{cluster_id}'
           severity: '{severity}'
         annotations:
@@ -99,5 +101,7 @@ data:
           EVENTCODE: '{eventcode}'
           REASON: '{reason}'
           MSG: '{msg}'
+          COMPONENTID: '{rname}'
+          COMPONENTTYPE: '{component_type}'
         startsAt: '{@timestamp}'
         endsAt: '{@timestamp}'
