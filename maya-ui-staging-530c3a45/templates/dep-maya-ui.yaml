@@ -14,13 +14,13 @@ spec:
     spec:
       initContainers:
       - name: config-data
-        image: mayadataio/mayaonline-vendor:staging-263cf25
+        image: mayadataio/director-vendor:staging-b8c56a2
         imagePullPolicy: Always
         securityContext:
           privileged: true
         env:
         - name: VENDOR
-          value: "mod"
+          value: "dop"
         command: ["sh","-c","./entrypoint.sh"]
         volumeMounts:
         - name: config-data
