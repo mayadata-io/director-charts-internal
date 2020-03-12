@@ -3,7 +3,7 @@ entries:
   directoronprem:
   - apiVersion: v1
     appVersion: 1.8.0
-    created: "2020-03-12T13:47:39.9156103+05:30"
+    created: "2020-03-12T15:29:32.148423536+05:30"
     description: This is an on-premise installation of DirectorOnline
     digest: 49619ee53fe081bb6f94fe17951ae43c15f14c8ed7cd04cebd89f66379a3e97f
     home: https://www.mayadata.io/
@@ -21,11 +21,11 @@ entries:
     sources:
     - https://github.com/mayadata-io/director-charts.git
     urls:
-    - https://github.com/mayadata-io/director-charts-internal.git/directoronprem-1.8.0.tgz
+    - directoronprem-1.8.0.tgz
     version: 1.8.0
   - apiVersion: v1
     appVersion: 1.7.0
-    created: "2020-03-12T13:47:39.86551125+05:30"
+    created: "2020-03-12T15:29:32.139004561+05:30"
     description: This is an on-premise installation of DirectorOnline
     digest: 4b686d6682fc9f6d449bcc393fbc658a0a65b007808350a89e5dfb7e8132e787
     home: https://www.mayadata.io/
@@ -43,11 +43,11 @@ entries:
     sources:
     - https://github.com/mayadata-io/director-charts.git
     urls:
-    - https://github.com/mayadata-io/director-charts-internal.git/directoronprem-1.7.0.tgz
+    - directoronprem-1.7.0.tgz
     version: 1.7.0
   - apiVersion: v1
     appVersion: 1.6.0
-    created: "2020-03-12T13:47:39.824594416+05:30"
+    created: "2020-03-12T15:29:32.132346655+05:30"
     description: This is an on-premise installation of DirectorOnline
     digest: 735c8c4a47a53482ffd7a8f3b94a77905d63ee9015372aba6409e4ad490046d2
     home: https://www.mayadata.io/
@@ -65,11 +65,11 @@ entries:
     sources:
     - https://github.com/mayadata-io/director-charts.git
     urls:
-    - https://github.com/mayadata-io/director-charts-internal.git/directoronprem-1.6.0.tgz
+    - directoronprem-1.6.0.tgz
     version: 1.6.0
   - apiVersion: v1
     appVersion: 1.5.0
-    created: "2020-03-12T13:47:39.813381999+05:30"
+    created: "2020-03-12T15:29:32.129917669+05:30"
     description: This is an on-premise installation of DirectorOnline
     digest: 5ba17de051f464cc68e21de6866aabddf7821faf2c01c50fabe4a999a68f9dad
     home: https://www.mayadata.io/
@@ -87,11 +87,11 @@ entries:
     sources:
     - https://github.com/mayadata-io/director-charts.git
     urls:
-    - https://github.com/mayadata-io/director-charts-internal.git/directoronprem-1.5.0.tgz
+    - directoronprem-1.5.0.tgz
     version: 1.5.0
   - apiVersion: v1
     appVersion: 1.4.0
-    created: "2020-03-12T13:47:39.774444003+05:30"
+    created: "2020-03-12T15:29:32.127524917+05:30"
     description: This is an on-premise installation of DirectorOnline
     digest: 90b449e96a0b57f08376d4e28ebc57d3ccf706a60f302b15105d62472089ee6c
     home: https://www.mayadata.io/
@@ -109,12 +109,12 @@ entries:
     sources:
     - https://github.com/mayadata-io/director-charts.git
     urls:
-    - https://github.com/mayadata-io/director-charts-internal.git/directoronprem-1.4.0.tgz
+    - directoronprem-1.4.0.tgz
     version: 1.4.0
   mayaonprem:
   - apiVersion: v1
     appVersion: 1.3.0
-    created: "2020-03-12T13:47:39.973867796+05:30"
+    created: "2020-03-12T15:29:32.154891316+05:30"
     description: This is an on-premise installation of MayaOnline
     digest: 8d946dac379994e458479c853af22970db5638e4b38d28ea7fcbae38d1e1ee9c
     home: https://www.mayadata.io/
@@ -132,11 +132,11 @@ entries:
     sources:
     - https://github.com/mayadata-io/mayaonprem-charts.git
     urls:
-    - https://github.com/mayadata-io/director-charts-internal.git/mayaonprem-1.3.0.tgz
+    - mayaonprem-1.3.0.tgz
     version: 1.3.0
   - apiVersion: v1
     appVersion: 1.2.0
-    created: "2020-03-12T13:47:39.966306047+05:30"
+    created: "2020-03-12T15:29:32.1527391+05:30"
     description: This is an on-premise installation of MayaOnline
     digest: 28ec35d080b1cce5c6d695b485b2f54f324de54c61473dbf903f58b72844da15
     home: https://www.mayadata.io/
@@ -154,11 +154,11 @@ entries:
     sources:
     - https://github.com/mayadata-io/mayaonprem-charts.git
     urls:
-    - https://github.com/mayadata-io/director-charts-internal.git/mayaonprem-1.2.0.tgz
+    - mayaonprem-1.2.0.tgz
     version: 1.2.0
   - apiVersion: v1
     appVersion: 1.1.0
-    created: "2020-03-12T13:47:39.955121895+05:30"
+    created: "2020-03-12T15:29:32.150634612+05:30"
     description: This is an on-premise installation of MayaOnline
     digest: 860b5e9d843f199c134925baccac895a2d8ef7133c11f061cb88a08023725a01
     home: https://www.mayadata.io/
@@ -176,6 +176,6 @@ entries:
     sources:
     - https://github.com/mayadata-io/mayaonprem-charts.git
     urls:
-    - https://github.com/mayadata-io/director-charts-internal.git/mayaonprem-1.1.0.tgz
+    - mayaonprem-1.1.0.tgz
     version: 1.1.0
-generated: "2020-03-12T13:47:39.750382545+05:30"
+generated: "2020-03-12T15:29:32.124533961+05:30"
