@@ -27,7 +27,7 @@ spec:
           value: kibanaserver
         - name: ELASTICSEARCH_PASSWORD
           value: DirectorOnline@1658
-        image: mayadataio/maya-kibana:staging-f1ffb7ea15
+        image: mayadataio/maya-kibana:staging-2694128dbf
         imagePullPolicy: Always
         name: kibana-logging
         ports:
