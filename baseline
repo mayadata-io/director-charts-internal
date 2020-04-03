@@ -1,4 +1,4 @@
-date=04-03-20,time=14:38:07,repo=maya-io-server,branch=staging,commit=staging-1585924629
+date=04-03-20,time=14:38:07,repo=maya-io-server,from-repo=dmaas-agent,dmaas-agent-commit=staging-6d6a85d,branch=staging,commit=staging-1585924629
 date=04-03-20,time=14:24:04,repo=maya-io-server,branch=staging,commit=staging-1585923785
 date=04-03-20,time=12:27:59,repo=maya-ui,branch=staging,commit=staging-f2aba0f8
 date=04-03-20,time=11:02:20,repo=maya-io-server,branch=staging,commit=staging-1585911676
