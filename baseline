@@ -1,4 +1,4 @@
-date=04-23-20,time=08:52:10,repo=maya-io-server,branch=staging,commit=staging-1587631634
+date=04-23-20,time=08:52:10,repo=maya-io-server,from-repo=dmaas-agent,dmaas-agent-commit=staging-c573c58,branch=staging,commit=staging-1587631634
 date=04-23-20,time=08:26:21,repo=maya-io-server,from-repo=openebs-manager,openebs-manager-commit=staging-252ad12,branch=staging,commit=staging-1587630301
 date=04-23-20,time=06:22:20,repo=maya-ui,branch=staging,commit=staging-68a30e5a
 date=04-22-20,time=17:57:00,repo=maya-io-server,branch=staging,commit=staging-1587578146
