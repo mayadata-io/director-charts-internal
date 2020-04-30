@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+  name: maya-ui
+spec:
+  selector:
+    matchLabels:
+      app: maya-ui
+  template:
+    metadata:
+      labels:
+        app: maya-ui
+    spec:
+      containers:
+      - image: mayadataio/maya-ui:staging-979882a6
+        imagePullPolicy: Always
+        name: maya-ui
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+        env:
+        - name: VENDOR
+          value: "mod"
+        volumeMounts:
+        - name: config-data
+          mountPath: /tmp/mo-vendor
+      imagePullSecrets:
+      - name: {{ .Values.server.dockerSecret }}
+      volumes:
+        - name: config-data
+          hostPath:
+            path: /tmp/mo-vendor
+
