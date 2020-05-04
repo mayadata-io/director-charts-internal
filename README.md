@@ -1,15 +1,21 @@
 # Maya OpenEBS Director
 
-1.0 Plan
+1.x Plan
 
 https://docs.google.com/spreadsheets/d/12i1HKknQ_5vXd6bZst42AMyR_lTPdkkb4Svnr4fnxzo/edit?usp=sharing
 
+# Workflow for adding/updating helm charts for end users
 
-# Current status 
-Next milestone - RC1 (Delayed)
+TODO
+## Goals
+1. Define a well documented workflow so that a developer adds/modifies some flags in 1.n release, such that in 1.(n+1) release the dev/ops doesn't need to add the flag back again.
 
-# Blockers
- < TO DO >
+## Challenges
+1. The flags values might end up being different on [DC, mayadata-io/director-charts](https://github.com/mayadata-io/director-charts) & [DCI, mayadata-io/director-charts-internal](https://github.com/mayadata-io/director-charts-internal)
+
+## Differences b/w DC & DCI configuration
+1. The Google Analytics tracking is disabled on DCI but enabled on DC, see the `featureAnalyticsDisable` key in values.yaml
+
 
 ## Steps to bring up MOD on Packet
 ### Prerequisite
