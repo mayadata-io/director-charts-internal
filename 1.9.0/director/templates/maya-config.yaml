@@ -57,6 +57,7 @@ data:
     feature.chatbot.disable={{ .Values.server.featureChatBotDisable }}
     slack.config.bot.client.id={{ .Values.server.slackConfigBotClientId }}
     slack.config.bot.client.secret={{ .Values.server.slackConfigBotClientSecret }}
+    feature.analytics.disable={{ .Values.server.featureAnalyticsDisable }}
     slack.config.bot.oauth.url=https://slack.com/oauth/authorize?client_id={{ .Values.server.slackConfigBotClientId }}&scope=bot\,incoming-webhook\,commands
     slack.notification.welcome.message={{ .Values.server.slackNotificationWelcomeMessage }}
     chatbot.alert.url={{ .Values.server.protocol }}://{{ .Values.server.url }}/chat-server/maya-events
