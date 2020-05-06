@@ -6,7 +6,7 @@
 platform: Default
 
 server:
-  release: 1.9.0-RC3.ee
+  release: 1.9.0-RC4.ee
   dockerSecret: directoronprem-registry-secret
   protocol: http
   url:
