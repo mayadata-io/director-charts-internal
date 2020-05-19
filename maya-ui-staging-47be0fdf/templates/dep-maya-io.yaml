@@ -1,8 +1,11 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: maya-io
 spec:
+  selector:
+    matchLabels:
+      app: maya-io
   replicas: 1
   strategy:
     type: Recreate
@@ -14,7 +17,7 @@ spec:
       serviceAccountName: sa-maya-io
       initContainers:
       - name: mios-wait-for-crb
-        image: mayadataio/maya-init:v1.11.1
+        image: mayadataio/maya-init:1.0.0
         command:
         - sh
         - "-c"
@@ -30,7 +33,7 @@ spec:
              echo $MAYA
           done
       - name: mios-wait-for-mysql
-        image: mayadataio/maya-init:v1.11.1
+        image: mayadataio/maya-init:1.0.0
         command:
         - sh
         - "-c"
@@ -46,7 +49,7 @@ spec:
              echo $COUNT
           done
       - name: mios-wait-for-chat-server
-        image: mayadataio/maya-init:v1.11.1
+        image: mayadataio/maya-init:1.0.0
         command:
         - sh
         - "-c"
@@ -62,7 +65,7 @@ spec:
              echo $COUNT
           done
       - name: mios-wait-for-maya-grafana-service
-        image: mayadataio/maya-init:v1.11.1
+        image: mayadataio/maya-init:1.0.0
         command:
         - sh
         - "-c"
@@ -78,7 +81,7 @@ spec:
              echo $COUNT
           done
       - name: mios-wait-for-maya-ui
-        image: mayadataio/maya-init:v1.11.1
+        image: mayadataio/maya-init:1.0.0
         command:
         - sh
         - "-c"
@@ -94,7 +97,7 @@ spec:
              echo $COUNT
           done
       - name: mios-wait-for-elasticsearch-logging
-        image: mayadataio/maya-init:v1.11.1
+        image: mayadataio/maya-init:1.0.0
         command:
         - sh
         - "-c"
@@ -110,7 +113,7 @@ spec:
              echo $COUNT
           done
       - name: mios-wait-for-kibana-logging
-        image: mayadataio/maya-init:v1.11.1
+        image: mayadataio/maya-init:1.0.0
         command:
         - sh
         - "-c"
@@ -126,7 +129,7 @@ spec:
              echo $COUNT
           done
       - name: mios-wait-for-alertstore-tablemanager
-        image: mayadataio/maya-init:v1.11.1
+        image: mayadataio/maya-init:1.0.0
         command:
         - sh
         - "-c"
@@ -152,7 +155,7 @@ spec:
             - "maya"
             - "--db-name"
             - "maya"
-          image: mayadataio/maya-io-server:staging-1589871934
+          image: mayadataio/maya-io-server:{{ .Values.server.release }}
           imagePullPolicy: Always
           ports:
           - containerPort: 8080
