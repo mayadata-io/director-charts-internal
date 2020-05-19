@@ -17,7 +17,7 @@ spec:
       serviceAccountName: sa-maya-io
       initContainers:
       - name: rl-wait-for-crb
-        image: mayadataio/maya-init:1.0.0
+        image: mayadataio/maya-init:v1.11.1
         command:
         - sh
         - "-c"
@@ -33,7 +33,7 @@ spec:
              echo $MAYA
           done
       - name: am-wait-for-maya-io
-        image: mayadataio/maya-init:1.0.0
+        image: mayadataio/maya-init:v1.11.1
         command:
         - sh
         - "-c"

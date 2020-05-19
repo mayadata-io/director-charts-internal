@@ -15,7 +15,7 @@ spec:
       serviceAccountName: sa-maya-io
       initContainers:
       - name: astm-wait-for-crb
-        image: mayadataio/maya-init:1.0.0
+        image: mayadataio/maya-init:v1.11.1
         command:
         - sh
         - "-c"
@@ -31,7 +31,7 @@ spec:
              echo $MAYA
           done
       - name: astm-wait-for-cassandra
-        image: mayadataio/maya-init:1.0.0
+        image: mayadataio/maya-init:v1.11.1
         command:
         - sh
         - "-c"
