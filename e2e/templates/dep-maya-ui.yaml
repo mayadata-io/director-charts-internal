@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -20,14 +20,14 @@ spec:
           privileged: true
         env:
         - name: VENDOR
-          value: "mod"
+          value: "dop"
         command: ["sh","-c","./entrypoint.sh"]
         volumeMounts:
         - name: config-data
           mountPath: /tmp/mo-vendor
           mountPropagation: Bidirectional
       containers:
-      - image: mayadataio/maya-ui:ci-2dad4284
+      - image: registry.mayadata.io/maya-ui:{{ .Values.server.release }}
         imagePullPolicy: Always
         name: maya-ui
         resources:
@@ -36,7 +36,7 @@ spec:
             memory: 512Mi
         env:
         - name: VENDOR
-          value: "mod"
+          value: "dop"
         volumeMounts:
         - name: config-data
           mountPath: /tmp/mo-vendor

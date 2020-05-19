@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cloud-agent
@@ -6,6 +6,9 @@ metadata:
     name: cloud-agent
     app: cloud-agent
 spec:
+  selector:
+    matchLabels:
+      name: cloud-agent
   replicas: 1
   template:
     metadata:
