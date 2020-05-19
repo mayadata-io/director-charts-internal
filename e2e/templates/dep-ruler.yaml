@@ -1,11 +1,8 @@
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: ruler
 spec:
-  selector:
-    matchLabels:
-      name: ruler
   replicas: 1
   template:
     metadata:

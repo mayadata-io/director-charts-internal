@@ -1,11 +1,8 @@
-apiVersion: apps/v1
+apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: maya-io
 spec:
-  selector:
-    matchLabels:
-      app: maya-io
   replicas: 1
   strategy:
     type: Recreate
@@ -109,7 +106,7 @@ spec:
           do
              echo "wating for elasticsearch-logging"
              sleep 2;
-             export COUNT=$(kubectl get pods -l k8s-app=od-elasticsearch-logging -n {{ .Release.Namespace }} -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w od-elasticsearch-logging | wc -l)
+             export COUNT=$(kubectl get pods -l k8s-app=elasticsearch-logging -n {{ .Release.Namespace }} -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w elasticsearch-logging | wc -l)
              echo $COUNT
           done
       - name: mios-wait-for-kibana-logging
@@ -125,7 +122,7 @@ spec:
           do
              echo "wating for kibana-logging"
              sleep 2;
-             export COUNT=$(kubectl get pods -l k8s-app=od-kibana-logging -n {{ .Release.Namespace }} -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w od-kibana-logging | wc -l)
+             export COUNT=$(kubectl get pods -l k8s-app=kibana-logging -n {{ .Release.Namespace }} -o json  | jq -r '.items[] | select(.status.phase == "Running" and ([ .status.conditions[] | select(.type == "Ready" and .status == "True") ] | length ) >= 1 ) | .metadata.name' | grep -w kibana-logging | wc -l)
              echo $COUNT
           done
       - name: mios-wait-for-alertstore-tablemanager

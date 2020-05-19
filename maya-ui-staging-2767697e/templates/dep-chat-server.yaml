@@ -35,7 +35,7 @@ spec:
             secretKeyRef:
               key: SLASH_COMMAND
               name: chat-server
-        image: registry.mayadata.io/maya-chatops:{{ .Values.server.release }}
+        image: mayadataio/maya-chatops:{{ .Values.server.release }}
         imagePullPolicy: Always
         name: chat-server
         resources:

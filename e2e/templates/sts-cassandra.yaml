@@ -30,6 +30,9 @@ spec:
         - containerPort: 9042
           name: cql
         resources:
+          limits:
+            cpu: "500m"
+            memory: 1Gi
           requests:
             cpu: "500m"
             memory: 1Gi
@@ -61,10 +64,6 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: status.podIP
-          - name: write_request_timeout_in_ms
-            value: "15000"
-          - name: read_request_timeout_in_ms
-            value: "30000"  
         readinessProbe:
           exec:
             command:
@@ -82,13 +81,6 @@ spec:
   # These are converted to volume claims by the controller
   # and mounted at the paths mentioned above.
   # do not use these in production until ssd GCEPersistentDisk or other ssd pd
-        - mountPath: /run.sh
-          name: cassandra-config
-          subPath: run.sh
-      volumes:
-      - configMap:
-          name: cassandra-config
-        name: cassandra-config 
   volumeClaimTemplates:
   - metadata:
       name: cassandra-data

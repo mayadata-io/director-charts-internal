@@ -13,7 +13,7 @@ spec:
           serviceAccountName: sa-maya-io
           initContainers:
           - name: rl-wait-for-crb
-            image: registry.mayadata.io/maya-init:1.0.0
+            image: mayadataio/maya-init:1.0.0
             command:
             - sh
             - "-c"
@@ -29,7 +29,7 @@ spec:
                  echo $MAYA
               done
           - name: am-wait-for-maya-io
-            image: registry.mayadata.io/maya-init:1.0.0
+            image: mayadataio/maya-init:1.0.0
             command:
             - sh
             - "-c"
@@ -47,7 +47,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: elasticsearch-curator-cronjob
-              image: registry.mayadata.io/curator:{{ .Values.server.release }}
+              image: mayadataio/curator:{{ .Values.server.release }}
               imagePullPolicy: Always
               command: ["/bin/bash"]
               args: ["-c", "curator --config /usr/share/curator/config.yaml /usr/share/curator/action.yaml"]

@@ -1,11 +1,8 @@
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: alertstore
 spec:
-  selector:
-    matchLabels:
-      name: alertstore
   replicas: 1
   template:
     metadata:
@@ -73,6 +70,7 @@ spec:
         - -cassandra.keyspace=mayaalerts
         - -cassandra.replication-factor={{ .Values.alertStore.replicationFactor }}
         - -log.level=debug
+        - -alertstore.version=1
         ports:
         - containerPort: 80 
       imagePullSecrets:
