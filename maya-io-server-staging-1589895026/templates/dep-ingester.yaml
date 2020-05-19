@@ -1,8 +1,11 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ingester
 spec:
+  selector:
+    matchLabels:
+      name: ingester
   replicas: {{ .Values.ingester.replicas }}
 
   # Ingesters are not ready for at least 1 min
