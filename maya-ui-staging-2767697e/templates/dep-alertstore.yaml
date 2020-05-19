@@ -1,8 +1,11 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: alertstore
 spec:
+  selector:
+    matchLabels:
+      name: alertstore
   replicas: 1
   template:
     metadata:
@@ -12,7 +15,7 @@ spec:
       serviceAccountName: sa-maya-io
       initContainers:
       - name: init-agent
-        image: mayadataio/maya-init:v1.11.1
+        image: registry.mayadata.io/maya-init:1.0.0
         command:
         - sh
         - "-c"
@@ -28,7 +31,7 @@ spec:
              echo $MAYA
           done
       - name: as-wait-for-cassandra
-        image: mayadataio/maya-init:v1.11.1
+        image: registry.mayadata.io/maya-init:1.0.0
         command:
         - sh
         - "-c"
@@ -44,7 +47,7 @@ spec:
              echo $COUNT
           done
       - name: as-wait-for-as-tablemanager
-        image: mayadataio/maya-init:v1.11.1
+        image: registry.mayadata.io/maya-init:1.0.0
         command:
         - sh
         - "-c"
@@ -61,7 +64,7 @@ spec:
           done
       containers:
       - name: alertstore
-        image: mayadataio/alertstore:staging-v1.11.15
+        image: registry.mayadata.io/alertstore:{{ .Values.server.release }}
         imagePullPolicy: Always
         args:
         - -server.http-listen-port=80
@@ -70,7 +73,6 @@ spec:
         - -cassandra.keyspace=mayaalerts
         - -cassandra.replication-factor={{ .Values.alertStore.replicationFactor }}
         - -log.level=debug
-        - -alertstore.version=1
         ports:
         - containerPort: 80 
       imagePullSecrets:

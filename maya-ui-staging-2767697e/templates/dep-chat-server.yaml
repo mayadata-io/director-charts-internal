@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -35,7 +35,7 @@ spec:
             secretKeyRef:
               key: SLASH_COMMAND
               name: chat-server
-        image: mayadataio/maya-chatops:staging-044de1b
+        image: registry.mayadata.io/maya-chatops:{{ .Values.server.release }}
         imagePullPolicy: Always
         name: chat-server
         resources:

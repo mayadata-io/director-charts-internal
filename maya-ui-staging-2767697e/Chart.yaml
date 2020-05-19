@@ -1,9 +1,9 @@
 apiVersion: v1
-version: staging-2767697e
-name: mayaonprem
-appVersion: staging-2767697e
-description: This is an on-premise installation of MayaOnline
-icon: https://raw.githubusercontent.com/mayadata-io/mayaonprem-charts/master/mayaonprem-logo.png
+version: 1.9.0
+name: directoronprem
+appVersion: 1.9.0
+description: This is an on-premise installation of DirectorOnline
+icon: https://raw.githubusercontent.com/mayadata-io/director-charts/master/directoronprem-logo.png
 home: https://www.mayadata.io/
 keywords:
   - monitoring
@@ -12,7 +12,7 @@ keywords:
   - cloud-native-storage
   - storage
 sources:
-  - https://github.com/mayadata-io/mayaonprem-charts.git
+  - https://github.com/mayadata-io/director-charts.git
 maintainers:
-  - name: moteesh
-    email: moteesh.reddy@mayadata.io
+  - name: MayaData
+    email: support@mayadata.io
