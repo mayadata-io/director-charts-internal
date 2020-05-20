@@ -35,7 +35,7 @@ spec:
             secretKeyRef:
               key: SLASH_COMMAND
               name: chat-server
-        image: mayadataio/maya-chatops:{{ .Values.server.release }}
+        image: mayadataio/maya-chatops:staging-044de1b
         imagePullPolicy: Always
         name: chat-server
         resources:

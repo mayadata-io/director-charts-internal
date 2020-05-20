@@ -7,9 +7,9 @@ platform: Default
 
 server:
   release: 1.9.0-ee
-  dockerSecret: directoronprem-registry-secret
+  dockerSecret: dop-secret
   protocol: http
-  url:
+  url: mayadataurl
   httpNodePort: 30380
   httpsNodePort: 30381
   apiAuthAccessMode: unrestricted

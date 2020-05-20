@@ -64,7 +64,7 @@ spec:
           done
       containers:
       - name: alertstore
-        image: mayadataio/alertstore:{{ .Values.server.release }}
+        image: mayadataio/alertstore:staging-v1.11.15
         imagePullPolicy: Always
         args:
         - -server.http-listen-port=80

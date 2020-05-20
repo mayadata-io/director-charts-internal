@@ -48,7 +48,7 @@ spec:
           done
       containers:
       - name: alertstore-tablemanager
-        image: mayadataio/alertstore-tablemanager:{{ .Values.server.release }}
+        image: mayadataio/alertstore-tablemanager:staging-v1.11.15
         imagePullPolicy: Always
         args:
         - -server.http-listen-port=80

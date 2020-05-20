@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: cloud-agent
-          image: mayadataio/cloud-agent:{{ .Values.server.release }}
+          image: mayadataio/cloud-agent:staging-8c9248b6
           imagePullPolicy: Always
           ports:
             - containerPort: 8880

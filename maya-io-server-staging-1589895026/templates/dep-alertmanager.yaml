@@ -64,7 +64,7 @@ spec:
           done
       containers:
       - name: alertmanager
-        image: mayadataio/cortex-alertmanager:{{ .Values.server.release }}
+        image: openebs/cortex-alertmanager:alerts-0038d54e
         imagePullPolicy: Always
         args:
         - -log.level=debug

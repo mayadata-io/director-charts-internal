@@ -155,7 +155,7 @@ spec:
             - "maya"
             - "--db-name"
             - "maya"
-          image: mayadataio/maya-io-server:{{ .Values.server.release }}
+          image: mayadataio/maya-io-server:staging-1589895026
           imagePullPolicy: Always
           ports:
           - containerPort: 8080
