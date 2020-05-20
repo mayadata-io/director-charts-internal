@@ -1,10 +1,16 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     app: maya-grafana
   name: maya-grafana
 spec:
+  selector:
+    matchLabels:
+      app: maya-grafana
+  strategy:
+    type: Recreate
+    rollingUpdate: null
   template:
     metadata:
       labels:

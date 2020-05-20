@@ -1,17 +1,23 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     app: maya-grafana
   name: maya-grafana
 spec:
+  selector:
+    matchLabels:
+      app: maya-grafana
+  strategy:
+    type: Recreate
+    rollingUpdate: null
   template:
     metadata:
       labels:
         app: maya-grafana
     spec:
       containers:
-      - image: mayadataio/graph-reporter:staging-1314ad4
+      - image: mayadataio/graph-reporter:{{ .Values.server.release }}
         name: grafana-reporter
         imagePullPolicy: Always
         ports:
@@ -21,7 +27,7 @@ spec:
           value: "true"
         - name: GF_AUTH_ANONYMOUS_ENABLED
           value: "false"
-        image: mayadata/maya-grafana:staging-mo-grafana-cbccfa98a
+        image: mayadataio/maya-grafana:{{ .Values.server.release }}
         imagePullPolicy: Always
         name: master-grafana
         ports:

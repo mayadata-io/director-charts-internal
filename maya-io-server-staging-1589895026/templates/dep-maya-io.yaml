@@ -1,8 +1,11 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: maya-io
 spec:
+  selector:
+    matchLabels:
+      app: maya-io
   replicas: 1
   strategy:
     type: Recreate

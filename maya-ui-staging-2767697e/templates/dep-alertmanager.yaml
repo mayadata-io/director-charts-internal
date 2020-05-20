@@ -1,8 +1,11 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: alertmanager
 spec:
+  selector:
+    matchLabels:
+      name: alertmanager
   replicas: 1
   template:
     metadata:
@@ -61,7 +64,7 @@ spec:
           done
       containers:
       - name: alertmanager
-        image: openebs/cortex-alertmanager:alerts-0038d54e
+        image: mayadataio/cortex-alertmanager:{{ .Values.server.release }}
         imagePullPolicy: Always
         args:
         - -log.level=debug
