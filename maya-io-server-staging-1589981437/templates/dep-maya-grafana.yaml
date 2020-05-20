@@ -27,7 +27,7 @@ spec:
           value: "true"
         - name: GF_AUTH_ANONYMOUS_ENABLED
           value: "false"
-        image: mayadataio/maya-grafana:staging-mo-grafana-cbccfa98a
+        image: mayadata/maya-grafana:staging-mo-grafana-cbccfa98a
         imagePullPolicy: Always
         name: master-grafana
         ports:

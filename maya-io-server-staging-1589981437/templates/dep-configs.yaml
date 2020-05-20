@@ -49,7 +49,7 @@ spec:
           done
       containers:
       - name: configs
-        image: mayadataio/cortex-configs:{{ .Values.server.release }}
+        image: openebs/cortex-configs:alerts-b454a216
         imagePullPolicy: Always
         args:
         - -server.http-listen-port=80
