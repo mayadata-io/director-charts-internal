@@ -1,8 +1,11 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: maya-io
 spec:
+  selector:
+    matchLabels:
+      app: maya-io
   replicas: 1
   strategy:
     type: Recreate
@@ -152,7 +155,7 @@ spec:
             - "maya"
             - "--db-name"
             - "maya"
-          image: mayadataio/maya-io-server:staging-1589981437
+          image: mayadataio/maya-io-server:staging-1589895026
           imagePullPolicy: Always
           ports:
           - containerPort: 8080

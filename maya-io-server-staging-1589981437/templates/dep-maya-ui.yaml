@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -22,7 +22,7 @@ spec:
             memory: 512Mi
         env:
         - name: VENDOR
-          value: "mod"
+          value: "dop"
         volumeMounts:
         - name: config-data
           mountPath: /tmp/mo-vendor
