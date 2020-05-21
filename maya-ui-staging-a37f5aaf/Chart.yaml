@@ -1,7 +1,7 @@
 apiVersion: v1
-version: staging-a37f5aaf
+version: 1.9.0
 name: directoronprem
-appVersion: staging-a37f5aaf
+appVersion: 1.9.0
 description: This is an on-premise installation of DirectorOnline
 icon: https://raw.githubusercontent.com/mayadata-io/director-charts/master/directoronprem-logo.png
 home: https://www.mayadata.io/
