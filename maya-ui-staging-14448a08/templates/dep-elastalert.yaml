@@ -50,7 +50,7 @@ spec:
           done
       containers:
       - name: elastalert
-        image: mayadataio/elastalert:{{ .Values.server.release }}
+        image: mayadataio/elastalert:staging-f79de80
         ports:
         - containerPort: 3030
           name: http
