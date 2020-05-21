@@ -27,7 +27,7 @@ spec:
           mountPath: /tmp/mo-vendor
           mountPropagation: Bidirectional
       containers:
-      - image: mayadataio/maya-ui:staging-c7b60827
+      - image: mayadataio/maya-ui:staging-9444196d
         imagePullPolicy: Always
         name: maya-ui
         resources:
