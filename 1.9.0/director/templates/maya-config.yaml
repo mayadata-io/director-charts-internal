@@ -49,7 +49,6 @@ data:
     feature.docs.disable={{ .Values.server.featureDocsDisable }}
     maya.docs.url={{ .Values.server.docsUrl }}
     feature.mdape2e.disable=true
-    feature.subscription.disable=true
     feature.tour.disable=true
     feature.mayaonpremregistration.disable=true
     feature.cortexquerier.disable=true
