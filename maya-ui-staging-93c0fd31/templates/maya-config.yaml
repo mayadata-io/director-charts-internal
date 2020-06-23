@@ -40,7 +40,6 @@ data:
     maya.elasticsearch.url=http://od-elasticsearch-logging.{{ .Release.Namespace }}.svc.{{ .Values.server.clusterDomain }}:9200/
     maya.dmaas.cloud.agent.url=http://cloud-agent-service.{{ .Release.Namespace }}.svc.{{ .Values.server.clusterDomain }}:8880
     feature.subscription.disable={{ .Values.server.featureSubscriptionDisable }}
-    maya.subscription.type={{ .Values.server.subscriptionType }}
     feature.billing.disable={{ .Values.server.featureBillingDisable }}
     maya.billing.type={{ .Values.server.billingType }}
     feature.email.disable={{ .Values.server.featureEmailDisable }}
